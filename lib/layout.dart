@@ -84,11 +84,18 @@ class _LayoutPageState extends State<LayoutPage>
             _currentIndex = index;
           });
         },
+        elevation: 10,
+        iconSize: 30,
+        unselectedItemColor: Color.fromRGBO(6, 17, 52, 1),
+        selectedItemColor: Color.fromRGBO(24, 172, 145, 1),
         items: allDestinations.map((Destination destination) {
           return BottomNavigationBarItem(
               icon: Icon(destination.icon),
               backgroundColor: destination.color,
-              title: Text(destination.title));
+              title: Text(
+                destination.title,
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+              ));
         }).toList(),
       ),
     );
