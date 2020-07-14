@@ -3,8 +3,11 @@ import 'package:flutter/widgets.dart';
 
 class CategoryList extends StatelessWidget {
   final resourceCard = Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      elevation: 10,
+      shadowColor: Colors.grey[100],
       child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(25),
           child: Row(
             children: <Widget>[
               Container(
@@ -26,13 +29,18 @@ class CategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView(
-          scrollDirection: Axis.vertical,
-          children: List.generate(50, (index) {
-            return Container(
-                padding: const EdgeInsets.all(5), child: resourceCard);
-          })),
-    );
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Container(
+        child: Text('BUSCA RECURSOS EN LA CATEGORÍAS'),
+        padding: const EdgeInsets.all(10),
+      ),
+      Expanded(
+          child: ListView(
+              scrollDirection: Axis.vertical,
+              children: List.generate(50, (index) {
+                return Container(
+                    padding: const EdgeInsets.all(8), child: resourceCard);
+              })))
+    ]);
   }
 }

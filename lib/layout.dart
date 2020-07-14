@@ -14,9 +14,9 @@ class Destination {
 }
 
 List<Destination> allDestinations = <Destination>[
-  Destination('Inicio', Icons.home, Colors.cyan, Home()),
-  Destination('Recursos', Icons.home, Colors.teal, CategoryList()),
-  Destination('Info', Icons.school, Colors.orange, Info())
+  Destination('Guardados', Icons.bookmark, Colors.cyan, Home()),
+  Destination('Inicio', Icons.home, Colors.teal, CategoryList()),
+  Destination('Información', Icons.info_outline, Colors.orange, Info())
 ];
 
 class DestinationView extends StatefulWidget {
@@ -29,8 +29,6 @@ class DestinationView extends StatefulWidget {
 }
 
 class _DestinationViewState extends State<DestinationView> {
-  TextEditingController _textController;
-
   @override
   void initState() {
     super.initState();
@@ -40,10 +38,10 @@ class _DestinationViewState extends State<DestinationView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.destination.title} Text'),
-        backgroundColor: widget.destination.color,
+        title: Text('${widget.destination.title} Text',
+            style: TextStyle(color: Color.fromRGBO(6, 17, 52, 1))),
+        backgroundColor: widget.destination.color[50],
       ),
-      backgroundColor: widget.destination.color[100],
       body: Container(
         padding: const EdgeInsets.all(5),
         alignment: Alignment.center,
@@ -54,7 +52,6 @@ class _DestinationViewState extends State<DestinationView> {
 
   @override
   void dispose() {
-    _textController.dispose();
     super.dispose();
   }
 }
