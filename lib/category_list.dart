@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class CategoryList extends StatelessWidget {
-  final resourceCard = Card(
+  final categoryCard = Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       elevation: 10,
       shadowColor: Colors.grey[100],
@@ -39,7 +39,7 @@ class CategoryList extends StatelessWidget {
               scrollDirection: Axis.vertical,
               children: List.generate(50, (index) {
                 return Container(
-                    padding: const EdgeInsets.all(8), child: resourceCard);
+                    padding: const EdgeInsets.all(8), child: categoryCard);
               })))
     ]);
   }
