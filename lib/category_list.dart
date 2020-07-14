@@ -3,27 +3,32 @@ import 'package:flutter/widgets.dart';
 
 class CategoryList extends StatelessWidget {
   final resourceCard = Card(
-    child: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Icon(Icons.add_circle, size: 50, color: Colors.grey),
-          Text(
-            'Categoría',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-          Text('6 recursos')
-        ],
-      ),
-    ),
-  );
+      child: Container(
+          padding: const EdgeInsets.all(20),
+          child: Row(
+            children: <Widget>[
+              Container(
+                  margin: const EdgeInsets.only(right: 20),
+                  child: Icon(Icons.add_circle, size: 40, color: Colors.black)),
+              Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    Text(
+                      'Categoría',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    Text('6 recursos')
+                  ]))
+            ],
+          )));
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: GridView.count(
+      child: ListView(
           scrollDirection: Axis.vertical,
-          crossAxisCount: 2,
           children: List.generate(50, (index) {
             return Container(
                 padding: const EdgeInsets.all(5), child: resourceCard);
