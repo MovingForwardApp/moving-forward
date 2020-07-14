@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import 'categories.dart';
+import 'category_list.dart';
 import 'home.dart';
 import 'info.dart';
 
@@ -15,7 +15,7 @@ class Destination {
 
 List<Destination> allDestinations = <Destination>[
   Destination('Inicio', Icons.home, Colors.cyan, Home()),
-  Destination('Recursos', Icons.home, Colors.teal, Categories()),
+  Destination('Recursos', Icons.home, Colors.teal, CategoryList()),
   Destination('Info', Icons.school, Colors.orange, Info())
 ];
 
@@ -45,7 +45,7 @@ class _DestinationViewState extends State<DestinationView> {
       ),
       backgroundColor: widget.destination.color[100],
       body: Container(
-        padding: const EdgeInsets.all(32.0),
+        padding: const EdgeInsets.all(5),
         alignment: Alignment.center,
         child: widget.destination.component,
       ),
