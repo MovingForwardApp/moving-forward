@@ -1,102 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'bottom_navigation.dart';
+import 'tab_navigator.dart';
 
-import 'category_list.dart';
-import 'home.dart';
-import 'info.dart';
-
-class Destination {
-  Destination(this.title, this.icon, this.color, this.component);
-  final String title;
-  final IconData icon;
-  final MaterialColor color;
-  final Widget component;
+class AppLayout extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _AppLayoutState();
 }
 
-List<Destination> allDestinations = <Destination>[
-  Destination('Guardados', Icons.bookmark, Colors.cyan, Home()),
-  Destination('Inicio', Icons.home, Colors.teal, CategoryList()),
-  Destination('Información', Icons.info_outline, Colors.orange, Info())
-];
+class _AppLayoutState extends State<AppLayout> {
+  TabItem _currentTab = TabItem.home;
 
-class DestinationView extends StatefulWidget {
-  const DestinationView({Key key, this.destination}) : super(key: key);
+  Map<TabItem, GlobalKey<NavigatorState>> _navigatorKeys = {
+    TabItem.saved: GlobalKey<NavigatorState>(),
+    TabItem.home: GlobalKey<NavigatorState>(),
+    TabItem.info: GlobalKey<NavigatorState>(),
+  };
 
-  final Destination destination;
-
-  @override
-  _DestinationViewState createState() => _DestinationViewState();
-}
-
-class _DestinationViewState extends State<DestinationView> {
-  @override
-  void initState() {
-    super.initState();
+  void _selectTab(TabItem tabItem) {
+    if (tabItem == _currentTab) {
+      // pop to first route
+      _navigatorKeys[tabItem].currentState.popUntil((route) => route.isFirst);
+    } else {
+      setState(() => _currentTab = tabItem);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('${widget.destination.title} Text',
-            style: TextStyle(color: Color.fromRGBO(6, 17, 52, 1))),
-        backgroundColor: widget.destination.color[50],
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(5),
-        alignment: Alignment.center,
-        child: widget.destination.component,
+    return WillPopScope(
+      onWillPop: () async {
+        final isFirstRouteInCurrentTab = !await _navigatorKeys[_currentTab].currentState.maybePop();
+        if (isFirstRouteInCurrentTab) {
+          // if not on the 'main' tab
+          if (_currentTab != TabItem.home) {
+            // select 'main' tab
+            _selectTab(TabItem.home);
+            // back button handled by app
+            return false;
+          }
+        }
+        // let system handle back button if we're on the first route
+        return isFirstRouteInCurrentTab;
+      },
+      child: Scaffold(
+        body: Stack(children: <Widget>[
+          _buildOffstageNavigator(TabItem.saved),
+          _buildOffstageNavigator(TabItem.home),
+          _buildOffstageNavigator(TabItem.info),
+        ]),
+        bottomNavigationBar: BottomNavigation(
+          currentTab: _currentTab,
+          onSelectTab: _selectTab,
+        ),
       ),
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-}
-
-class LayoutPage extends StatefulWidget {
-  @override
-  _LayoutPageState createState() => _LayoutPageState();
-}
-
-class _LayoutPageState extends State<LayoutPage>
-    with TickerProviderStateMixin<LayoutPage> {
-  int _currentIndex = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        top: false,
-        child: IndexedStack(
-          index: _currentIndex,
-          children: allDestinations.map<Widget>((Destination destination) {
-            return DestinationView(destination: destination);
-          }).toList(),
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (int index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        elevation: 10,
-        iconSize: 30,
-        unselectedItemColor: Color.fromRGBO(6, 17, 52, 1),
-        selectedItemColor: Color.fromRGBO(24, 172, 145, 1),
-        items: allDestinations.map((Destination destination) {
-          return BottomNavigationBarItem(
-              icon: Icon(destination.icon),
-              backgroundColor: destination.color,
-              title: Text(
-                destination.title,
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-              ));
-        }).toList(),
+  Widget _buildOffstageNavigator(TabItem tabItem) {
+    return Offstage(
+      offstage: _currentTab != tabItem,
+      child: TabNavigator(
+        navigatorKey: _navigatorKeys[tabItem],
+        tabItem: tabItem,
       ),
     );
   }

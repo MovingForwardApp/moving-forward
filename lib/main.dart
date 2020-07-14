@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         // home: LayoutPage(),
         initialRoute: '/',
         routes: <String, WidgetBuilder>{
-          "/": (BuildContext context) => LayoutPage(),
+          "/": (BuildContext context) => AppLayout(),
           "/resource": (BuildContext context) => Resource(),
         },
         debugShowCheckedModeBanner: false);

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class Home extends StatelessWidget {
+class Saved extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Text('HOME'));
+    return Scaffold(body: Center(child: Text('SAVED')));
   }
 }
