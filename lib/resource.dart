@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
+import 'theme.dart';
 
-Widget dataSection = Container(
-    padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
-    child: Column(
-      children: <Widget>[
-        Row(
+Widget dataSection = Expanded(
+    child: ListView(
+  padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+  children: <Widget>[
+    Container(
+        margin: EdgeInsets.only(bottom: 18.0),
+        child: Row(
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(right: 20.0),
@@ -25,8 +28,10 @@ Widget dataSection = Container(
               ),
             )
           ],
-        ),
-        Row(
+        )),
+    Container(
+        margin: EdgeInsets.only(bottom: 18.0),
+        child: Row(
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(right: 20.0),
@@ -44,8 +49,10 @@ Widget dataSection = Container(
               ),
             )
           ],
-        ),
-        Row(
+        )),
+    Container(
+        margin: EdgeInsets.only(bottom: 18.0),
+        child: Row(
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(right: 20.0),
@@ -63,8 +70,10 @@ Widget dataSection = Container(
               ),
             )
           ],
-        ),
-        Row(
+        )),
+    Container(
+        margin: EdgeInsets.only(bottom: 18.0),
+        child: Row(
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(right: 20.0),
@@ -82,8 +91,10 @@ Widget dataSection = Container(
               ),
             )
           ],
-        ),
-        Row(
+        )),
+    Container(
+        margin: EdgeInsets.only(bottom: 18.0),
+        child: Row(
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(right: 20.0),
@@ -101,8 +112,10 @@ Widget dataSection = Container(
               ),
             )
           ],
-        ),
-        Row(
+        )),
+    Container(
+        margin: EdgeInsets.only(bottom: 18.0),
+        child: Row(
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(right: 20.0),
@@ -120,8 +133,10 @@ Widget dataSection = Container(
               ),
             )
           ],
-        ),
-        Row(
+        )),
+    Container(
+        margin: EdgeInsets.only(bottom: 18.0),
+        child: Row(
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(right: 20.0),
@@ -139,9 +154,9 @@ Widget dataSection = Container(
               ),
             )
           ],
-        )
-      ],
-    ));
+        ))
+  ],
+));
 
 Widget actionSection = Container(
     color: Color.fromRGBO(219, 235, 230, 1),
@@ -292,7 +307,7 @@ Widget titleSection = Container(
           'APDHA (Asociación Pro Derechos Humanos de Andalucía)',
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Color.fromRGBO(6, 17, 52, 1),
+            color: MfColors.dark,
             fontWeight: FontWeight.bold,
             fontSize: 22,
           ),
@@ -302,29 +317,33 @@ Widget titleSection = Container(
         'Información, defensa de derechos.',
         textAlign: TextAlign.center,
         style: TextStyle(
-          color: Color.fromRGBO(88, 84, 107, 1),
+          color: MfColors.dark,
           fontWeight: FontWeight.bold,
           fontSize: 16,
         ),
       ),
       Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Chip(
-            label: Text(
-              'Jurídico',
-              style: TextStyle(
-                color: Colors.grey[500],
-              ),
-            ),
-          ),
-          Chip(
-            label: Text(
-              'LGTBI+',
-              style: TextStyle(
-                color: Colors.grey[500],
-              ),
-            ),
-          ),
+          Container(
+              margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 3.0),
+              child: Chip(
+                backgroundColor: Color(0xFFE1EFFF),
+                label: Text(
+                  'Jurídico',
+                  style: TextStyle(color: MfColors.dark),
+                ),
+              )),
+          Container(
+              margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 3.0),
+              child: Chip(
+                backgroundColor: Color(0xFFFEF3DE),
+                label: Text(
+                  'LGTBI+',
+                  style: TextStyle(color: MfColors.dark),
+                ),
+              )),
         ],
       )
     ],
