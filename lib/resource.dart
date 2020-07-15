@@ -5,7 +5,7 @@ import 'package:latlong/latlong.dart';
 import 'theme.dart';
 
 class Resource extends StatelessWidget {
-  ListTile _dataRow(IconData icon, String title) {
+  ListTile _dataRow(IconData icon, String title, Color color) {
     return ListTile(
       leading: Icon(
         icon,
@@ -15,6 +15,7 @@ class Resource extends StatelessWidget {
         title,
         style: TextStyle(
           fontSize: 14,
+          color: color,
         ),
       ),
       dense: true,
@@ -26,13 +27,18 @@ class Resource extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
         child: Column(
           children: [
-            _dataRow(Icons.location_on, 'Calle Barbate, 62, 1oC, 11012'),
-            _dataRow(Icons.call, '915 123 456'),
-            _dataRow(Icons.access_time, 'L - V de 9:00h a 18:00h'),
-            _dataRow(Icons.mail_outline, 'cadiz@apdha.org'),
-            _dataRow(Icons.whatshot, '667 123 456'),
-            _dataRow(Icons.public, 'apdhacadiz. wordpress.com'),
-            _dataRow(Icons.public, 'http://es-la.facebook.com/apdha.cadiz.1'),
+            _dataRow(Icons.location_on, 'Calle Barbate, 62, 1oC, 11012',
+                MfColors.dark),
+            _dataRow(Icons.call, '915 123 456', MfColors.dark),
+            _dataRow(
+                Icons.access_time, 'L - V de 9:00h a 18:00h', MfColors.dark),
+            _dataRow(
+                Icons.mail_outline, 'cadiz@apdha.org', MfColors.primary[400]),
+            _dataRow(Icons.whatshot, '667 123 456', MfColors.dark),
+            _dataRow(Icons.public, 'apdhacadiz. wordpress.com',
+                MfColors.primary[400]),
+            _dataRow(Icons.public, 'http://es-la.facebook.com/apdha.cadiz.1',
+                MfColors.primary[400]),
           ],
         ));
   }
@@ -44,11 +50,11 @@ class Resource extends StatelessWidget {
           margin: EdgeInsets.all(8.0),
           padding: EdgeInsets.all(12.0),
           decoration: BoxDecoration(
-              color: Color.fromRGBO(0, 0, 0, 1),
+              color: MfColors.dark,
               borderRadius: BorderRadius.all(Radius.circular(5.0))),
           child: Icon(
             icon,
-            color: Color.fromRGBO(255, 255, 255, 1),
+            color: MfColors.white,
             size: 18.0,
           ),
         ),
@@ -65,7 +71,7 @@ class Resource extends StatelessWidget {
 
   Container _actionSection() {
     return Container(
-        color: Color.fromRGBO(219, 235, 230, 1),
+        color: MfColors.primary[100],
         padding: EdgeInsets.all(32.0),
         child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
