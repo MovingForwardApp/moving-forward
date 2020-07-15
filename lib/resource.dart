@@ -128,20 +128,6 @@ class Resource extends StatelessWidget {
                 center: LatLng(51.5, -0.09),
                 zoom: 13.0,
               ),
-              layers: [
-                MarkerLayerOptions(
-                  markers: [
-                    Marker(
-                      width: 80.0,
-                      height: 80.0,
-                      point: LatLng(51.5, -0.09),
-                      builder: (ctx) => Container(
-                        child: FlutterLogo(),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
               children: <Widget>[
                 TileLayerWidget(
                     options: TileLayerOptions(
@@ -152,11 +138,13 @@ class Resource extends StatelessWidget {
                     options: MarkerLayerOptions(
                   markers: [
                     Marker(
-                      width: 80.0,
-                      height: 80.0,
+                      width: 16.0,
+                      height: 22.0,
                       point: LatLng(51.5, -0.09),
                       builder: (ctx) => Container(
-                        child: FlutterLogo(),
+                        child: Image(
+                          image: AssetImage('assets/marker.png'),
+                        ),
                       ),
                     ),
                   ],
