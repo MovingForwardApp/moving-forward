@@ -6,7 +6,7 @@ class Info extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
-      padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
+      padding: const EdgeInsets.all(20),
       children: <Widget>[
         Text(
           'Información',

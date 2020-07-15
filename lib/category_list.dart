@@ -32,15 +32,14 @@ class CategoryList extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Container(
         child: Text('BUSCA RECURSOS EN LA CATEGORÍAS'),
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
       ),
       Expanded(
           child: ListView(
-              scrollDirection: Axis.vertical,
-              children: List.generate(50, (index) {
-                return Container(
-                    padding: const EdgeInsets.all(8), child: categoryCard);
-              })))
+              children: List.generate(10, (index) {
+        return Container(
+            padding: const EdgeInsets.all(10), child: categoryCard);
+      })))
     ]);
   }
 }

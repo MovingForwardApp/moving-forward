@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'bottom_navigation.dart';
 import 'tab_navigator.dart';
+import 'theme.dart';
 
 class AppLayout extends StatefulWidget {
   @override
@@ -29,7 +30,8 @@ class _AppLayoutState extends State<AppLayout> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        final isFirstRouteInCurrentTab = !await _navigatorKeys[_currentTab].currentState.maybePop();
+        final isFirstRouteInCurrentTab =
+            !await _navigatorKeys[_currentTab].currentState.maybePop();
         if (isFirstRouteInCurrentTab) {
           // if not on the 'main' tab
           if (_currentTab != TabItem.home) {
@@ -48,6 +50,25 @@ class _AppLayoutState extends State<AppLayout> {
           _buildOffstageNavigator(TabItem.home),
           _buildOffstageNavigator(TabItem.info),
         ]),
+        appBar: AppBar(
+          leading: Icon(
+            Icons.explore,
+            size: 30,
+            color: MfColors.dark,
+          ),
+          title: Text('MovingForward', style: TextStyle(color: MfColors.dark)),
+          titleSpacing: 0,
+          backgroundColor: MfColors.primary[100],
+          elevation: 0,
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.search, size: 30, color: MfColors.dark),
+              onPressed: () {
+                print('SEARCH...');
+              },
+            )
+          ],
+        ),
         bottomNavigationBar: BottomNavigation(
           currentTab: _currentTab,
           onSelectTab: _selectTab,
