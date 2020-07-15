@@ -73,6 +73,10 @@ class Resource extends StatelessWidget {
     }
   }
 
+  _save() {
+    return null;
+  }
+
   Column _actionIcon(IconData icon, String text, Function action) {
     return Column(
       children: <Widget>[
@@ -110,7 +114,7 @@ class Resource extends StatelessWidget {
               _actionIcon(Icons.call, 'Llamar', _callPhone),
               _actionIcon(Icons.mail_outline, 'Escribir e-mail', _sendEmail),
               _actionIcon(Icons.public, 'Visitar web', _visitUrl),
-              _actionIcon(Icons.bookmark_border, 'Guardar', null),
+              _actionIcon(Icons.bookmark_border, 'Guardar', _save),
             ]));
   }
 
@@ -191,12 +195,7 @@ class Resource extends StatelessWidget {
                           style: TextStyle(fontSize: 14.0),
                         ),
                       ],
-                    )
-                    // Text(
-                    //   "Flat Button",
-                    //   style: TextStyle(fontSize: 14.0),
-                    // ),
-                    ))
+                    )))
           ],
         ));
   }
