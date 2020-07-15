@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Persons Moving Forward',
         // home: LayoutPage(),
-        initialRoute: '/',
+        initialRoute: '/resource',
         routes: <String, WidgetBuilder>{
           "/": (BuildContext context) => AppLayout(),
           "/resource": (BuildContext context) => Resource(),
