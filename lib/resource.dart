@@ -227,14 +227,15 @@ class Resource extends StatelessWidget {
     // Scaffold is a layout for the major Material Components.
     return Scaffold(
         body: Center(
-            child: ListView(
-      shrinkWrap: true,
-      children: [
-        _mapSection(),
-        _titleSection(),
-        _actionSection(),
-        _dataSection()
-      ],
-    )));
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          _mapSection(),
+          _titleSection(),
+          _actionSection(),
+          _dataSection()
+        ],
+      ),
+    ));
   }
 }
