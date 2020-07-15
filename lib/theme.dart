@@ -11,4 +11,7 @@ class MfColors {
     100: Color(0xFFDBEBE6),
     400: Color(0xFF18AC91),
   });
+  static const yellow = Color(0xFFFEF3DE);
+  static const blue = Color(0xFFE1EFFF);
+  static const red = Color(0xFFFFE1D7);
 }

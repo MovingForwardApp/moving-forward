@@ -4,17 +4,10 @@ import 'theme.dart';
 class TabInfo {
   final String name;
   final IconData icon;
-  const TabInfo(
-    this.name,
-    this.icon
-  );
+  const TabInfo(this.name, this.icon);
 }
 
-enum TabItem {
-  saved,
-  home,
-  info
-}
+enum TabItem { saved, home, info }
 
 const Map<TabItem, TabInfo> TabItemsInfo = {
   TabItem.saved: TabInfo('Saved', Icons.bookmark),
@@ -32,9 +25,7 @@ class BottomNavigation extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16)
-        ),
+            topLeft: Radius.circular(16), topRight: Radius.circular(16)),
         border: Border.all(
           color: MfColors.primary[100],
           width: 1,
@@ -74,11 +65,8 @@ class BottomNavigation extends StatelessWidget {
       ),
       title: Text(
         text,
-        style: TextStyle(
-          color: color,
-          fontWeight: FontWeight.w600,
-          fontSize: 16
-        ),
+        style:
+            TextStyle(color: color, fontWeight: FontWeight.w600, fontSize: 16),
       ),
     );
   }

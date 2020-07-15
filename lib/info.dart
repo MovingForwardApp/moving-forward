@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'theme.dart';
 
 class Info extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
       children: <Widget>[
         Text(
           'Información',
@@ -14,17 +15,19 @@ class Info extends StatelessWidget {
         ),
         Divider(),
         ListTile(
-          leading: Icon(Icons.room, size: 30),
+          leading: Icon(Icons.room, size: 30, color: MfColors.gray),
           title: Text('Idioma'),
-          subtitle: Text('Español'),
+          subtitle: Text('Español', style: TextStyle(fontSize: 14)),
           trailing: Icon(Icons.keyboard_arrow_right),
+          dense: true,
         ),
         Divider(),
         ListTile(
-          leading: Icon(Icons.language, size: 30),
+          leading: Icon(Icons.language, size: 30, color: MfColors.gray),
           title: Text('Ubicación'),
-          subtitle: Text('28012, Madrid'),
+          subtitle: Text('28012, Madrid', style: TextStyle(fontSize: 14)),
           trailing: Icon(Icons.keyboard_arrow_right),
+          dense: true,
         ),
         Divider(),
         Text('Sobre Moving Forward',
