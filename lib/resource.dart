@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'theme.dart';
 
 class Resource extends StatelessWidget {
@@ -43,19 +44,48 @@ class Resource extends StatelessWidget {
         ));
   }
 
-  Column _actionIcon(IconData icon, String text) {
+  // TODO: remove when real data
+  final String phone = 'tel:+0034625528029';
+  final String email = 'mailto:hola@xaviju.dev';
+  final String url = 'https://github.com/PIWEEK/moving-forward/';
+
+  _callPhone() async {
+    if (await canLaunch(phone)) {
+      await launch(phone);
+    } else {
+      throw 'Could not Call Phone';
+    }
+  }
+
+  _sendEmail() async {
+    if (await canLaunch(email)) {
+      await launch(email);
+    } else {
+      throw 'Could not send email';
+    }
+  }
+
+  _visitUrl() async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not send email';
+    }
+  }
+
+  Column _actionIcon(IconData icon, String text, Function action) {
     return Column(
       children: <Widget>[
         Container(
-          margin: EdgeInsets.all(8.0),
-          padding: EdgeInsets.all(12.0),
+          margin: EdgeInsets.only(bottom: 8.0),
           decoration: BoxDecoration(
               color: MfColors.dark,
               borderRadius: BorderRadius.all(Radius.circular(5.0))),
-          child: Icon(
-            icon,
+          child: IconButton(
             color: MfColors.white,
-            size: 18.0,
+            icon: Icon(icon),
+            tooltip: text,
+            onPressed: action,
           ),
         ),
         Text(
@@ -77,10 +107,10 @@ class Resource extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _actionIcon(Icons.call, 'Llamar'),
-              _actionIcon(Icons.mail_outline, 'Escribir e-mail'),
-              _actionIcon(Icons.public, 'Visitar web'),
-              _actionIcon(Icons.bookmark_border, 'Guardar'),
+              _actionIcon(Icons.call, 'Llamar', _callPhone),
+              _actionIcon(Icons.mail_outline, 'Escribir e-mail', _sendEmail),
+              _actionIcon(Icons.public, 'Visitar web', _visitUrl),
+              _actionIcon(Icons.bookmark_border, 'Guardar', null),
             ]));
   }
 
