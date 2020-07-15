@@ -49,27 +49,11 @@ class Resource extends StatelessWidget {
   final String email = 'mailto:hola@xaviju.dev';
   final String url = 'https://github.com/PIWEEK/moving-forward/';
 
-  _callPhone() async {
-    if (await canLaunch(phone)) {
-      await launch(phone);
+  _executeAction(String action) async {
+    if (await canLaunch(action)) {
+      await launch(action);
     } else {
-      throw 'Could not Call Phone';
-    }
-  }
-
-  _sendEmail() async {
-    if (await canLaunch(email)) {
-      await launch(email);
-    } else {
-      throw 'Could not send email';
-    }
-  }
-
-  _visitUrl() async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not send email';
+      throw 'Could not execute action';
     }
   }
 
@@ -77,7 +61,7 @@ class Resource extends StatelessWidget {
     return null;
   }
 
-  Column _actionIcon(IconData icon, String text, Function action) {
+  Column _actionIcon(IconData icon, String text, String action) {
     return Column(
       children: <Widget>[
         Container(
@@ -89,7 +73,13 @@ class Resource extends StatelessWidget {
             color: MfColors.white,
             icon: Icon(icon),
             tooltip: text,
-            onPressed: action,
+            onPressed: () {
+              if (action != 'save') {
+                _executeAction(action);
+              } else {
+                _save();
+              }
+            },
           ),
         ),
         Text(
@@ -111,11 +101,20 @@ class Resource extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _actionIcon(Icons.call, 'Llamar', _callPhone),
-              _actionIcon(Icons.mail_outline, 'Escribir e-mail', _sendEmail),
-              _actionIcon(Icons.public, 'Visitar web', _visitUrl),
-              _actionIcon(Icons.bookmark_border, 'Guardar', _save),
+              _actionIcon(Icons.call, 'Llamar', phone),
+              _actionIcon(Icons.mail_outline, 'Escribir e-mail', email),
+              _actionIcon(Icons.public, 'Visitar web', url),
+              _actionIcon(Icons.bookmark_border, 'Guardar', 'save'),
             ]));
+  }
+
+  _launchMap({String lat = "47.6", String long = "-122.3"}) async {
+    var mapSchema = 'geo:$lat,$long';
+    if (await canLaunch(mapSchema)) {
+      await launch(mapSchema);
+    } else {
+      throw 'Could not launch $mapSchema';
+    }
   }
 
   SizedBox _mapSection() {
@@ -175,7 +174,7 @@ class Resource extends StatelessWidget {
                       borderRadius: BorderRadius.circular(18.0),
                     ),
                     onPressed: () {
-                      /*...*/
+                      _launchMap(lat: '51.5', long: '-0.09');
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
