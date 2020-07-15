@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Info extends StatelessWidget {
   @override
@@ -38,7 +39,17 @@ class Info extends StatelessWidget {
               'Moving Forward es una iniciativa impulsada por CEAR (Comisión Española de Ayuda al Refugiado, www.cear.es) con la motivación de hacer más accesibles los recursos sociales a los que tienen derecho las personas migrantes y refugiadas.'),
         ),
         Text(
-            'Todo el contenido (recursos de distintos tipos como emergencia, jurídicos, sanitarios, alojamiento y otros) está extraído de las guías oficiales de CEAR.')
+            'Todo el contenido (recursos de distintos tipos como emergencia, jurídicos, sanitarios, alojamiento y otros) está extraído de las guías oficiales de CEAR.'),
+        GestureDetector(
+            onTap: () {
+              launch('https://www.cear.es/');
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Image(
+                image: AssetImage('assets/cear.jpg'),
+              ),
+            ))
       ],
     ));
   }
