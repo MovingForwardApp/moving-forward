@@ -78,47 +78,89 @@ class Resource extends StatelessWidget {
             ]));
   }
 
-  Container _mapSection() {
-    return Container(
-        height: 210.0,
-        child: FlutterMap(
-          options: MapOptions(
-            center: LatLng(51.5, -0.09),
-            zoom: 13.0,
-          ),
-          layers: [
-            MarkerLayerOptions(
-              markers: [
-                Marker(
-                  width: 80.0,
-                  height: 80.0,
-                  point: LatLng(51.5, -0.09),
-                  builder: (ctx) => Container(
-                    child: FlutterLogo(),
-                  ),
+  SizedBox _mapSection() {
+    return SizedBox(
+        height: 210,
+        child: Stack(
+          children: <Widget>[
+            Container(
+                child: FlutterMap(
+              options: MapOptions(
+                center: LatLng(51.5, -0.09),
+                zoom: 13.0,
+              ),
+              layers: [
+                MarkerLayerOptions(
+                  markers: [
+                    Marker(
+                      width: 80.0,
+                      height: 80.0,
+                      point: LatLng(51.5, -0.09),
+                      builder: (ctx) => Container(
+                        child: FlutterLogo(),
+                      ),
+                    ),
+                  ],
                 ),
               ],
-            ),
-          ],
-          children: <Widget>[
-            TileLayerWidget(
-                options: TileLayerOptions(
-                    urlTemplate:
-                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                    subdomains: ['a', 'b', 'c'])),
-            MarkerLayerWidget(
-                options: MarkerLayerOptions(
-              markers: [
-                Marker(
-                  width: 80.0,
-                  height: 80.0,
-                  point: LatLng(51.5, -0.09),
-                  builder: (ctx) => Container(
-                    child: FlutterLogo(),
-                  ),
-                ),
+              children: <Widget>[
+                TileLayerWidget(
+                    options: TileLayerOptions(
+                        urlTemplate:
+                            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        subdomains: ['a', 'b', 'c'])),
+                MarkerLayerWidget(
+                    options: MarkerLayerOptions(
+                  markers: [
+                    Marker(
+                      width: 80.0,
+                      height: 80.0,
+                      point: LatLng(51.5, -0.09),
+                      builder: (ctx) => Container(
+                        child: FlutterLogo(),
+                      ),
+                    ),
+                  ],
+                )),
               ],
             )),
+            Container(
+                alignment: Alignment.bottomCenter,
+                margin: EdgeInsets.symmetric(horizontal: 60.0),
+                child: FlatButton(
+                    color: MfColors.dark,
+                    textColor: MfColors.white,
+                    padding: EdgeInsets.all(8.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                    ),
+                    onPressed: () {
+                      /*...*/
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.directions_walk,
+                          color: MfColors.white,
+                          size: 18.0,
+                        ),
+                        Text(
+                          "Ruta a pie",
+                          style: TextStyle(
+                              fontSize: 14.0, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          " (menos de 500m)",
+                          style: TextStyle(fontSize: 14.0),
+                        ),
+                      ],
+                    )
+                    // Text(
+                    //   "Flat Button",
+                    //   style: TextStyle(fontSize: 14.0),
+                    // ),
+                    ))
           ],
         ));
   }
