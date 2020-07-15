@@ -38,6 +38,10 @@ dependencies:
   path: ^1.6.4
   path_provider: ^1.6.11
 
+  # For svgs
+  flutter_svg: ^0.17.4
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
