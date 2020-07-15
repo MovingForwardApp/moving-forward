@@ -6,9 +6,10 @@ import 'package:url_launcher/url_launcher.dart';
 class Info extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: ListView(
-      padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
+    return SafeArea(
+        child: Scaffold(
+            body: ListView(
+      padding: const EdgeInsets.all(20),
       children: <Widget>[
         Text(
           'Información',
@@ -51,6 +52,6 @@ class Info extends StatelessWidget {
               ),
             ))
       ],
-    ));
+    )));
   }
 }

@@ -21,7 +21,7 @@ class CategoryList extends StatelessWidget {
                       padding: const EdgeInsets.all(10),
                       color: color,
                       margin: const EdgeInsets.only(right: 20),
-                      child: Icon(icon, size: 40, color: Colors.black)),
+                      child: Icon(icon, size: 40, color: MfColors.dark)),
                   Expanded(
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,58 +65,120 @@ class CategoryList extends StatelessWidget {
     }
   ];
 
+  AppBar _appBar() {
+    return AppBar(
+      leading: Icon(
+        Icons.explore,
+        size: 30,
+        color: MfColors.dark,
+      ),
+      title: Text('MovingForward', style: TextStyle(color: MfColors.dark)),
+      titleSpacing: 0,
+      backgroundColor: MfColors.primary[100],
+      elevation: 0,
+      actions: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.search, size: 30, color: MfColors.dark),
+          onPressed: () {
+            print('SEARCH...');
+          },
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(20),
-        color: MfColors.primary[100],
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Encuentra tu ayuda',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+    return Scaffold(
+        // appBar: _appBar(),
+        body: Stack(children: <Widget>[
+      SingleChildScrollView(
+          child: Container(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.fromLTRB(20, 90, 20, 30),
+              color: MfColors.primary[100],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Encuentra tu ayuda',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+                  ),
+                  Text('Busca recursos sociales gratuitos.')
+                ],
+              ),
             ),
-            Text('Busca recursos sociales gratuitos.')
-          ],
-        ),
-      ),
+            Container(
+              child: Text('BUSCA RECURSOS EN LA CATEGORÍAS'),
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+            ),
+            Column(children: [
+              Container(
+                  padding: const EdgeInsets.all(10),
+                  child: _categoryCard(
+                      context,
+                      _categoryList[0]['id'],
+                      _categoryList[0]['title'],
+                      _categoryList[0]['description'],
+                      _categoryList[0]['icon'],
+                      _categoryList[0]['color'])),
+              Container(
+                  padding: const EdgeInsets.all(10),
+                  child: _categoryCard(
+                      context,
+                      _categoryList[1]['id'],
+                      _categoryList[1]['title'],
+                      _categoryList[1]['description'],
+                      _categoryList[1]['icon'],
+                      _categoryList[1]['color'])),
+              Container(
+                  padding: const EdgeInsets.all(10),
+                  child: _categoryCard(
+                      context,
+                      _categoryList[2]['id'],
+                      _categoryList[2]['title'],
+                      _categoryList[2]['description'],
+                      _categoryList[2]['icon'],
+                      _categoryList[2]['color'])),
+              Container(
+                  padding: const EdgeInsets.all(10),
+                  child: _categoryCard(
+                      context,
+                      _categoryList[0]['id'],
+                      _categoryList[0]['title'],
+                      _categoryList[0]['description'],
+                      _categoryList[0]['icon'],
+                      _categoryList[0]['color'])),
+              Container(
+                  padding: const EdgeInsets.all(10),
+                  child: _categoryCard(
+                      context,
+                      _categoryList[1]['id'],
+                      _categoryList[1]['title'],
+                      _categoryList[1]['description'],
+                      _categoryList[1]['icon'],
+                      _categoryList[1]['color'])),
+              Container(
+                  padding: const EdgeInsets.all(10),
+                  child: _categoryCard(
+                      context,
+                      _categoryList[2]['id'],
+                      _categoryList[2]['title'],
+                      _categoryList[2]['description'],
+                      _categoryList[2]['icon'],
+                      _categoryList[2]['color']))
+            ])
+          ]))),
       Container(
-        child: Text('BUSCA RECURSOS EN LA CATEGORÍAS'),
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-      ),
-      Expanded(
-          child: ListView(children: [
-        Container(
-            padding: const EdgeInsets.all(10),
-            child: _categoryCard(
-                context,
-                _categoryList[0]['id'],
-                _categoryList[0]['title'],
-                _categoryList[0]['description'],
-                _categoryList[0]['icon'],
-                _categoryList[0]['color'])),
-        Container(
-            padding: const EdgeInsets.all(10),
-            child: _categoryCard(
-                context,
-                _categoryList[1]['id'],
-                _categoryList[1]['title'],
-                _categoryList[1]['description'],
-                _categoryList[1]['icon'],
-                _categoryList[1]['color'])),
-        Container(
-            padding: const EdgeInsets.all(10),
-            child: _categoryCard(
-                context,
-                _categoryList[2]['id'],
-                _categoryList[2]['title'],
-                _categoryList[2]['description'],
-                _categoryList[2]['icon'],
-                _categoryList[2]['color']))
-      ]))
-    ]);
+          alignment: Alignment.topCenter,
+          child: Container(
+            height: 80.0,
+            child: _appBar(),
+          ))
+    ]));
   }
 }

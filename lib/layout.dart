@@ -26,52 +26,6 @@ class _AppLayoutState extends State<AppLayout> {
     }
   }
 
-  AppBar _appBar() {
-    if (_currentTab != TabItem.home) {
-      // return AppBar(
-      //   leading: IconButton(
-      //     icon: Icon(
-      //       Icons.arrow_back,
-      //       color: MfColors.dark,
-      //       size: 30,
-      //     ),
-      //     onPressed: () => _selectTab(TabItem.home),
-      //   ),
-      //   titleSpacing: 0,
-      //   elevation: 0,
-      //   actions: <Widget>[
-      //     IconButton(
-      //       icon: const Icon(Icons.search, size: 30, color: MfColors.dark),
-      //       onPressed: () {
-      //         print('SEARCH...');
-      //       },
-      //     )
-      //   ],
-      // );
-      return null;
-    } else {
-      return AppBar(
-        leading: Icon(
-          Icons.explore,
-          size: 30,
-          color: MfColors.dark,
-        ),
-        title: Text('MovingForward', style: TextStyle(color: MfColors.dark)),
-        titleSpacing: 0,
-        backgroundColor: MfColors.primary[100],
-        elevation: 0,
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.search, size: 30, color: MfColors.dark),
-            onPressed: () {
-              print('SEARCH...');
-            },
-          )
-        ],
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -96,7 +50,6 @@ class _AppLayoutState extends State<AppLayout> {
           _buildOffstageNavigator(TabItem.home),
           _buildOffstageNavigator(TabItem.info),
         ]),
-        appBar: _appBar(),
         bottomNavigationBar: BottomNavigation(
           currentTab: _currentTab,
           onSelectTab: _selectTab,

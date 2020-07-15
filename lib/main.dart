@@ -16,16 +16,17 @@ void main() async {
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
 
-  void _initializeDatabaseFile () async {
+  void _initializeDatabaseFile() async {
     // Construct a file path to copy database to
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "asset_database.db");
 
     // Only copy if the database doesn't exist
-    if (FileSystemEntity.typeSync(path) == FileSystemEntityType.notFound){
+    if (FileSystemEntity.typeSync(path) == FileSystemEntityType.notFound) {
       // Load database from asset and copy
       ByteData data = await rootBundle.load(join('assets', 'database.db'));
-      List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      List<int> bytes =
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
       // Save copied asset to documents
       await new File(path).writeAsBytes(bytes);
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Persons Moving Forward',
         // home: LayoutPage(),
-        initialRoute: '/resource',
+        initialRoute: '/',
         routes: <String, WidgetBuilder>{
           "/": (BuildContext context) => AppLayout(),
           "/resource": (BuildContext context) => Resource(),

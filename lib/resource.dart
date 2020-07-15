@@ -244,20 +244,45 @@ class Resource extends StatelessWidget {
     );
   }
 
+  AppBar _appBar() {
+    return AppBar(
+      iconTheme: IconThemeData(color: MfColors.dark),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      actions: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.search, size: 30, color: MfColors.dark),
+          onPressed: () {
+            print('SEARCH...');
+          },
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Scaffold is a layout for the major Material Components.
     return Scaffold(
-        body: Center(
-      child: ListView(
-        shrinkWrap: true,
-        children: [
-          _mapSection(),
-          _titleSection(),
-          _actionSection(),
-          _dataSection()
-        ],
+        body: Stack(children: <Widget>[
+      SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              _mapSection(),
+              _titleSection(),
+              _actionSection(),
+              _dataSection()
+            ],
+          ),
+        ),
       ),
-    ));
+      Container(
+          alignment: Alignment.topCenter,
+          child: Container(
+            height: 100.0,
+            child: _appBar(),
+          ))
+    ]));
   }
 }
