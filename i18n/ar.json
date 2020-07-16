@@ -3,6 +3,7 @@
   "description": "Busca recursos sociales gratuitos",
   "header_categories": "إبحث عن موارد في الفئات",
   "loading_categories": "Cargando categorías...",
+  "loading_location": "Cargando localización",
   "result_category": "RECURSOS EN",
   "change_category": "Cambiar",
   "phone_call": "للإتصال",
