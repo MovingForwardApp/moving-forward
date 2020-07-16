@@ -4,8 +4,15 @@ class Category {
   final String color;
   final String icon;
   final int order;
-  final String name;
-  final String description;
+  final String nameAr;
+  final String nameEn;
+  final String nameEs;
+  final String nameFr;
+  final String descriptionAr;
+  final String descriptionEn;
+  final String descriptionEs;
+  final String descriptionFr;
+  String lang;
 
   Category({
     this.id,
@@ -13,9 +20,51 @@ class Category {
     this.color,
     this.icon,
     this.order,
-    this.name,
-    this.description
+    this.nameAr,
+    this.nameEn,
+    this.nameEs,
+    this.nameFr,
+    this.descriptionAr,
+    this.descriptionEn,
+    this.descriptionEs,
+    this.descriptionFr,
+    this.lang = 'es',
   });
+
+  get name {
+    switch(this.lang) {
+      case 'ar':
+        return this.nameAr;
+      case 'en':
+        return this.nameEn;
+      case 'es':
+        return this.nameEs;
+      case 'fr':
+        return this.nameFr;
+      default:
+        return this.nameEs;
+    }
+  }
+
+  get description {
+    switch(this.lang) {
+      case 'ar':
+        return this.descriptionAr;
+      case 'en':
+        return this.descriptionEn;
+      case 'es':
+        return this.descriptionEs;
+      case 'fr':
+        return this.descriptionFr;
+      default:
+        return this.descriptionEs;
+    }
+  }
+
+  Category applyLang(String lang) {
+    this.lang = lang;
+    return this;
+  }
 
   factory Category.fromMap(Map<String, dynamic> map) {
     return Category(
@@ -24,8 +73,14 @@ class Category {
         color: map['color'] as String,
         icon: map['icon'] as String,
         order: map['order'] as int,
-        name: map['name'] as String,
-        description: map['description'] as String
+        nameAr: map['name_ar'] as String,
+        nameEn: map['name_en'] as String,
+        nameEs: map['name_es'] as String,
+        nameFr: map['name_fr'] as String,
+        descriptionAr: map['description_ar'] as String,
+        descriptionEn: map['description_en'] as String,
+        descriptionEs: map['description_es'] as String,
+        descriptionFr: map['description_fr'] as String
     );
   }
 
@@ -36,8 +91,14 @@ class Category {
       'color': color,
       'icon': icon,
       'order': order,
-      'name': name,
-      'description': description
+      'name_ar': nameAr,
+      'name_en': nameEn,
+      'name_es': nameEs,
+      'name_fr': nameFr,
+      'description_ar': descriptionAr,
+      'description_en': descriptionEn,
+      'description_es': descriptionEs,
+      'description_fr': descriptionFr
     };
   }
 }
