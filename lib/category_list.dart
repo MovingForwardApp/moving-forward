@@ -56,7 +56,7 @@ class CategoryList extends StatelessWidget {
         size: 30,
         color: MfColors.dark,
       ),
-      title: Text('MovingForward', style: TextStyle(color: MfColors.dark)),
+      title: Text('MovingForward', style: TextStyle(color: MfColors.dark, fontWeight: FontWeight.bold)),
       titleSpacing: 0,
       backgroundColor: MfColors.primary[100],
       elevation: 0,
@@ -90,9 +90,12 @@ class CategoryList extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     AppLocalizations.of(context).translate('title'),
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 36),
                   ),
-                  Text(AppLocalizations.of(context).translate('description'))
+                  Text(
+                    AppLocalizations.of(context).translate('description'),
+                    style: TextStyle(fontSize: 18),
+                  )
                 ],
               ),
             ),
