@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:geolocator/geolocator.dart';
+import 'package:moving_forward/layout.dart';
 import 'theme.dart';
 import 'services/location.dart';
 
@@ -60,7 +60,10 @@ class _LocationPageState extends State<LocationPage> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AppLayout()));
+              },
               child: Text(
                 "Continuar",
                 style: TextStyle(
