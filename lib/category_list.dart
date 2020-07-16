@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moving_forward/models/category.dart';
+import 'localization.dart';
+
 import 'theme.dart';
 
 import 'category_detail.dart';
@@ -25,26 +27,22 @@ class CategoryList extends StatelessWidget {
                   Container(
                       padding: const EdgeInsets.all(10),
                       margin: const EdgeInsets.only(right: 20),
-                      child: SvgPicture.asset('assets/images/categories/${category.icon}.svg', height: 45)
-                  ),
+                      child: SvgPicture.asset(
+                          'assets/images/categories/${category.icon}.svg',
+                          height: 45)),
                   Expanded(
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              category.name,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20
-                              ),
-                            ),
-                            Text(category.description)
-                          ]
-                      )
-                  )
+                        Text(
+                          category.name,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        Text(category.description)
+                      ]))
                 ],
-              )
-          )
-      ),
+              ))),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       elevation: 10,
       shadowColor: Colors.grey[100],
@@ -77,70 +75,56 @@ class CategoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         // appBar: _appBar(),
-        body: Stack(
-            children: <Widget>[
-              SingleChildScrollView(
-                child: Container(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.fromLTRB(20, 90, 20, 30),
-                            color: MfColors.primary[100],
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  'Encuentra tu ayuda',
-                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
-                                ),
-                                Text('Busca recursos sociales gratuitos.')
-                              ],
-                            ),
-                          ),
-                          Container(
-                            child: Text('BUSCA RECURSOS EN LA CATEGORÍAS'),
-                            padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-                          ),
-                          FutureBuilder<List<Category>>(
-                            future: _db.listCategories(),
-                            builder: (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
-                              if (snapshot.data != null) {
-                                return Column(
-                                  children: snapshot.data.map((category) =>
-                                      Container(
-                                          padding: const EdgeInsets.all(10),
-                                          child: _categoryCard(
-                                              context, category)
-                                      )
-                                  ).toList(),
-                                );
-                              }
-                              else {
-                                return Column(
-                                  children: <Widget>[
-                                    Center(
-                                      child: Text("Cargando categorías...")
-                                    )
-                                  ]
-                                );
-                              }
-                            }
-                          )
-                        ]
-                    )
-                )
+        body: Stack(children: <Widget>[
+      SingleChildScrollView(
+          child: Container(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.fromLTRB(20, 90, 20, 30),
+              color: MfColors.primary[100],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    AppLocalizations.of(context).translate('title'),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+                  ),
+                  Text('Busca recursos sociales gratuitos.')
+                ],
               ),
-              Container(
-                alignment: Alignment.topCenter,
-                child: Container(
-                  height: 80.0,
-                  child: _appBar(),
-                )
-              )
-            ]
-        )
-    );
+            ),
+            Container(
+              child: Text('BUSCA RECURSOS EN LA CATEGORÍAS'),
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+            ),
+            FutureBuilder<List<Category>>(
+                future: _db.listCategories(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<Category>> snapshot) {
+                  if (snapshot.data != null) {
+                    return Column(
+                      children: snapshot.data
+                          .map((category) => Container(
+                              padding: const EdgeInsets.all(10),
+                              child: _categoryCard(context, category)))
+                          .toList(),
+                    );
+                  } else {
+                    return Column(children: <Widget>[
+                      Center(child: Text("Cargando categorías..."))
+                    ]);
+                  }
+                })
+          ]))),
+      Container(
+          alignment: Alignment.topCenter,
+          child: Container(
+            height: 80.0,
+            child: _appBar(),
+          ))
+    ]));
   }
 }

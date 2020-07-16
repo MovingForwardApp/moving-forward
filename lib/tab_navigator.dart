@@ -8,8 +8,7 @@ import 'category_detail.dart';
 import 'resource.dart';
 import 'info.dart';
 
-
-Map<TabItem, Map<String, WidgetBuilder>> TabItemsRoutes = {
+Map<TabItem, Map<String, WidgetBuilder>> tabItemsRoutes = {
   TabItem.saved: {
     '/': (context) => Saved(),
   },
@@ -18,11 +17,8 @@ Map<TabItem, Map<String, WidgetBuilder>> TabItemsRoutes = {
     '/category': (context) => CategoryDetail(),
     '/resource': (context) => Resource(),
   },
-  TabItem.info: {
-    '/': (context) => Info()
-  }
+  TabItem.info: {'/': (context) => Info()}
 };
-
 
 class TabNavigator extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -44,7 +40,7 @@ class TabNavigator extends StatelessWidget {
   */
 
   Map<String, WidgetBuilder> _routeBuilders(BuildContext context) {
-    return TabItemsRoutes[this.tabItem];
+    return tabItemsRoutes[this.tabItem];
 
     /*  DELETE ME
     return {

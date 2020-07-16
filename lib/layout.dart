@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'bottom_navigation.dart';
 import 'tab_navigator.dart';
-import 'theme.dart';
 
 class AppLayout extends StatefulWidget {
   @override
