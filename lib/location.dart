@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moving_forward/layout.dart';
+// import 'package:moving_forward/localization.dart';
 import 'theme.dart';
 import 'services/location.dart';
 
@@ -9,11 +10,6 @@ class LocationPage extends StatefulWidget {
 }
 
 class _LocationPageState extends State<LocationPage> {
-  void initState() {
-    super.initState();
-    LocationService.instance.fetchCurrentLocality();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,12 +32,21 @@ class _LocationPageState extends State<LocationPage> {
                       color: MfColors.white,
                       fontSize: 18.0,
                     )),
-                Text(LocationService.instance.getLocality,
-                    style: TextStyle(
-                      color: MfColors.white,
-                      fontSize: 32.0,
-                      fontWeight: FontWeight.bold,
-                    )),
+                FutureBuilder<String>(
+                    future: LocationService.instance.fetchCurrentLocality(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      if (snapshot.data != null) {
+                        return Text(LocationService.instance.locality,
+                            style: TextStyle(
+                              color: MfColors.white,
+                              fontSize: 32.0,
+                              fontWeight: FontWeight.bold,
+                            ));
+                      } else {
+                        return Text('loading');
+                      }
+                    }),
                 Container(
                   margin: EdgeInsets.only(top: 40.0),
                   child: Text(

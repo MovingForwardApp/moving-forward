@@ -9,9 +9,7 @@ class LocationService {
   static final LocationService instance = LocationService._privateConstructor();
 
   get getLocality {
-    if (locality != null) {
-      return instance.locality;
-    }
+    return instance.locality;
   }
 
   Future _getCurrentLocation() async {
@@ -22,7 +20,7 @@ class LocationService {
     });
   }
 
-  Future fetchCurrentLocality() async {
+  Future<String> fetchCurrentLocality() async {
     await _getCurrentLocation();
     List<Placemark> p = await geolocator.placemarkFromCoordinates(
         instance._position.latitude, instance._position.longitude);
@@ -30,12 +28,14 @@ class LocationService {
     Placemark place = p[0];
 
     instance.locality = "${place.locality}";
-  }
-
-  Future<double> getDistance(double startLatitude, double startLongitude,
-      double endLatitude, double endLongitude) async {
-    // return await Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
-    return await Geolocator().distanceBetween(
-        startLatitude, startLongitude, endLatitude, endLatitude);
+    return instance.locality;
   }
 }
+
+//   Future<double> getDistance(double startLatitude, double startLongitude,
+//       double endLatitude, double endLongitude) async {
+//     // return await Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
+//     return await Geolocator().distanceBetween(
+//         startLatitude, startLongitude, endLatitude, endLatitude);
+//   }
+// }

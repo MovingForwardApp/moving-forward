@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:moving_forward/location.dart';
 import 'package:provider/provider.dart';
 import 'package:moving_forward/localization.dart';
 import 'package:moving_forward/change_language.dart';
@@ -35,9 +36,10 @@ class MyApp extends StatelessWidget {
                 Theme.of(context).textTheme,
               ),
             ),
-            initialRoute: '/lang',
+            initialRoute: '/location',
             routes: <String, WidgetBuilder>{
               "/": (BuildContext context) => AppLayout(),
+              "/location": (BuildContext context) => LocationPage(),
               "/lang": (BuildContext context) => AppLang(),
             },
             debugShowCheckedModeBanner: false));
