@@ -10,12 +10,12 @@ class CategoryDetail extends StatelessWidget {
           Column(children: [
             Container(
                 padding: const EdgeInsets.only(bottom: 20),
-                child: Icon(Icons.local_hotel, size: 40, color: MfColors.dark)),
+                child: Icon(Icons.local_hotel, size: 55, color: MfColors.dark)),
             Container(
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Text(
                   'Alojamiento de urgencia',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                 )),
             Text('Para familias o personas no acompañadas'),
           ])

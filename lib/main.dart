@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'layout.dart';
 import 'resource.dart';
@@ -14,12 +15,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Persons Moving Forward',
         // home: LayoutPage(),
+        theme: ThemeData(
+          textTheme: GoogleFonts.madaTextTheme(
+            Theme.of(context).textTheme,
+          ),
+        ),
         initialRoute: '/',
         routes: <String, WidgetBuilder>{
           "/": (BuildContext context) => AppLayout(),
           "/resource": (BuildContext context) => Resource(),
         },
-        debugShowCheckedModeBanner: false
-    );
+        debugShowCheckedModeBanner: false);
   }
 }
