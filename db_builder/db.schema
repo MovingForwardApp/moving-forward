@@ -1,0 +1,25 @@
+CREATE TABLE IF NOT EXISTS "categories" (
+	"id"	INTEGER NOT NULL UNIQUE,
+	"color"	TEXT NOT NULL,
+	"icon"	TEXT NOT NULL,
+	"order"	INTEGER NOT NULL,
+	"name"	TEXT NOT NULL,
+	"description"	TEXT NOT NULL,
+	PRIMARY KEY("id")
+);
+
+CREATE TABLE IF NOT EXISTS "resources" (
+	"id"	INTEGER NOT NULL UNIQUE,
+	"lat"	REAL NOT NULL,
+	"long"	REAL NOT NULL,
+	"address"	TEXT,
+	"phone"	TEXT,
+	"email"	TEXT,
+	"web"	TEXT,
+	"name"	TEXT NOT NULL,
+	"description"	TEXT,
+	"tags"	TEXT,
+	"category_id"	INTEGER,
+	FOREIGN KEY("category_id") REFERENCES "categories"("id") ON UPDATE NO ACTION ON DELETE SET NULL,
+	PRIMARY KEY("id")
+);
