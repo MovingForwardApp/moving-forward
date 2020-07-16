@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
                 Theme.of(context).textTheme,
               ),
             ),
-            initialRoute: '/location',
+            initialRoute: '/lang',
             routes: <String, WidgetBuilder>{
               "/": (BuildContext context) => AppLayout(),
               "/location": (BuildContext context) => LocationPage(),

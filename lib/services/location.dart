@@ -13,7 +13,7 @@ class LocationService {
   }
 
   Future _getCurrentLocation() async {
-    return await geolocator
+    await geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position currentPosition) {
       instance._position = currentPosition;
@@ -28,6 +28,7 @@ class LocationService {
     Placemark place = p[0];
 
     instance.locality = "${place.locality}";
+
     return instance.locality;
   }
 }

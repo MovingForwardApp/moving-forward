@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moving_forward/layout.dart';
+import 'package:moving_forward/localization.dart';
 // import 'package:moving_forward/localization.dart';
 import 'theme.dart';
 import 'services/location.dart';
@@ -44,7 +45,8 @@ class _LocationPageState extends State<LocationPage> {
                               fontWeight: FontWeight.bold,
                             ));
                       } else {
-                        return Text('loading');
+                        return Text(AppLocalizations.of(context)
+                            .translate('loading_location'));
                       }
                     }),
                 Container(

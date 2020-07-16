@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moving_forward/services/location.dart';
 import 'localization.dart';
 import 'theme.dart';
 import 'resource.dart';
@@ -97,7 +98,24 @@ class CategoryDetail extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('8 $_resultCategory BARCELONA'),
+              Row(children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.only(right: 4),
+                  child: Text('8 $_resultCategory'),
+                ),
+                FutureBuilder<String>(
+                    future: LocationService.instance.fetchCurrentLocality(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      if (snapshot.data != null) {
+                        return Text(
+                            LocationService.instance.locality.toUpperCase());
+                      } else {
+                        return Text(AppLocalizations.of(context)
+                            .translate('loading_location'));
+                      }
+                    }),
+              ]),
               Text(AppLocalizations.of(context).translate("change_category"),
                   style: TextStyle(
                     color: MfColors.primary[400],

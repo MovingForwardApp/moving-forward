@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moving_forward/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:moving_forward/localization.dart';
@@ -71,32 +72,40 @@ class AppLang extends StatelessWidget {
                 RaisedButton(
                   onPressed: () {
                     appLanguage.changeLanguage(Locale('en'));
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AppLayout()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LocationPage()));
                   },
                   child: Text('English'),
                 ),
                 RaisedButton(
                   onPressed: () {
                     appLanguage.changeLanguage(Locale('es'));
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AppLayout()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LocationPage()));
                   },
                   child: Text('Español'),
                 ),
                 RaisedButton(
                   onPressed: () {
                     appLanguage.changeLanguage(Locale('fr'));
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AppLayout()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LocationPage()));
                   },
                   child: Text('Français'),
                 ),
                 RaisedButton(
                   onPressed: () {
                     appLanguage.changeLanguage(Locale('ar'));
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AppLayout()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LocationPage()));
                   },
                   child: Text('العربية.'),
                 )
