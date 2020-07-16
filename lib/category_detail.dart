@@ -16,9 +16,12 @@ class CategoryDetail extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Text(
                   'Alojamiento de urgencia',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
                 )),
-            Text('Para familias o personas no acompañadas'),
+            Text(
+            'Para familias o personas no acompañadas',
+              style: TextStyle(fontSize: 16),
+            ),
           ])
         ]));
   }
@@ -26,8 +29,8 @@ class CategoryDetail extends StatelessWidget {
   Card _resourceCard(BuildContext context) {
     return Card(
         shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-        elevation: 10,
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        elevation: 6,
         shadowColor: Colors.grey[100],
         child: new InkWell(
             onTap: () {
