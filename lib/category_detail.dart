@@ -20,7 +20,7 @@ class CategoryDetail extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 )),
             Text(
-            'Para familias o personas no acompañadas',
+              'Para familias o personas no acompañadas',
               style: TextStyle(fontSize: 16),
             ),
           ])
@@ -47,11 +47,11 @@ class CategoryDetail extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          FutureBuilder<double>(
-                              future: LocationService.instance.getDistance(
-                                  52.2165157, 6.9437819, 52.3546274, 4.8285838),
+                          FutureBuilder<int>(
+                              future: LocationService.instance
+                                  .getDistance(39.426734, -0.361707),
                               builder: (BuildContext context,
-                                  AsyncSnapshot<double> snapshot) {
+                                  AsyncSnapshot<int> snapshot) {
                                 if (snapshot.data != null) {
                                   return Container(
                                       alignment: Alignment.topLeft,

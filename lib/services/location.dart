@@ -32,12 +32,20 @@ class LocationService {
     return instance.locality;
   }
 
-  Future<double> getDistance(double startLatitude, double startLongitude,
-      double endLatitude, double endLongitude) async {
+  Future<int> getDistance(double endLatitude, double endLongitude) async {
+    await _getCurrentLocation();
     double distance = await Geolocator().distanceBetween(
-        startLatitude, startLongitude, endLatitude, endLatitude);
-    print('distance');
-    print(distance);
-    return distance;
+        instance._position.latitude,
+        instance._position.longitude,
+        endLatitude,
+        endLongitude);
+    if (distance < 500) {
+      return 500;
+    } else if (distance < 1000) {
+      return 1000;
+    } else if (distance < 5000) {
+      return 5000;
+    }
+    return distance.round();
   }
 }
