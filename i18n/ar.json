@@ -1,12 +1,12 @@
 {
-  "title": "اعثر على مساعدتك",
+  "title": "أعثر على مساعدة",
   "description": "Busca recursos sociales gratuitos",
-  "header_categories": "BUSCA RECURSOS EN LA CATEGORÍAS",
+  "header_categories": "إبحث عن موارد في الفئات",
   "loading_categories": "Cargando categorías...",
   "result_category": "RECURSOS EN",
   "change_category": "Cambiar",
-  "phone_call": "Llamar",
-  "send_email": "Escribir e-mail",
-  "browse_web": "Visitar web",
-  "save": "Guardar"
+  "phone_call": "للإتصال",
+  "send_email": "البريد الإلكتروني",
+  "browse_web": "الموقع الإلكتروني",
+  "save": "حفظ"
 }
