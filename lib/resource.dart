@@ -12,11 +12,12 @@ class Resource extends StatelessWidget {
       leading: Icon(
         icon,
         size: 24.0,
+        color: MfColors.gray,
       ),
       title: Text(
         title,
         style: TextStyle(
-          fontSize: 14,
+          fontSize: 16,
           color: color,
         ),
       ),
@@ -26,7 +27,7 @@ class Resource extends StatelessWidget {
 
   Container _dataSection() {
     return Container(
-        padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 10.0),
         child: Column(
           children: [
             _dataRow(Icons.location_on, 'Calle Barbate, 62, 1oC, 11012',
@@ -87,7 +88,8 @@ class Resource extends StatelessWidget {
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 12,
+            fontSize: 14,
+            fontWeight: FontWeight.bold
           ),
         ),
       ],
@@ -124,7 +126,7 @@ class Resource extends StatelessWidget {
 
   SizedBox _mapSection() {
     return SizedBox(
-        height: 210,
+        height: 230,
         child: Stack(
           children: <Widget>[
             Container(
@@ -158,7 +160,7 @@ class Resource extends StatelessWidget {
             )),
             Container(
                 alignment: Alignment.bottomCenter,
-                margin: EdgeInsets.symmetric(horizontal: 60.0),
+                margin: EdgeInsets.symmetric(horizontal: 80.0),
                 child: FlatButton(
                     color: MfColors.dark,
                     textColor: MfColors.white,
@@ -216,7 +218,7 @@ class Resource extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: MfColors.dark,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.normal,
               fontSize: 16,
             ),
           ),
