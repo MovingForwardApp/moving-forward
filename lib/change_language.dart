@@ -3,7 +3,6 @@ import 'package:moving_forward/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:moving_forward/localization.dart';
-import 'package:moving_forward/layout.dart';
 
 class AppLanguage extends ChangeNotifier {
   Locale _appLocale = Locale('en');

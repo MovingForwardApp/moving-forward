@@ -31,12 +31,13 @@ class LocationService {
 
     return instance.locality;
   }
-}
 
-//   Future<double> getDistance(double startLatitude, double startLongitude,
-//       double endLatitude, double endLongitude) async {
-//     // return await Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
-//     return await Geolocator().distanceBetween(
-//         startLatitude, startLongitude, endLatitude, endLatitude);
-//   }
-// }
+  Future<double> getDistance(double startLatitude, double startLongitude,
+      double endLatitude, double endLongitude) async {
+    double distance = await Geolocator().distanceBetween(
+        startLatitude, startLongitude, endLatitude, endLatitude);
+    print('distance');
+    print(distance);
+    return distance;
+  }
+}

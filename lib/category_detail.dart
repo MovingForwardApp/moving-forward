@@ -44,14 +44,25 @@ class CategoryDetail extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Chip(
-                              avatar: const Icon(Icons.directions_walk),
-                              backgroundColor: MfColors.primary[100],
-                              label: Text('A menos de 500 metros'),
-                            ),
-                          ),
+                          FutureBuilder<double>(
+                              future: LocationService.instance.getDistance(
+                                  52.2165157, 6.9437819, 52.3546274, 4.8285838),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<double> snapshot) {
+                                if (snapshot.data != null) {
+                                  return Container(
+                                      alignment: Alignment.topLeft,
+                                      child: Chip(
+                                        avatar:
+                                            const Icon(Icons.directions_walk),
+                                        backgroundColor: MfColors.primary[100],
+                                        label: Text(
+                                            'A menos de ${snapshot.data}m'),
+                                      ));
+                                } else {
+                                  return Text('...');
+                                }
+                              }),
                           Container(
                             alignment: Alignment.topRight,
                             child: Icon(Icons.bookmark_border, size: 30.0),
