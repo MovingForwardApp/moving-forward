@@ -21,15 +21,15 @@ class CategoryList extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => CategoryDetail()));
           },
           child: Container(
-              padding: const EdgeInsets.all(25),
+              padding: const EdgeInsets.all(20),
               child: Row(
                 children: <Widget>[
                   Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(0),
                       margin: const EdgeInsets.only(right: 20),
                       child: SvgPicture.asset(
                           'assets/images/categories/${category.icon}.svg',
-                          height: 45)),
+                          height: 50)),
                   Expanded(
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,14 +37,17 @@ class CategoryList extends StatelessWidget {
                         Text(
                           category.name,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
+                              fontWeight: FontWeight.bold, fontSize: 18),
                         ),
-                        Text(category.description)
+                        Text(category.description,
+                          style: TextStyle(
+                              fontSize: 14),
+                        )
                       ]))
                 ],
               ))),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      elevation: 10,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      elevation: 6,
       shadowColor: Colors.grey[100],
     );
   }
@@ -94,7 +97,7 @@ class CategoryList extends StatelessWidget {
                   ),
                   Text(
                     AppLocalizations.of(context).translate('description'),
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 16),
                   )
                 ],
               ),
@@ -112,7 +115,7 @@ class CategoryList extends StatelessWidget {
                     return Column(
                       children: snapshot.data
                           .map((category) => Container(
-                              padding: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                               child: _categoryCard(context, category)))
                           .toList(),
                     );

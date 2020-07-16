@@ -11,15 +11,18 @@ class CategoryDetail extends StatelessWidget {
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
           Column(children: [
             Container(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Icon(Icons.local_hotel, size: 55, color: MfColors.dark)),
+                padding: const EdgeInsets.only(bottom: 20, top: 20),
+                child: Icon(Icons.local_hotel, size: 72, color: MfColors.dark)),
             Container(
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Text(
                   'Alojamiento de urgencia',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 )),
-            Text('Para familias o personas no acompañadas'),
+            Text(
+            'Para familias o personas no acompañadas',
+              style: TextStyle(fontSize: 16),
+            ),
           ])
         ]));
   }
@@ -27,8 +30,8 @@ class CategoryDetail extends StatelessWidget {
   Card _resourceCard(BuildContext context) {
     return Card(
         shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-        elevation: 10,
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        elevation: 6,
         shadowColor: Colors.grey[100],
         child: new InkWell(
             onTap: () {
@@ -36,7 +39,7 @@ class CategoryDetail extends StatelessWidget {
                   context, MaterialPageRoute(builder: (context) => Resource()));
             },
             child: Container(
-                padding: const EdgeInsets.all(25),
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
                 child: Container(
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,11 +82,12 @@ class CategoryDetail extends StatelessWidget {
                       ),
                       Container(
                           padding: const EdgeInsets.only(top: 10, bottom: 20),
-                          child: Text('Información, defensa de derechos')),
+                          child: Text('Información, defensa de derechos',
+                              style: TextStyle(fontSize: 16))),
                       Row(children: [
                         Icon(Icons.location_on, color: MfColors.gray),
                         Container(
-                            padding: const EdgeInsets.only(left: 10),
+                            padding: const EdgeInsets.only(left: 5),
                             child: Text('Calle Barbate, 62, 1oC, 11012',
                                 style: TextStyle(fontSize: 14))),
                       ]),
