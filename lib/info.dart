@@ -18,29 +18,32 @@ class Info extends StatelessWidget {
         Divider(),
         ListTile(
           leading: Icon(Icons.room, size: 30, color: MfColors.gray),
-          title: Text('Idioma'),
-          subtitle: Text('Español', style: TextStyle(fontSize: 14)),
+          title: Text('Idioma', style: TextStyle(fontSize: 14)),
+          subtitle: Text('Español', style: TextStyle(fontSize: 18, color: MfColors.dark)),
           trailing: Icon(Icons.keyboard_arrow_right),
           dense: true,
         ),
         Divider(),
         ListTile(
           leading: Icon(Icons.language, size: 30, color: MfColors.gray),
-          title: Text('Ubicación'),
-          subtitle: Text('28012, Madrid', style: TextStyle(fontSize: 14)),
+          title: Text('Ubicación', style: TextStyle(fontSize: 14)),
+          subtitle: Text('28012, Madrid', style: TextStyle(fontSize: 18, color: MfColors.dark)),
           trailing: Icon(Icons.keyboard_arrow_right),
           dense: true,
         ),
         Divider(),
-        Text('Sobre Moving Forward',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
+          child: Text('Sobre Moving Forward',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+        ),
         Container(
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
           child: Text(
-              'Moving Forward es una iniciativa impulsada por CEAR (Comisión Española de Ayuda al Refugiado, www.cear.es) con la motivación de hacer más accesibles los recursos sociales a los que tienen derecho las personas migrantes y refugiadas.'),
+              'Moving Forward es una iniciativa impulsada por CEAR (Comisión Española de Ayuda al Refugiado, www.cear.es) con la motivación de hacer más accesibles los recursos sociales a los que tienen derecho las personas migrantes y refugiadas.', style: TextStyle(fontSize: 16)),
         ),
         Text(
-            'Todo el contenido (recursos de distintos tipos como emergencia, jurídicos, sanitarios, alojamiento y otros) está extraído de las guías oficiales de CEAR.'),
+            'Todo el contenido (recursos de distintos tipos como emergencia, jurídicos, sanitarios, alojamiento y otros) está extraído de las guías oficiales de CEAR.', style: TextStyle(fontSize: 16)),
         GestureDetector(
             onTap: () {
               launch('https://www.cear.es/');
