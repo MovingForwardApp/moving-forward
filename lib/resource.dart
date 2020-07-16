@@ -4,6 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'theme.dart';
+import 'localization.dart';
 
 class Resource extends StatelessWidget {
   ListTile _dataRow(IconData icon, String title, Color color) {
@@ -93,7 +94,7 @@ class Resource extends StatelessWidget {
     );
   }
 
-  Container _actionSection() {
+  Container _actionSection(BuildContext context) {
     return Container(
         color: MfColors.primary[100],
         padding: EdgeInsets.all(32.0),
@@ -101,10 +102,14 @@ class Resource extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _actionIcon(Icons.call, 'Llamar', phone),
-              _actionIcon(Icons.mail_outline, 'Escribir e-mail', email),
-              _actionIcon(Icons.public, 'Visitar web', url),
-              _actionIcon(Icons.bookmark_border, 'Guardar', 'save'),
+              _actionIcon(Icons.call,
+                  AppLocalizations.of(context).translate("phone_call"), phone),
+              _actionIcon(Icons.mail_outline,
+                  AppLocalizations.of(context).translate("send_email"), email),
+              _actionIcon(Icons.public,
+                  AppLocalizations.of(context).translate("browse_web"), url),
+              _actionIcon(Icons.bookmark_border,
+                  AppLocalizations.of(context).translate("save"), 'save'),
             ]));
   }
 
@@ -271,7 +276,7 @@ class Resource extends StatelessWidget {
             children: [
               _mapSection(),
               _titleSection(),
-              _actionSection(),
+              _actionSection(context),
               _dataSection()
             ],
           ),

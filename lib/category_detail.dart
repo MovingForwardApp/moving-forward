@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'localization.dart';
 import 'theme.dart';
 import 'resource.dart';
 
@@ -78,6 +79,8 @@ class CategoryDetail extends StatelessWidget {
   }
 
   Container _resourcesList(BuildContext context) {
+    final _resultCategory =
+        AppLocalizations.of(context).translate("result_category");
     return Container(
         child: Column(children: [
       Container(
@@ -94,8 +97,8 @@ class CategoryDetail extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('12 RECURSOS EN BARCELONA'),
-              Text('Cambiar',
+              Text('8 $_resultCategory BARCELONA'),
+              Text(AppLocalizations.of(context).translate("change_category"),
                   style: TextStyle(
                     color: MfColors.primary[400],
                   ))

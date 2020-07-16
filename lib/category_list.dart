@@ -92,12 +92,13 @@ class CategoryList extends StatelessWidget {
                     AppLocalizations.of(context).translate('title'),
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
                   ),
-                  Text('Busca recursos sociales gratuitos.')
+                  Text(AppLocalizations.of(context).translate('description'))
                 ],
               ),
             ),
             Container(
-              child: Text('BUSCA RECURSOS EN LA CATEGORÍAS'),
+              child: Text(
+                  AppLocalizations.of(context).translate('header_categories')),
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
             ),
             FutureBuilder<List<Category>>(
@@ -114,7 +115,9 @@ class CategoryList extends StatelessWidget {
                     );
                   } else {
                     return Column(children: <Widget>[
-                      Center(child: Text("Cargando categorías..."))
+                      Center(
+                          child: Text(AppLocalizations.of(context)
+                              .translate('loading_categories')))
                     ]);
                   }
                 })

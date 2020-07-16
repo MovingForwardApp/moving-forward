@@ -1,4 +1,12 @@
 {
   "title": "Encuentra tu ayuda",
-  "Message" : "Español"
+  "description": "Busca recursos sociales gratuitos",
+  "header_categories": "BUSCA RECURSOS EN LA CATEGORÍAS",
+  "loading_categories": "Cargando categorías...",
+  "result_category": "RECURSOS EN",
+  "change_category": "Cambiar",
+  "phone_call": "Llamar",
+  "send_email": "Escribir e-mail",
+  "browse_web": "Visitar web",
+  "save": "Guardar"
 }
