@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
+import 'package:moving_forward/services/location.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'theme.dart';
 import 'localization.dart';
@@ -87,10 +88,7 @@ class Resource extends StatelessWidget {
         Text(
           text,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold
-          ),
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         ),
       ],
     );
@@ -160,7 +158,7 @@ class Resource extends StatelessWidget {
             )),
             Container(
                 alignment: Alignment.bottomCenter,
-                margin: EdgeInsets.symmetric(horizontal: 80.0),
+                margin: EdgeInsets.symmetric(horizontal: 60.0),
                 child: FlatButton(
                     color: MfColors.dark,
                     textColor: MfColors.white,
@@ -184,10 +182,20 @@ class Resource extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 14.0, fontWeight: FontWeight.bold),
                         ),
-                        Text(
-                          " (menos de 500m)",
-                          style: TextStyle(fontSize: 14.0),
-                        ),
+                        FutureBuilder<int>(
+                            future: LocationService.instance
+                                .getDistance(39.426734, -0.361707),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<int> snapshot) {
+                              if (snapshot.data != null) {
+                                return Text(
+                                  " (menos de ${snapshot.data}m)",
+                                  style: TextStyle(fontSize: 14.0),
+                                );
+                              } else {
+                                return Text('...');
+                              }
+                            }),
                       ],
                     )))
           ],
