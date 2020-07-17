@@ -48,7 +48,7 @@ class AppLanguage extends ChangeNotifier {
       await prefs.setString('countryCode', 'US');
     }
     print(_appLocale);
-    await notifyListeners();
+    notifyListeners();
     print("___END_1___");
   }
 }

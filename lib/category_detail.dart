@@ -174,7 +174,7 @@ class CategoryDetail extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       margin: const EdgeInsets.only(right: 4),
-                      child: Text('${resources.length} ${_resultCategory}'),
+                      child: Text('${resources.length} $_resultCategory'),
                     ),
                     FutureBuilder<String>(
                       future: LocationService.instance.fetchCurrentLocality(),
