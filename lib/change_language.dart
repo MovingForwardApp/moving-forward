@@ -1,79 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:moving_forward/localization.dart';
 import 'package:moving_forward/location.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-class AppLanguage extends ChangeNotifier {
-  Locale _appLocale = Locale('en');
-
-  Locale get appLocal => _appLocale ?? Locale("en");
-
-  fetchLocale() async {
-    var prefs = await SharedPreferences.getInstance();
-    if (prefs.getString('language_code') == null) {
-      _appLocale = Locale('en');
-      return Null;
-    }
-    _appLocale = Locale(prefs.getString('language_code'));
-    return Null;
-  }
-
-  Future<void> changeLanguage(Locale type) async {
-    print(type);
-    print(Locale("es"));
-    print(_appLocale);
-    var prefs = await SharedPreferences.getInstance();
-    if (_appLocale == type) {
-      return;
-    }
-    print('hola');
-    if (type == Locale("es")) {
-      print('esssssssssss');
-      _appLocale = Locale("es");
-      await prefs.setString('language_code', 'es');
-      await prefs.setString('countryCode', 'ES');
-    } else if (type == Locale("ar")) {
-      print('arrrrrrrrrrr');
-      _appLocale = Locale("ar");
-      await prefs.setString('language_code', 'ar');
-      await prefs.setString('countryCode', 'AR');
-    } else if (type == Locale("fr")) {
-      _appLocale = Locale("fr");
-      await prefs.setString('language_code', 'fr');
-      await prefs.setString('countryCode', 'FR');
-    } else {
-      _appLocale = Locale("en");
-      await prefs.setString('language_code', 'en');
-      await prefs.setString('countryCode', 'US');
-    }
-    print(_appLocale);
-    notifyListeners();
-    print("___END_1___");
-  }
-}
+import 'package:moving_forward/theme.dart';
 
 class AppLang extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var appLanguage = Provider.of<AppLanguage>(context);
     return Scaffold(
-      body: Center(
-        child: Column(
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        leading: null,
+        title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              child: Icon(Icons.explore),
+              margin: EdgeInsets.only(right: 10),
+            ),
+            Text(
+              'MovingForward',
+              style: TextStyle(color: MfColors.white),
+            ),
+          ],
+        ),
+        backgroundColor: MfColors.dark,
+      ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 100.0),
+        color: MfColors.dark,
+        child: Column(
           children: <Widget>[
             Text(
               AppLocalizations.of(context).translate('languages'),
-              style: TextStyle(fontSize: 32),
+              style: TextStyle(
+                color: MfColors.white,
+                fontSize: 32.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
+            Padding(padding: EdgeInsets.only(top: 60)),
             Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                RaisedButton(
+                FlatButton(
+                  color: MfColors.white,
+                  textColor: MfColors.dark,
+                  padding: EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 40.0,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                   onPressed: () async {
-                    await appLanguage.changeLanguage(Locale('en'));
-                    print("___END_2___");
+                    AppLocalizations.load(Locale('ar', 'AR'));
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -81,12 +64,25 @@ class AppLang extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Text('English'),
+                  child: Text(
+                    'العربية. (AR)',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-                RaisedButton(
+                FlatButton(
+                  color: MfColors.white,
+                  textColor: MfColors.dark,
+                  padding: EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 40.0,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                   onPressed: () async {
-                    await appLanguage.changeLanguage(Locale('es'));
-                    print("___END_2___");
+                    AppLocalizations.load(Locale('fr', 'FR'));
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -94,12 +90,25 @@ class AppLang extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Text('Español'),
+                  child: Text(
+                    'Français (FR)',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-                RaisedButton(
+                FlatButton(
+                  color: MfColors.white,
+                  textColor: MfColors.dark,
+                  padding: EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 40.0,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                   onPressed: () async {
-                    await appLanguage.changeLanguage(Locale('fr'));
-                    print("___END_2___");
+                    AppLocalizations.load(Locale('en', 'US'));
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -107,12 +116,25 @@ class AppLang extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Text('Français'),
+                  child: Text(
+                    'English (US)',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-                RaisedButton(
+                FlatButton(
+                  color: MfColors.white,
+                  textColor: MfColors.dark,
+                  padding: EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 40.0,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                   onPressed: () async {
-                    await appLanguage.changeLanguage(Locale('ar'));
-                    print("___END_2___");
+                    AppLocalizations.load(Locale('es', 'ES'));
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -120,10 +142,15 @@ class AppLang extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Text('العربية.'),
+                  child: Text(
+                    'Español (ES)',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ],
-            ),
+            )
           ],
         ),
       ),

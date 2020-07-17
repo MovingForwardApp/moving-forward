@@ -4,9 +4,7 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 
 class AppLocalizations {
-  final Locale locale;
-
-  AppLocalizations(this.locale);
+  static Locale locale = Locale("es", "ES");
 
   // Helper method to keep the code in the widgets concise
   // Localizations are accessed using an InheritedWidget "of" syntax
@@ -18,9 +16,11 @@ class AppLocalizations {
   static const LocalizationsDelegate<AppLocalizations> delegate =
       _AppLocalizationsDelegate();
 
-  Map<String, String> _localizedStrings;
+  static Map<String, String> _localizedStrings;
 
-  Future<bool> load() async {
+  static Future<AppLocalizations> load(Locale locale) async {
+    AppLocalizations.locale = locale;
+
     // Load the language JSON file from the "lang" folder
     String jsonString =
         await rootBundle.loadString('i18n/${locale.languageCode}.json');
@@ -30,7 +30,7 @@ class AppLocalizations {
       return MapEntry(key, value.toString());
     });
 
-    return true;
+    return AppLocalizations();
   }
 
   // This method will be called from every widget which needs a localized text
@@ -53,9 +53,7 @@ class _AppLocalizationsDelegate
   @override
   Future<AppLocalizations> load(Locale locale) async {
     // AppLocalizations class is where the JSON loading actually runs
-    AppLocalizations localizations = new AppLocalizations(locale);
-    await localizations.load();
-    return localizations;
+    return await AppLocalizations.load(locale);
   }
 
   @override

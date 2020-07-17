@@ -5,7 +5,6 @@ import 'package:moving_forward/change_language.dart';
 import 'package:moving_forward/layout.dart';
 import 'package:moving_forward/localization.dart';
 import 'package:moving_forward/location.dart';
-import 'package:provider/provider.dart';
 
 void main() async {
   runApp(MyApp());
@@ -15,34 +14,31 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => AppLanguage(),
-      child: MaterialApp(
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-          supportedLocales: [
-            Locale('ar', 'AR'), // Árabe
-            Locale('en', 'US'), // Inglés
-            Locale('es', 'ES'), // Español
-            Locale('fr', 'FR'), // Francés
-          ],
-          title: 'Persons Moving Forward',
-          // home: AppLayout(),
-          theme: ThemeData(
-            textTheme: GoogleFonts.madaTextTheme(
-              Theme.of(context).textTheme,
-            ),
+    return MaterialApp(
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          Locale('ar', 'AR'), // Árabe
+          Locale('en', 'US'), // Inglés
+          Locale('es', 'ES'), // Español
+          Locale('fr', 'FR'), // Francés
+        ],
+        title: 'Persons Moving Forward',
+        // home: AppLayout(),
+        theme: ThemeData(
+          textTheme: GoogleFonts.madaTextTheme(
+            Theme.of(context).textTheme,
           ),
-          initialRoute: '/location',
-          routes: <String, WidgetBuilder>{
-            "/": (BuildContext context) => AppLayout(),
-            "/location": (BuildContext context) => LocationPage(),
-            "/lang": (BuildContext context) => AppLang(),
-          },
-          debugShowCheckedModeBanner: false),
-    );
+        ),
+        initialRoute: '/lang',
+        routes: <String, WidgetBuilder>{
+          "/": (BuildContext context) => AppLayout(),
+          "/location": (BuildContext context) => LocationPage(),
+          "/lang": (BuildContext context) => AppLang(),
+        },
+        debugShowCheckedModeBanner: false);
   }
 }

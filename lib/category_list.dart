@@ -126,8 +126,7 @@ class CategoryList extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
                   ),
                   FutureBuilder<List<Category>>(
-                      future: _db.listCategories(
-                          lang: Localizations.localeOf(context).languageCode),
+                      future: _db.listCategories(lang: AppLocalizations.locale.languageCode),
                       builder: (BuildContext context,
                           AsyncSnapshot<List<Category>> snapshot) {
                         if (snapshot.data != null) {
