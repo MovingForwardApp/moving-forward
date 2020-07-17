@@ -25,7 +25,9 @@ class BottomNavigation extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
         border: Border.all(
           color: MfColors.primary[100],
           width: 1,
@@ -65,8 +67,11 @@ class BottomNavigation extends StatelessWidget {
       ),
       title: Text(
         text,
-        style:
-            TextStyle(color: color, fontWeight: FontWeight.w600, fontSize: 16),
+        style: TextStyle(
+          color: color,
+          fontWeight: FontWeight.w600,
+          fontSize: 16,
+        ),
       ),
     );
   }

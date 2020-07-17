@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:moving_forward/location.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:provider/provider.dart';
 import 'package:moving_forward/localization.dart';
+import 'package:moving_forward/location.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppLanguage extends ChangeNotifier {
   Locale _appLocale = Locale('en');
 
   Locale get appLocal => _appLocale ?? Locale("en");
+
   fetchLocale() async {
     var prefs = await SharedPreferences.getInstance();
     if (prefs.getString('language_code') == null) {
@@ -18,7 +19,7 @@ class AppLanguage extends ChangeNotifier {
     return Null;
   }
 
-  void changeLanguage(Locale type) async {
+  Future<void> changeLanguage(Locale type) async {
     print(type);
     print(Locale("es"));
     print(_appLocale);
@@ -47,7 +48,8 @@ class AppLanguage extends ChangeNotifier {
       await prefs.setString('countryCode', 'US');
     }
     print(_appLocale);
-    notifyListeners();
+    await notifyListeners();
+    print("___END_1___");
   }
 }
 
@@ -69,47 +71,59 @@ class AppLang extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 RaisedButton(
-                  onPressed: () {
-                    appLanguage.changeLanguage(Locale('en'));
+                  onPressed: () async {
+                    await appLanguage.changeLanguage(Locale('en'));
+                    print("___END_2___");
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LocationPage()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LocationPage(),
+                      ),
+                    );
                   },
                   child: Text('English'),
                 ),
                 RaisedButton(
-                  onPressed: () {
-                    appLanguage.changeLanguage(Locale('es'));
+                  onPressed: () async {
+                    await appLanguage.changeLanguage(Locale('es'));
+                    print("___END_2___");
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LocationPage()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LocationPage(),
+                      ),
+                    );
                   },
                   child: Text('Español'),
                 ),
                 RaisedButton(
-                  onPressed: () {
-                    appLanguage.changeLanguage(Locale('fr'));
+                  onPressed: () async {
+                    await appLanguage.changeLanguage(Locale('fr'));
+                    print("___END_2___");
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LocationPage()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LocationPage(),
+                      ),
+                    );
                   },
                   child: Text('Français'),
                 ),
                 RaisedButton(
-                  onPressed: () {
-                    appLanguage.changeLanguage(Locale('ar'));
+                  onPressed: () async {
+                    await appLanguage.changeLanguage(Locale('ar'));
+                    print("___END_2___");
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LocationPage()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LocationPage(),
+                      ),
+                    );
                   },
                   child: Text('العربية.'),
-                )
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),
