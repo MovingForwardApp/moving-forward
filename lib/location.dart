@@ -15,16 +15,24 @@ class _LocationPageState extends State<LocationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: <Widget>[
-            Icon(Icons.explore),
-            Text(
-              'MovingForward',
-              style: TextStyle(color: MfColors.white),
-            ),
-          ],
-        ),
-      ),
+          centerTitle: true,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          leading: null,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                child: Icon(Icons.explore),
+                margin: EdgeInsets.only(right: 10),
+              ),
+              Text(
+                'MovingForward',
+                style: TextStyle(color: MfColors.white),
+              ),
+            ],
+          ),
+          backgroundColor: MfColors.dark),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 100.0),
         color: MfColors.dark,
@@ -35,7 +43,7 @@ class _LocationPageState extends State<LocationPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'Parece que estás en',
+                  AppLocalizations.of(context).translate('location_guess'),
                   style: TextStyle(
                     color: MfColors.white,
                     fontSize: 18.0,
@@ -62,7 +70,8 @@ class _LocationPageState extends State<LocationPage> {
                 Container(
                   margin: EdgeInsets.only(top: 40.0),
                   child: Text(
-                    'Si esto no es correcto o prefieres ver información sobre recursos de otro lugar puedes elegir otra localización',
+                    AppLocalizations.of(context)
+                        .translate('location_guess_error'),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: MfColors.white,
@@ -88,7 +97,7 @@ class _LocationPageState extends State<LocationPage> {
                 );
               },
               child: Text(
-                "Continuar",
+                AppLocalizations.of(context).translate('continue'),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
