@@ -12,5 +12,8 @@
   "save": "حفظ",
   "splash_screen_description": "دليل الموارد الاجتماعية للمهاجرين",
   "languages": "اختر لغتك",
-  "saved_resource": "ستظهر قائمة بالموارد المحفوظة على هذه الشاشة"
+  "saved_resource": "ستظهر قائمة بالموارد المحفوظة على هذه الشاشة",
+  "Saved": "Saved",
+  "Home": "Home",
+  "Info": "Info"
 }

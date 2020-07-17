@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'theme.dart';
+import 'package:moving_forward/localization.dart';
 
 class TabInfo {
   final String name;
@@ -9,16 +10,16 @@ class TabInfo {
 
 enum TabItem { saved, home, info }
 
-const Map<TabItem, TabInfo> TabItemsInfo = {
-  TabItem.saved: TabInfo('Saved', Icons.bookmark),
-  TabItem.home: TabInfo('Home', Icons.home),
-  TabItem.info: TabInfo('Info', Icons.info_outline),
-};
-
 class BottomNavigation extends StatelessWidget {
   BottomNavigation({this.currentTab, this.onSelectTab});
   final TabItem currentTab;
   final ValueChanged<TabItem> onSelectTab;
+
+  final Map<TabItem, TabInfo> tabItemsInfo = {
+    TabItem.saved: TabInfo('Saved', Icons.bookmark),
+    TabItem.home: TabInfo('Home', Icons.home),
+    TabItem.info: TabInfo('Info', Icons.info_outline),
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +44,9 @@ class BottomNavigation extends StatelessWidget {
           backgroundColor: MfColors.white,
           iconSize: 30,
           items: [
-            _buildItem(tabItem: TabItem.saved),
-            _buildItem(tabItem: TabItem.home),
-            _buildItem(tabItem: TabItem.info),
+            _buildItem(tabItem: TabItem.saved, context: context),
+            _buildItem(tabItem: TabItem.home, context: context),
+            _buildItem(tabItem: TabItem.info, context: context),
           ],
           onTap: (index) => onSelectTab(
             TabItem.values[index],
@@ -55,9 +56,10 @@ class BottomNavigation extends StatelessWidget {
     );
   }
 
-  BottomNavigationBarItem _buildItem({TabItem tabItem}) {
-    String text = TabItemsInfo[tabItem].name;
-    IconData icon = TabItemsInfo[tabItem].icon;
+  BottomNavigationBarItem _buildItem({TabItem tabItem, BuildContext context}) {
+    String text =
+        AppLocalizations.of(context).translate(tabItemsInfo[tabItem].name);
+    IconData icon = tabItemsInfo[tabItem].icon;
     Color color = currentTab == tabItem ? MfColors.primary : MfColors.dark;
 
     return BottomNavigationBarItem(

@@ -12,5 +12,8 @@
   "save": "Save",
   "splash_screen_description": "The migrant social resource guide",
   "languages": "Choose your language",
-  "saved_resource": "A list with your saved resources will appear on this screen"
+  "saved_resource": "A list with your saved resources will appear on this screen",
+  "Saved": "Saved",
+  "Home": "Home",
+  "Info": "Info"
 }

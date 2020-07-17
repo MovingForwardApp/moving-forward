@@ -12,5 +12,8 @@
   "save": "Guardar",
   "splash_screen_description": "La guía de recursos sociales para migrantes",
   "languages": "Elige tu idioma",
-  "saved_resource": "En esta pantalla aparecerá un listado con tus recursos guardados"
+  "saved_resource": "En esta pantalla aparecerá un listado con tus recursos guardados",
+  "Saved": "Guardados",
+  "Home": "Inicio",
+  "Info": "Info"
 }
