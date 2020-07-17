@@ -2,20 +2,25 @@ import 'package:flutter/material.dart';
 
 import 'bottom_navigation.dart';
 
+import 'package:moving_forward/models/category.dart';
+import 'package:moving_forward/models/resource.dart';
 import 'saved.dart';
 import 'category_list.dart';
 import 'category_detail.dart';
 import 'resource_detail.dart';
 import 'info.dart';
 
+Resource resource;
+Category category;
 Map<TabItem, Map<String, WidgetBuilder>> tabItemsRoutes = {
   TabItem.saved: {
     '/': (context) => Saved(),
   },
   TabItem.home: {
     '/': (context) => CategoryList(),
-    '/category': (context) => CategoryDetail(),
-    '/resource': (context) => ResourceDetail(),
+    '/category': (context) => CategoryDetail(category: category),
+    '/resource': (context) =>
+        ResourceDetail(category: category, resource: resource),
   },
   TabItem.info: {'/': (context) => Info()}
 };
