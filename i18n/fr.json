@@ -15,5 +15,8 @@
   "saved_resource": "Une liste avec vos ressources enregistrées apparaîtra sur cet écran",
   "Saved": "Saved",
   "Home": "Home",
-  "Info": "Info"
+  "Info": "Info",
+  "resources_saved": "Recursos guardados",
+  "search_placeholder": "¿Qué estás buscando?",
+  "search_hint": "Busca recursos cerca"
 }

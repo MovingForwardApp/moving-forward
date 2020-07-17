@@ -7,6 +7,16 @@ class Saved extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+            centerTitle: false,
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            leading: null,
+            title: Text(
+              AppLocalizations.of(context).translate('resources_saved'),
+              style: TextStyle(color: MfColors.dark),
+            ),
+            backgroundColor: Colors.transparent),
         body: Container(
             padding: EdgeInsets.symmetric(horizontal: 100),
             child: Column(

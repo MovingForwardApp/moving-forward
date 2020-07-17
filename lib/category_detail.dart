@@ -7,12 +7,17 @@ import 'package:moving_forward/resource_detail.dart';
 import 'package:moving_forward/services/db.dart';
 import 'package:moving_forward/services/location.dart';
 import 'package:moving_forward/theme.dart';
+import 'package:moving_forward/search.dart';
 
 class CategoryDetail extends StatelessWidget {
   final _db = DBService.instance;
   final Category category;
 
   CategoryDetail({Key key, @required this.category}) : super(key: key);
+
+  void _showOverlay(BuildContext context) {
+    Navigator.of(context).push(Search());
+  }
 
   Container _categoryTitle() {
     return Container(
@@ -216,7 +221,7 @@ class CategoryDetail extends StatelessWidget {
     );
   }
 
-  AppBar _appBar() {
+  AppBar _appBar(BuildContext context) {
     return AppBar(
       iconTheme: IconThemeData(color: MfColors.dark),
       backgroundColor: Colors.transparent,
@@ -229,7 +234,7 @@ class CategoryDetail extends StatelessWidget {
             color: MfColors.dark,
           ),
           onPressed: () {
-            print('SEARCH...');
+            _showOverlay(context);
           },
         ),
       ],
@@ -249,7 +254,8 @@ class CategoryDetail extends StatelessWidget {
                 children: [
                   _categoryTitle(),
                   FutureBuilder<List<Resource>>(
-                      future: _db.listResourcesByCategory(category.id, lang: Localizations.localeOf(context).languageCode),
+                      future: _db.listResourcesByCategory(category.id,
+                          lang: Localizations.localeOf(context).languageCode),
                       builder: (BuildContext context,
                           AsyncSnapshot<List<Resource>> snapshot) {
                         if (snapshot.data != null) {
@@ -266,7 +272,7 @@ class CategoryDetail extends StatelessWidget {
             alignment: Alignment.topCenter,
             child: Container(
               height: 100.0,
-              child: _appBar(),
+              child: _appBar(context),
             ),
           )
         ],

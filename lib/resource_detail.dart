@@ -8,6 +8,7 @@ import 'package:moving_forward/models/resource.dart';
 import 'package:moving_forward/services/location.dart';
 import 'package:moving_forward/theme.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:moving_forward/search.dart';
 
 class ResourceDetail extends StatelessWidget {
   final Resource resource;
@@ -15,6 +16,10 @@ class ResourceDetail extends StatelessWidget {
 
   ResourceDetail({Key key, @required this.resource, @required this.category})
       : super(key: key);
+
+  void _showOverlay(BuildContext context) {
+    Navigator.of(context).push(Search());
+  }
 
   ListTile _dataRow(IconData icon, String title, Color color) {
     return ListTile(
@@ -133,21 +138,24 @@ class ResourceDetail extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          if (resource.phone != '') _actionIcon(
-            Icons.call,
-            AppLocalizations.of(context).translate("phone_call"),
-            resource.phone,
-          ),
-          if (resource.email != '') _actionIcon(
-            Icons.mail_outline,
-            AppLocalizations.of(context).translate("send_email"),
-            resource.email,
-          ),
-          if (resource.web != '') _actionIcon(
-            Icons.public,
-            AppLocalizations.of(context).translate("browse_web"),
-            resource.web,
-          ),
+          if (resource.phone != '')
+            _actionIcon(
+              Icons.call,
+              AppLocalizations.of(context).translate("phone_call"),
+              resource.phone,
+            ),
+          if (resource.email != '')
+            _actionIcon(
+              Icons.mail_outline,
+              AppLocalizations.of(context).translate("send_email"),
+              resource.email,
+            ),
+          if (resource.web != '')
+            _actionIcon(
+              Icons.public,
+              AppLocalizations.of(context).translate("browse_web"),
+              resource.web,
+            ),
           _actionIcon(
             Icons.bookmark_border,
             AppLocalizations.of(context).translate("save"),
@@ -187,9 +195,11 @@ class ResourceDetail extends StatelessWidget {
                     subdomains: ['a', 'b', 'c'],
                     */
                     /* MapBox Tile */
-                    urlTemplate: "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+                    urlTemplate:
+                        "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
                     additionalOptions: {
-                      "accessToken": "pk.eyJ1IjoiYmFtZWRhIiwiYSI6ImNrNDl2OGh4cjA4dzMzc3A4c2Q2N25wenUifQ.-9r_WubwqOJqqVl1sZdjtg",
+                      "accessToken":
+                          "pk.eyJ1IjoiYmFtZWRhIiwiYSI6ImNrNDl2OGh4cjA4dzMzc3A4c2Q2N25wenUifQ.-9r_WubwqOJqqVl1sZdjtg",
                       "id": "mapbox.streets",
                     },
                   ),
@@ -313,7 +323,7 @@ class ResourceDetail extends StatelessWidget {
     );
   }
 
-  AppBar _appBar() {
+  AppBar _appBar(BuildContext context) {
     return AppBar(
       iconTheme: IconThemeData(color: MfColors.dark),
       backgroundColor: Colors.transparent,
@@ -322,7 +332,7 @@ class ResourceDetail extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.search, size: 30, color: MfColors.dark),
           onPressed: () {
-            print('SEARCH...');
+            _showOverlay(context);
           },
         )
       ],
@@ -351,7 +361,7 @@ class ResourceDetail extends StatelessWidget {
             alignment: Alignment.topCenter,
             child: Container(
               height: 100.0,
-              child: _appBar(),
+              child: _appBar(context),
             ),
           )
         ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moving_forward/category_detail.dart';
+import 'package:moving_forward/search.dart';
 import 'package:moving_forward/localization.dart';
 import 'package:moving_forward/models/category.dart';
 import 'package:moving_forward/services/db.dart';
@@ -9,6 +10,10 @@ import 'package:moving_forward/theme.dart';
 
 class CategoryList extends StatelessWidget {
   final _db = DBService.instance;
+
+  void _showOverlay(BuildContext context) {
+    Navigator.of(context).push(Search());
+  }
 
   Card _categoryCard(BuildContext context, Category category) {
     return Card(
@@ -58,7 +63,7 @@ class CategoryList extends StatelessWidget {
     );
   }
 
-  AppBar _appBar() {
+  AppBar _appBar(BuildContext context) {
     return AppBar(
       leading: Icon(
         Icons.explore,
@@ -79,7 +84,7 @@ class CategoryList extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.search, size: 30, color: MfColors.dark),
           onPressed: () {
-            print('SEARCH...');
+            _showOverlay(context);
           },
         ),
       ],
@@ -89,7 +94,6 @@ class CategoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: _appBar(),
       body: Stack(
         children: <Widget>[
           SingleChildScrollView(
@@ -122,7 +126,8 @@ class CategoryList extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
                   ),
                   FutureBuilder<List<Category>>(
-                      future: _db.listCategories(lang: Localizations.localeOf(context).languageCode),
+                      future: _db.listCategories(
+                          lang: Localizations.localeOf(context).languageCode),
                       builder: (BuildContext context,
                           AsyncSnapshot<List<Category>> snapshot) {
                         if (snapshot.data != null) {
@@ -152,7 +157,7 @@ class CategoryList extends StatelessWidget {
             alignment: Alignment.topCenter,
             child: Container(
               height: 80.0,
-              child: _appBar(),
+              child: _appBar(context),
             ),
           )
         ],
