@@ -98,7 +98,7 @@ class ResourceDetail extends StatelessWidget {
           margin: EdgeInsets.only(bottom: 8.0),
           decoration: BoxDecoration(
             color: MfColors.dark,
-            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(12.0)),
           ),
           child: IconButton(
             color: MfColors.white,
@@ -266,7 +266,7 @@ class ResourceDetail extends StatelessWidget {
 
   Container _titleSection() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 32, 16, 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
