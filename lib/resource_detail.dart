@@ -329,7 +329,7 @@ class ResourceDetail extends StatelessWidget {
           icon: const Icon(Icons.share, size: 30, color: MfColors.dark),
           onPressed: () {
             Share.share(
-                'Check out ${resource.name} ${resource.description}, ${resource.address}, ${resource.googlemapUrl}');
+                '${resource.name} ${resource.description}, ${resource.address}, ${resource.googlemapUrl}');
           },
         )
       ],
