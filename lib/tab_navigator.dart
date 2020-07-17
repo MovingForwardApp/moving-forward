@@ -5,7 +5,7 @@ import 'bottom_navigation.dart';
 import 'saved.dart';
 import 'category_list.dart';
 import 'category_detail.dart';
-import 'resource.dart';
+import 'resource_detail.dart';
 import 'info.dart';
 
 Map<TabItem, Map<String, WidgetBuilder>> tabItemsRoutes = {
@@ -15,7 +15,7 @@ Map<TabItem, Map<String, WidgetBuilder>> tabItemsRoutes = {
   TabItem.home: {
     '/': (context) => CategoryList(),
     '/category': (context) => CategoryDetail(),
-    '/resource': (context) => Resource(),
+    '/resource': (context) => ResourceDetail(),
   },
   TabItem.info: {'/': (context) => Info()}
 };
