@@ -249,7 +249,7 @@ class CategoryDetail extends StatelessWidget {
                 children: [
                   _categoryTitle(),
                   FutureBuilder<List<Resource>>(
-                      future: _db.listResourcesByCategory(category.id),
+                      future: _db.listResourcesByCategory(category.id, lang: Localizations.localeOf(context).languageCode),
                       builder: (BuildContext context,
                           AsyncSnapshot<List<Resource>> snapshot) {
                         if (snapshot.data != null) {
