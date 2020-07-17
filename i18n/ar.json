@@ -1,6 +1,6 @@
 {
   "title": "أعثر على مساعدة",
-  "description": "ابحث عن موارد اجتماعية مجانية",
+  "description": "أجب على بعض الأسئلة للعثور على موارد اجتماعية مناسبة لك",
   "header_categories": "إبحث عن موارد في الفئات",
   "loading_categories": "جارٍ تحميل الفئات ...",
   "loading_location": "موقع التحميل",
@@ -13,9 +13,12 @@
   "splash_screen_description": "دليل الموارد الاجتماعية للمهاجرين",
   "languages": "اختر لغتك",
   "saved_resource": "ستظهر قائمة بالموارد المحفوظة على هذه الشاشة",
-  "Saved": "Saved",
-  "Home": "Home",
-  "Info": "Info",
+  "Saved": "تم الحفظ",
+  "Home": "البدء",
+  "Info": "معلومات",
+  "location_guess": "يبدو أنك في الداخل",
+  "location_guess_error": "إذا لم يكن هذا صحيحًا أو تفضل رؤية معلومات حول الموارد من مكان آخر ، يمكنك اختيار موقع آخر",
+  "continue": "استمر",
   "resources_saved": "Recursos guardados",
   "search_placeholder": "¿Qué estás buscando?",
   "search_hint": "Busca recursos cerca"

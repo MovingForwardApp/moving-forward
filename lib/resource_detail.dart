@@ -7,8 +7,8 @@ import 'package:moving_forward/models/category.dart';
 import 'package:moving_forward/models/resource.dart';
 import 'package:moving_forward/services/location.dart';
 import 'package:moving_forward/theme.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:moving_forward/search.dart';
 
 class ResourceDetail extends StatelessWidget {
   final Resource resource;
@@ -16,10 +16,6 @@ class ResourceDetail extends StatelessWidget {
 
   ResourceDetail({Key key, @required this.resource, @required this.category})
       : super(key: key);
-
-  void _showOverlay(BuildContext context) {
-    Navigator.of(context).push(Search());
-  }
 
   ListTile _dataRow(IconData icon, String title, Color color) {
     return ListTile(
@@ -268,7 +264,7 @@ class ResourceDetail extends StatelessWidget {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -323,16 +319,17 @@ class ResourceDetail extends StatelessWidget {
     );
   }
 
-  AppBar _appBar(BuildContext context) {
+  AppBar _appBar() {
     return AppBar(
       iconTheme: IconThemeData(color: MfColors.dark),
       backgroundColor: Colors.transparent,
       elevation: 0,
       actions: <Widget>[
         IconButton(
-          icon: const Icon(Icons.search, size: 30, color: MfColors.dark),
+          icon: const Icon(Icons.share, size: 30, color: MfColors.dark),
           onPressed: () {
-            _showOverlay(context);
+            Share.share(
+                '${resource.name} ${resource.description}, ${resource.address}, ${resource.googlemapUrl}');
           },
         )
       ],
@@ -361,7 +358,7 @@ class ResourceDetail extends StatelessWidget {
             alignment: Alignment.topCenter,
             child: Container(
               height: 100.0,
-              child: _appBar(context),
+              child: _appBar(),
             ),
           )
         ],

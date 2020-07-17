@@ -51,6 +51,9 @@ dependencies:
   #Geolocation
   geolocator: ^5.3.2+2
 
+  #share
+  share: ^0.6.4+3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
