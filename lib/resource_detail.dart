@@ -138,13 +138,13 @@ class ResourceDetail extends StatelessWidget {
             _actionIcon(
               Icons.call,
               AppLocalizations.of(context).translate("phone_call"),
-              resource.phone,
+              'tel:${resource.phone}',
             ),
           if (resource.email != '')
             _actionIcon(
               Icons.mail_outline,
               AppLocalizations.of(context).translate("send_email"),
-              resource.email,
+              'mailto:${resource.email}',
             ),
           if (resource.web != '')
             _actionIcon(
