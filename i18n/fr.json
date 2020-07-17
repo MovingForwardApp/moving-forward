@@ -15,5 +15,8 @@
   "saved_resource": "Une liste avec vos ressources enregistrées apparaîtra sur cet écran",
   "Saved": "Saved",
   "Home": "Home",
-  "Info": "Info"
+  "Info": "Info",
+  "location_guess": "On dirait que tu es",
+  "location_guess_error": "Si ce n'est pas correct ou si vous préférez voir les informations sur les ressources d'un autre endroit, vous pouvez choisir un autre emplacement",
+  "continue": "Continuer"
 }

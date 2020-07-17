@@ -15,5 +15,8 @@
   "saved_resource": "A list with your saved resources will appear on this screen",
   "Saved": "Saved",
   "Home": "Home",
-  "Info": "Info"
+  "Info": "Info",
+  "location_guess": "It looks like you're in",
+  "location_guess_error": "If this is not correct or you prefer to see information about resources from another place you can choose another location",
+  "continue": "Continue"
 }
