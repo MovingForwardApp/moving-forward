@@ -15,16 +15,24 @@ class _LocationPageState extends State<LocationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: <Widget>[
-            Icon(Icons.explore),
-            Text(
-              'MovingForward',
-              style: TextStyle(color: MfColors.white),
-            ),
-          ],
-        ),
-      ),
+          centerTitle: true,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          leading: null,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                child: Icon(Icons.explore),
+                margin: EdgeInsets.only(right: 10),
+              ),
+              Text(
+                'MovingForward',
+                style: TextStyle(color: MfColors.white),
+              ),
+            ],
+          ),
+          backgroundColor: MfColors.dark),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 100.0),
         color: MfColors.dark,
