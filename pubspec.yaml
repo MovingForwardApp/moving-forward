@@ -43,7 +43,7 @@ dependencies:
   path_provider: ^1.6.11
 
   # For svgs
-  flutter_svg: ^0.17.4
+  flutter_svg: ^0.19.0
 
   # For fonts
   google_fonts: ^1.1.0
