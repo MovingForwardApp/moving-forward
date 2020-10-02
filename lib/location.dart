@@ -2,10 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:moving_forward/layout.dart';
 import 'package:moving_forward/localization.dart';
 
+import 'package:flutter_matomo/flutter_matomo.dart';
+
 import 'services/location.dart';
 import 'theme.dart';
 
 class LocationPage extends StatefulWidget {
+  LocationPage({Key key}) : super(key: key) {
+    initPage();
+  }
+
+  Future<void> initPage() async {
+    await FlutterMatomo.trackScreenWithName("Location", "Screen opened");
+  }
+
   @override
   _LocationPageState createState() => _LocationPageState();
 }
@@ -90,7 +100,10 @@ class _LocationPageState extends State<LocationPage> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              onPressed: () {
+              onPressed: () async {
+                await FlutterMatomo.trackEvent(context,
+                    'Location ${LocationService.instance.locality}', 'Clicked');
+                FlutterMatomo.dispatchEvents();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => AppLayout()),

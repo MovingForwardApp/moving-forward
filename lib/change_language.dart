@@ -3,7 +3,48 @@ import 'package:moving_forward/localization.dart';
 import 'package:moving_forward/location.dart';
 import 'package:moving_forward/theme.dart';
 
+import 'package:flutter_matomo/flutter_matomo.dart';
+
 class AppLang extends StatelessWidget {
+  AppLang({Key key}) : super(key: key) {
+    initPage();
+  }
+
+  Future<void> initPage() async {
+    await FlutterMatomo.trackScreenWithName("Language", "Screen opened");
+  }
+
+  FlatButton _languageButton(textLabel, trackText, trackEvent, lang, context) {
+    return FlatButton(
+      color: MfColors.white,
+      textColor: MfColors.dark,
+      padding: EdgeInsets.symmetric(
+        vertical: 8.0,
+        horizontal: 40.0,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      onPressed: () async {
+        await FlutterMatomo.trackEvent(context, trackText, trackEvent);
+        FlutterMatomo.dispatchEvents();
+        AppLocalizations.load(Locale(lang, lang.toUpperCase()));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LocationPage(),
+          ),
+        );
+      },
+      child: Text(
+        textLabel,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,110 +86,14 @@ class AppLang extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                FlatButton(
-                  color: MfColors.white,
-                  textColor: MfColors.dark,
-                  padding: EdgeInsets.symmetric(
-                    vertical: 8.0,
-                    horizontal: 40.0,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  onPressed: () async {
-                    AppLocalizations.load(Locale('ar', 'AR'));
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LocationPage(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'العربية. (AR)',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                FlatButton(
-                  color: MfColors.white,
-                  textColor: MfColors.dark,
-                  padding: EdgeInsets.symmetric(
-                    vertical: 8.0,
-                    horizontal: 40.0,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  onPressed: () async {
-                    AppLocalizations.load(Locale('fr', 'FR'));
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LocationPage(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Français (FR)',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                FlatButton(
-                  color: MfColors.white,
-                  textColor: MfColors.dark,
-                  padding: EdgeInsets.symmetric(
-                    vertical: 8.0,
-                    horizontal: 40.0,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  onPressed: () async {
-                    AppLocalizations.load(Locale('en', 'US'));
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LocationPage(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'English (US)',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                FlatButton(
-                  color: MfColors.white,
-                  textColor: MfColors.dark,
-                  padding: EdgeInsets.symmetric(
-                    vertical: 8.0,
-                    horizontal: 40.0,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  onPressed: () async {
-                    AppLocalizations.load(Locale('es', 'ES'));
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LocationPage(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Español (ES)',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                _languageButton(
+                    "العربية. (AR)", "AR button", "Clicked", "ar", context),
+                _languageButton(
+                    "Français (FR)", "FR button", "Clicked", "fr", context),
+                _languageButton(
+                    "English (US)", "US button", "Clicked", "en", context),
+                _languageButton(
+                    "Español (ES)", "ES button", "Clicked", "es", context)
               ],
             )
           ],

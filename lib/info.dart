@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'theme.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_matomo/flutter_matomo.dart';
 
 class Info extends StatelessWidget {
   @override
@@ -19,7 +20,8 @@ class Info extends StatelessWidget {
         ListTile(
           leading: Icon(Icons.room, size: 30, color: MfColors.gray),
           title: Text('Idioma', style: TextStyle(fontSize: 14)),
-          subtitle: Text('Español', style: TextStyle(fontSize: 18, color: MfColors.dark)),
+          subtitle: Text('Español',
+              style: TextStyle(fontSize: 18, color: MfColors.dark)),
           trailing: Icon(Icons.keyboard_arrow_right),
           dense: true,
         ),
@@ -27,7 +29,8 @@ class Info extends StatelessWidget {
         ListTile(
           leading: Icon(Icons.language, size: 30, color: MfColors.gray),
           title: Text('Ubicación', style: TextStyle(fontSize: 14)),
-          subtitle: Text('28012, Madrid', style: TextStyle(fontSize: 18, color: MfColors.dark)),
+          subtitle: Text('28012, Madrid',
+              style: TextStyle(fontSize: 18, color: MfColors.dark)),
           trailing: Icon(Icons.keyboard_arrow_right),
           dense: true,
         ),
@@ -40,12 +43,17 @@ class Info extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
           child: Text(
-              'Moving Forward es una iniciativa impulsada por CEAR (Comisión Española de Ayuda al Refugiado, www.cear.es) con la motivación de hacer más accesibles los recursos sociales a los que tienen derecho las personas migrantes y refugiadas.', style: TextStyle(fontSize: 16)),
+              'Moving Forward es una iniciativa impulsada por CEAR (Comisión Española de Ayuda al Refugiado, www.cear.es) con la motivación de hacer más accesibles los recursos sociales a los que tienen derecho las personas migrantes y refugiadas.',
+              style: TextStyle(fontSize: 16)),
         ),
         Text(
-            'Todo el contenido (recursos de distintos tipos como emergencia, jurídicos, sanitarios, alojamiento y otros) está extraído de las guías oficiales de CEAR.', style: TextStyle(fontSize: 16)),
+            'Todo el contenido (recursos de distintos tipos como emergencia, jurídicos, sanitarios, alojamiento y otros) está extraído de las guías oficiales de CEAR.',
+            style: TextStyle(fontSize: 16)),
         GestureDetector(
-            onTap: () {
+            onTap: () async {
+              await FlutterMatomo.trackEvent(
+                  context, 'https://www.cear.es/', 'Clicked');
+              FlutterMatomo.dispatchEvents();
               launch('https://www.cear.es/');
             },
             child: Container(

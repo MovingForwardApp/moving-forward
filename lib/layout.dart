@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'bottom_navigation.dart';
 import 'tab_navigator.dart';
+import 'package:flutter_matomo/flutter_matomo.dart';
 
 class AppLayout extends StatefulWidget {
+  AppLayout({Key key}) : super(key: key) {
+    initPage('home');
+  }
+
+  Future<void> initPage(String route) async {
+    await FlutterMatomo.trackScreenWithName(route, "Screen opened");
+  }
+
   @override
   State<StatefulWidget> createState() => _AppLayoutState();
 }
@@ -17,12 +26,17 @@ class _AppLayoutState extends State<AppLayout> {
   };
 
   void _selectTab(TabItem tabItem) {
+    initPage(tabItem.toString().split('.').last);
     if (tabItem == _currentTab) {
       // pop to first route
       _navigatorKeys[tabItem].currentState.popUntil((route) => route.isFirst);
     } else {
       setState(() => _currentTab = tabItem);
     }
+  }
+
+  Future<void> initPage(String route) async {
+    await FlutterMatomo.trackScreenWithName(route, "Screen opened");
   }
 
   @override

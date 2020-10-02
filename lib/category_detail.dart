@@ -8,12 +8,20 @@ import 'package:moving_forward/services/db.dart';
 import 'package:moving_forward/services/location.dart';
 import 'package:moving_forward/theme.dart';
 import 'package:moving_forward/search.dart';
+import 'package:flutter_matomo/flutter_matomo.dart';
 
 class CategoryDetail extends StatelessWidget {
   final _db = DBService.instance;
   final Category category;
 
-  CategoryDetail({Key key, @required this.category}) : super(key: key);
+  CategoryDetail({Key key, @required this.category}) : super(key: key) {
+    initPage();
+  }
+
+  Future<void> initPage() async {
+    await FlutterMatomo.trackScreenWithName(
+        "CategoryDetail - ${this.category.name}", "Screen opened");
+  }
 
   void _showOverlay(BuildContext context) {
     Navigator.of(context).push(Search());
@@ -63,7 +71,10 @@ class CategoryDetail extends StatelessWidget {
       elevation: 6,
       shadowColor: Colors.grey[100],
       child: new InkWell(
-        onTap: () {
+        onTap: () async {
+          await FlutterMatomo.trackEventWithName(
+              'CategoryDetail', '${category.name}/${resource.name}', 'Clicked');
+          FlutterMatomo.dispatchEvents();
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -233,7 +244,9 @@ class CategoryDetail extends StatelessWidget {
             size: 30,
             color: MfColors.dark,
           ),
-          onPressed: () {
+          onPressed: () async {
+            await FlutterMatomo.trackEvent(context, 'Search', 'Clicked');
+            FlutterMatomo.dispatchEvents();
             _showOverlay(context);
           },
         ),
@@ -254,7 +267,8 @@ class CategoryDetail extends StatelessWidget {
                 children: [
                   _categoryTitle(),
                   FutureBuilder<List<Resource>>(
-                      future: _db.listResourcesByCategory(category.id, lang: AppLocalizations.locale.languageCode),
+                      future: _db.listResourcesByCategory(category.id,
+                          lang: AppLocalizations.locale.languageCode),
                       builder: (BuildContext context,
                           AsyncSnapshot<List<Resource>> snapshot) {
                         if (snapshot.data != null) {

@@ -9,13 +9,22 @@ import 'package:moving_forward/services/location.dart';
 import 'package:moving_forward/theme.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_matomo/flutter_matomo.dart';
 
 class ResourceDetail extends StatelessWidget {
   final Resource resource;
   final Category category;
 
   ResourceDetail({Key key, @required this.resource, @required this.category})
-      : super(key: key);
+      : super(key: key) {
+    initPage();
+  }
+
+  Future<void> initPage() async {
+    await FlutterMatomo.trackScreenWithName(
+        "ResourceDetail - ${this.category.name}/${this.resource.name} ",
+        "Screen opened");
+  }
 
   ListTile _dataRow(IconData icon, String title, Color color) {
     return ListTile(
@@ -105,7 +114,10 @@ class ResourceDetail extends StatelessWidget {
             color: MfColors.white,
             icon: Icon(icon),
             tooltip: text,
-            onPressed: () {
+            onPressed: () async {
+              await FlutterMatomo.trackEventWithName(
+                  'ResourcesDetail', action, 'Clicked');
+              FlutterMatomo.dispatchEvents();
               if (action != 'save') {
                 _executeAction(action);
               } else {
@@ -229,7 +241,10 @@ class ResourceDetail extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0),
               ),
-              onPressed: () {
+              onPressed: () async {
+                await FlutterMatomo.trackEventWithName(
+                    'ResourceDetail', 'launchMap', 'Clicked');
+                FlutterMatomo.dispatchEvents();
                 _launchMap(lat: resource.lat, long: resource.long);
               },
               child: Row(
@@ -327,7 +342,10 @@ class ResourceDetail extends StatelessWidget {
       actions: <Widget>[
         IconButton(
           icon: const Icon(Icons.share, size: 30, color: MfColors.dark),
-          onPressed: () {
+          onPressed: () async {
+            await FlutterMatomo.trackEventWithName(
+                'ResouceDetail', 'Share', 'Clicked');
+            FlutterMatomo.dispatchEvents();
             Share.share(
                 '${resource.name} ${resource.description}, ${resource.address}, ${resource.googlemapUrl}');
           },
