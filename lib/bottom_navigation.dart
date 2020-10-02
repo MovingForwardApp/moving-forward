@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'theme.dart';
 import 'package:moving_forward/localization.dart';
+import 'package:flutter_matomo/flutter_matomo.dart';
 
 class TabInfo {
   final String name;
@@ -40,18 +41,22 @@ class BottomNavigation extends StatelessWidget {
           topRight: Radius.circular(16.0),
         ),
         child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: MfColors.white,
-          iconSize: 30,
-          items: [
-            _buildItem(tabItem: TabItem.saved, context: context),
-            _buildItem(tabItem: TabItem.home, context: context),
-            _buildItem(tabItem: TabItem.info, context: context),
-          ],
-          onTap: (index) => onSelectTab(
-            TabItem.values[index],
-          ),
-        ),
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: MfColors.white,
+            iconSize: 30,
+            items: [
+              _buildItem(tabItem: TabItem.saved, context: context),
+              _buildItem(tabItem: TabItem.home, context: context),
+              _buildItem(tabItem: TabItem.info, context: context),
+            ],
+            onTap: (index) async {
+              await FlutterMatomo.trackEvent(
+                  context,
+                  TabItem.values[index].toString().split('.').last,
+                  'Tab Clicked');
+              FlutterMatomo.dispatchEvents();
+              return onSelectTab(TabItem.values[index]);
+            }),
       ),
     );
   }

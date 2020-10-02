@@ -7,6 +7,7 @@ import 'package:moving_forward/localization.dart';
 import 'package:moving_forward/models/category.dart';
 import 'package:moving_forward/services/db.dart';
 import 'package:moving_forward/theme.dart';
+import 'package:flutter_matomo/flutter_matomo.dart';
 
 class CategoryList extends StatelessWidget {
   final _db = DBService.instance;
@@ -18,7 +19,10 @@ class CategoryList extends StatelessWidget {
   Card _categoryCard(BuildContext context, Category category) {
     return Card(
       child: new InkWell(
-        onTap: () {
+        onTap: () async {
+          await FlutterMatomo.trackEventWithName(
+              'CategoryList', category.name, 'Clicked');
+          FlutterMatomo.dispatchEvents();
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -83,7 +87,9 @@ class CategoryList extends StatelessWidget {
       actions: <Widget>[
         IconButton(
           icon: const Icon(Icons.search, size: 30, color: MfColors.dark),
-          onPressed: () {
+          onPressed: () async {
+            await FlutterMatomo.trackEvent(context, 'Search', 'Clicked');
+            FlutterMatomo.dispatchEvents();
             _showOverlay(context);
           },
         ),
@@ -126,7 +132,8 @@ class CategoryList extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
                   ),
                   FutureBuilder<List<Category>>(
-                      future: _db.listCategories(lang: AppLocalizations.locale.languageCode),
+                      future: _db.listCategories(
+                          lang: AppLocalizations.locale.languageCode),
                       builder: (BuildContext context,
                           AsyncSnapshot<List<Category>> snapshot) {
                         if (snapshot.data != null) {
