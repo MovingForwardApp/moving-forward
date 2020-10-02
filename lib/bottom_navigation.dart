@@ -72,14 +72,7 @@ class BottomNavigation extends StatelessWidget {
         icon,
         color: color,
       ),
-      title: Text(
-        text,
-        style: TextStyle(
-          color: color,
-          fontWeight: FontWeight.w600,
-          fontSize: 16,
-        ),
-      ),
+      label: text,
     );
   }
 }

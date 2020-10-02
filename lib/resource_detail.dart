@@ -10,168 +10,70 @@ import 'package:moving_forward/theme.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ResourceDetail extends StatelessWidget {
+class ResourceDetailPage extends StatefulWidget {
   final Resource resource;
   final Category category;
 
-  ResourceDetail({Key key, @required this.resource, @required this.category})
-      : super(key: key) {
-    initPage();
-  }
+  ResourceDetailPage({Key key, @required this.category, @required this.resource}) : super(key: key);
+
+  @override
+  _ResourceDetailState createState() => _ResourceDetailState();
+}
+
+class _ResourceDetailState extends State<ResourceDetailPage> {
+  IconData _savedIcon = Icons.bookmark_border_outlined;
+  List<String> _savedResources;
 
   Future<void> initPage() async {
     await FlutterMatomo.trackScreenWithName(
-        "ResourceDetail - ${this.category.name}/${this.resource.name} ",
+        "ResourceDetail - ${widget.category.name}/${widget.resource.name} ",
         "Screen opened");
   }
 
-  ListTile _dataRow(IconData icon, String title, Color color) {
-    return ListTile(
-      leading: Icon(
-        icon,
-        size: 24.0,
-        color: MfColors.gray,
-      ),
-      title: Text(
-        title,
-        style: TextStyle(
-          fontSize: 16,
-          color: color,
-        ),
-      ),
-      dense: true,
-    );
+  _setIcon (IconData icon) {
+    setState(() {
+      _savedIcon = icon;
+    });
   }
 
-  Container _dataSection() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 10.0),
-      child: Column(
-        children: [
-          if (resource.address != '')
-            _dataRow(
-              Icons.location_on,
-              resource.address,
-              MfColors.dark,
-            ),
-          if (resource.phone != '')
-            _dataRow(
-              Icons.call,
-              resource.phone,
-              MfColors.dark,
-            ),
-          _dataRow(
-            Icons.access_time,
-            'L - V de 9:00h a 18:00h',
-            MfColors.dark,
-          ),
-          if (resource.email != '')
-            _dataRow(
-              Icons.mail_outline,
-              resource.email,
-              MfColors.primary[400],
-            ),
-          if (resource.phone != '')
-            _dataRow(
-              Icons.whatshot,
-              resource.phone,
-              MfColors.dark,
-            ),
-          if (resource.web != '')
-            _dataRow(
-              Icons.public,
-              resource.web,
-              MfColors.primary[400],
-            ),
-        ],
-      ),
-    );
+  _setSavedResources (List<String> list) {
+    setState(() {
+      _savedResources = list;
+    });
   }
 
-  _executeAction(String action) async {
-    if (await canLaunch(action)) {
-      await launch(action);
-    } else {
-      throw 'Could not execute action';
+  _isSavedResource(int resourceId) {
+    String resource = resourceId.toString();
+    print("saved resources: $_savedResources");
+    if (_savedResources != null) {
+      bool isSaved = _savedResources.contains(resource);
+      return isSaved;
     }
+    return false;
   }
 
-  _save() {
-    return null;
+  _toggleResource (int resourceId) {
+    String resource = resourceId.toString();
+    print(_savedResources);
+    if (!_savedResources.contains(resource)) {
+      setState(() {
+        _savedResources.add(resource);
+      });
+    } else {
+      setState(() {
+        _savedResources.remove(resource);
+      });
+    }
+    print(_savedResources);
   }
 
-  Column _actionIcon(IconData icon, String text, String action) {
-    return Column(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(bottom: 8.0),
-          decoration: BoxDecoration(
-            color: MfColors.dark,
-            borderRadius: BorderRadius.all(Radius.circular(12.0)),
-          ),
-          child: IconButton(
-            color: MfColors.white,
-            icon: Icon(icon),
-            tooltip: text,
-            onPressed: () async {
-              await FlutterMatomo.trackEventWithName(
-                  'ResourcesDetail', action, 'Clicked');
-              FlutterMatomo.dispatchEvents();
-              if (action != 'save') {
-                _executeAction(action);
-              } else {
-                _save();
-              }
-            },
-          ),
-        ),
-        Text(
-          text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Container _actionSection(BuildContext context) {
-    return Container(
-      color: MfColors.primary[100],
-      padding: EdgeInsets.all(32.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          if (resource.phone != '')
-            _actionIcon(
-              Icons.call,
-              AppLocalizations.of(context).translate("phone_call"),
-              'tel:${resource.phone}',
-            ),
-          if (resource.email != '')
-            _actionIcon(
-              Icons.mail_outline,
-              AppLocalizations.of(context).translate("send_email"),
-              'mailto:${resource.email}',
-            ),
-          if (resource.web != '')
-            _actionIcon(
-              Icons.public,
-              AppLocalizations.of(context).translate("browse_web"),
-              resource.web,
-            ),
-          _actionIcon(
-            Icons.bookmark_border,
-            AppLocalizations.of(context).translate("save"),
-            'save',
-          ),
-        ],
-      ),
-    );
+  Future<void> _initializeSharedPreferences () async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> savedList = (prefs.getStringList('saved') ?? List<String>());
+    _setSavedResources(savedList);
+    print("savedList $savedList");
   }
 
   _launchMap({double lat = 47.6, double long = -122.3}) async {
@@ -183,6 +85,50 @@ class ResourceDetail extends StatelessWidget {
     }
   }
 
+  _executeAction(String action) async {
+    if (await canLaunch(action)) {
+      await launch(action);
+    } else {
+      throw 'Could not execute action';
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeSharedPreferences();
+    initPage();
+  }
+
+  @override
+  Widget build (BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          SingleChildScrollView(
+            child: Center(
+              child: Column(
+                children: [
+                  _mapSection(),
+                  _titleSection(),
+                  _actionSection(context),
+                  _dataSection()
+                ],
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.topCenter,
+            child: Container(
+              height: 100.0,
+              child: _appBar(),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   SizedBox _mapSection() {
     return SizedBox(
       height: 230,
@@ -191,7 +137,7 @@ class ResourceDetail extends StatelessWidget {
           Container(
             child: FlutterMap(
               options: MapOptions(
-                center: LatLng(resource.lat, resource.long),
+                center: LatLng(widget.resource.lat, widget.resource.long),
                 zoom: 15.0,
               ),
               children: <Widget>[
@@ -204,10 +150,10 @@ class ResourceDetail extends StatelessWidget {
                     */
                     /* MapBox Tile */
                     urlTemplate:
-                        "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+                    "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
                     additionalOptions: {
                       "accessToken":
-                          "pk.eyJ1IjoiYmFtZWRhIiwiYSI6ImNrNDl2OGh4cjA4dzMzc3A4c2Q2N25wenUifQ.-9r_WubwqOJqqVl1sZdjtg",
+                      "pk.eyJ1IjoiYmFtZWRhIiwiYSI6ImNrNDl2OGh4cjA4dzMzc3A4c2Q2N25wenUifQ.-9r_WubwqOJqqVl1sZdjtg",
                       "id": "mapbox.streets",
                     },
                   ),
@@ -218,7 +164,7 @@ class ResourceDetail extends StatelessWidget {
                       Marker(
                         width: 16.0,
                         height: 22.0,
-                        point: LatLng(resource.lat, resource.long),
+                        point: LatLng(widget.resource.lat, widget.resource.long),
                         builder: (ctx) => Container(
                           child: Image(
                             image: AssetImage('assets/marker.png'),
@@ -245,7 +191,7 @@ class ResourceDetail extends StatelessWidget {
                 await FlutterMatomo.trackEventWithName(
                     'ResourceDetail', 'launchMap', 'Clicked');
                 FlutterMatomo.dispatchEvents();
-                _launchMap(lat: resource.lat, long: resource.long);
+                _launchMap(lat: widget.resource.lat, long: widget.resource.long);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -264,7 +210,7 @@ class ResourceDetail extends StatelessWidget {
                   ),
                   FutureBuilder<int>(
                       future: LocationService.instance
-                          .getDistance(resource.lat, resource.long),
+                          .getDistance(widget.resource.lat, widget.resource.long),
                       builder:
                           (BuildContext context, AsyncSnapshot<int> snapshot) {
                         if (snapshot.data != null) {
@@ -295,7 +241,7 @@ class ResourceDetail extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              resource.name,
+              widget.resource.name,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: MfColors.dark,
@@ -305,7 +251,7 @@ class ResourceDetail extends StatelessWidget {
             ),
           ),
           Text(
-            resource.description,
+            widget.resource.description,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: MfColors.dark,
@@ -320,9 +266,9 @@ class ResourceDetail extends StatelessWidget {
               Container(
                 margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 3.0),
                 child: Chip(
-                  backgroundColor: Color(int.parse(category.color)),
+                  backgroundColor: Color(int.parse(widget.category.color)),
                   label: Text(
-                    category.name,
+                    widget.category.name,
                     style: TextStyle(color: MfColors.dark),
                   ),
                 ),
@@ -331,6 +277,147 @@ class ResourceDetail extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Container _actionSection(BuildContext context) {
+    return Container(
+      color: MfColors.primary[100],
+      padding: EdgeInsets.all(32.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          if (widget.resource.phone != '')
+            _actionIcon(
+              Icons.call,
+              AppLocalizations.of(context).translate("phone_call"),
+              'tel:${widget.resource.phone}',
+            ),
+          if (widget.resource.email != '')
+            _actionIcon(
+              Icons.mail_outline,
+              AppLocalizations.of(context).translate("send_email"),
+              'mailto:${widget.resource.email}',
+            ),
+          if (widget.resource.web != '')
+            _actionIcon(
+              Icons.public,
+              AppLocalizations.of(context).translate("browse_web"),
+              widget.resource.web,
+            ),
+          if (widget.resource.id != null)
+            _actionIcon(
+              _isSavedResource(widget.resource.id) ? Icons.bookmark : Icons.bookmark_border_outlined,
+              AppLocalizations.of(context).translate("save"),
+              'save'
+            ),
+        ],
+      ),
+    );
+  }
+
+  Column _actionIcon(
+      IconData icon,
+      String text,
+      String action,
+      ) {
+    return Column(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(bottom: 8.0),
+          decoration: BoxDecoration(
+            color: MfColors.dark,
+            borderRadius: BorderRadius.all(Radius.circular(12.0)),
+          ),
+          child: IconButton(
+            color: MfColors.white,
+            icon: Icon(icon),
+            tooltip: text,
+            onPressed: () async {
+              await FlutterMatomo.trackEventWithName(
+              'ResourcesDetail', action, 'Clicked');
+              FlutterMatomo.dispatchEvents();
+              if (action != 'save') {
+                _executeAction(action);
+              } else {
+                _toggleResource(widget.resource.id);
+              }
+            },
+          ),
+        ),
+        Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Container _dataSection() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 10.0),
+      child: Column(
+        children: [
+          if (widget.resource.address != '')
+            _dataRow(
+              Icons.location_on,
+              widget.resource.address,
+              MfColors.dark,
+            ),
+          if (widget.resource.phone != '')
+            _dataRow(
+              Icons.call,
+              widget.resource.phone,
+              MfColors.dark,
+            ),
+          _dataRow(
+            Icons.access_time,
+            'L - V de 9:00h a 18:00h',
+            MfColors.dark,
+          ),
+          if (widget.resource.email != '')
+            _dataRow(
+              Icons.mail_outline,
+              widget.resource.email,
+              MfColors.primary[400],
+            ),
+          if (widget.resource.phone != '')
+            _dataRow(
+              Icons.whatshot,
+              widget.resource.phone,
+              MfColors.dark,
+            ),
+          if (widget.resource.web != '')
+            _dataRow(
+              Icons.public,
+              widget.resource.web,
+              MfColors.primary[400],
+            ),
+        ],
+      ),
+    );
+  }
+
+  ListTile _dataRow(IconData icon, String title, Color color) {
+    return ListTile(
+      leading: Icon(
+        icon,
+        size: 24.0,
+        color: MfColors.gray,
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: 16,
+          color: color,
+        ),
+      ),
+      dense: true,
     );
   }
 
@@ -347,40 +434,10 @@ class ResourceDetail extends StatelessWidget {
                 'ResouceDetail', 'Share', 'Clicked');
             FlutterMatomo.dispatchEvents();
             Share.share(
-                '${resource.name} ${resource.description}, ${resource.address}, ${resource.googlemapUrl}');
+                '${widget.resource.name} ${widget.resource.description}, ${widget.resource.address}, ${widget.resource.googlemapUrl}');
           },
         )
       ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // Scaffold is a layout for the major Material Components.
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          SingleChildScrollView(
-            child: Center(
-              child: Column(
-                children: [
-                  _mapSection(),
-                  _titleSection(),
-                  _actionSection(context),
-                  _dataSection()
-                ],
-              ),
-            ),
-          ),
-          Container(
-            alignment: Alignment.topCenter,
-            child: Container(
-              height: 100.0,
-              child: _appBar(),
-            ),
-          )
-        ],
-      ),
     );
   }
 }
