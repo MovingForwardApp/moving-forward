@@ -1,6 +1,5 @@
 class Resource {
   final int id;
-  final int categoryId;
   final double lat;
   final double long;
   final String googlemapUrl;
@@ -8,10 +7,7 @@ class Resource {
   final String phone;
   final String email;
   final String web;
-  final String nameAr;
-  final String nameEn;
-  final String nameEs;
-  final String nameFr;
+  final String name;
   final String descriptionAr;
   final String descriptionEn;
   final String descriptionEs;
@@ -24,7 +20,6 @@ class Resource {
 
   Resource({
     this.id,
-    this.categoryId,
     this.lat,
     this.long,
     this.googlemapUrl,
@@ -32,10 +27,7 @@ class Resource {
     this.phone,
     this.email,
     this.web,
-    this.nameAr,
-    this.nameEn,
-    this.nameEs,
-    this.nameFr,
+    this.name,
     this.descriptionAr,
     this.descriptionEn,
     this.descriptionEs,
@@ -46,21 +38,6 @@ class Resource {
     this.tagsFr,
     this.lang = 'es'
   });
-
-  get name {
-    switch(this.lang) {
-      case 'ar':
-        return this.nameAr;
-      case 'en':
-        return this.nameEn;
-      case 'es':
-        return this.nameEs;
-      case 'fr':
-        return this.nameFr;
-      default:
-        return this.nameEs;
-    }
-  }
 
   get description {
     switch(this.lang) {
@@ -100,7 +77,6 @@ class Resource {
   factory Resource.fromMap(Map<String, dynamic> map) {
     return Resource(
         id: map['id'] as int,
-        categoryId: map['category_id'] as int,
         lat: map['lat'] as double,
         long: map['long'] as double,
         googlemapUrl: map['googlemap_url'] as String,
@@ -108,10 +84,7 @@ class Resource {
         phone: map['phone'] as String,
         email: map['email'] as String,
         web: map['web'] as String,
-        nameAr: map['name_ar'] as String,
-        nameEn: map['name_en'] as String,
-        nameEs: map['name_es'] as String,
-        nameFr: map['name_fr'] as String,
+        name: map['name'] as String,
         descriptionAr: map['description_ar'] as String,
         descriptionEn: map['description_en'] as String,
         descriptionEs: map['description_es'] as String,
@@ -123,10 +96,10 @@ class Resource {
     );
   }
 
+  /* This code should be useful only if you can add or update resources.
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'category_id': categoryId,
       'lat': lat,
       'long': long,
       'googlemap_url': googlemapUrl,
@@ -134,10 +107,7 @@ class Resource {
       'phone': phone,
       'email': email,
       'web': web,
-      'name_ar': nameAr,
-      'name_en': nameEn,
-      'name_es': nameEs,
-      'name_fr': nameFr,
+      'name': name,
       'description_ar': descriptionAr,
       'description_en': descriptionEn,
       'description_es': descriptionEs,
@@ -148,4 +118,5 @@ class Resource {
       'tags_fr': tagsFr
     };
   }
+  */
 }

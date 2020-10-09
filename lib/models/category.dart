@@ -84,6 +84,7 @@ class Category {
     );
   }
 
+  /* This code should be useful only if you can add or update categories
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -101,4 +102,5 @@ class Category {
       'description_fr': descriptionFr
     };
   }
+  */
 }

@@ -38,8 +38,7 @@ class DBService {
 
     // Load database from asset and copy
     ByteData data = await rootBundle.load(join('assets', 'database.db'));
-    List<int> bytes =
-    data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    List<int> bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
     // Save copied asset to documents
     await new File(path).writeAsBytes(bytes);
@@ -51,6 +50,26 @@ class DBService {
   }
 
   // queries
+  Future<Category> getCategory(int id, {String lang: 'es'}) async {
+    Database db = await instance.database;
+
+    final Map<String, dynamic> map = (await db.query('categories',
+        where: '"id" = ?',
+        whereArgs: [id]))[0];
+
+    return Category.fromMap(map).applyLang(lang);
+  }
+
+  Future<Resource> getResource(int id, {String lang: 'es'}) async {
+    Database db = await instance.database;
+
+    final Map<String, dynamic> map = (await db.query('resources',
+        where: '"id" = ?',
+        whereArgs: [id]))[0];
+
+    return Resource.fromMap(map).applyLang(lang);
+  }
+
   Future<List<Category>> listCategories({String lang: 'es'}) async {
     Database db = await instance.database;
 
@@ -60,36 +79,35 @@ class DBService {
                .toList();
   }
 
-  Future<Category> getCategory(int id, {String lang: 'es'}) async {
-    Database db = await instance.database;
-
-    final Map<String, dynamic> map = (await db.query('categories',
-                                                     where: '"id" = ?',
-                                                     whereArgs: [id]))[0];
-
-    return Category.fromMap(map).applyLang(lang);
-  }
-
-
   Future<List<Resource>> listResourcesByCategory(int categoryId, {String lang: 'es'}) async {
     Database db = await instance.database;
+    final String query = '''
+      select *
+        from resources join resource_category on resources.id = resource_category.resource_id
+       where category_id = ?1
+    ''';
+    final List<int> params = [categoryId];
 
-    final List<Map<String, dynamic>> maps = await db.query('resources',
-                                                           where: '"category_id" = ?',
-                                                           whereArgs: [categoryId]);
+    final List<Map<String, dynamic>> maps = await db.rawQuery(query, params);
 
     return maps.map((m) => Resource.fromMap(m).applyLang(lang))
                .toList();
   }
 
-  Future<Resource> getResource(int id, {String lang: 'es'}) async {
+  Future<List<Category>> listCategoriesByResource(int resourceId, {String lang: 'es'}) async {
     Database db = await instance.database;
+    final String query = """
+      select *
+        from categories join resource_category 
+                          on categories.id = resource_category.category_id
+       where resource_id = ?1
+    """;
+    final List<int> params = [resourceId];
 
-    final Map<String, dynamic> map = (await db.query('resources',
-                                                     where: '"id" = ?',
-                                                     whereArgs: [id]))[0];
+    final List<Map<String, dynamic>> maps = await db.rawQuery(query, params);
 
-    return Resource.fromMap(map).applyLang(lang);
+    return maps.map((m) => Category.fromMap(m).applyLang(lang))
+        .toList();
   }
 
   void close() async {

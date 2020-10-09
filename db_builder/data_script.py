@@ -17,10 +17,10 @@ os.system('sqlite3 database.db < db.schema')
 print('Create db schema')
 
 #Open categories and resources csv
-f_cat=open('categories.csv','r') 
+f_cat=open('categories.csv','r')
 reader_cat = csv.reader(f_cat)
 
-f_res=open('resources.csv','r') 
+f_res=open('resources.csv','r')
 reader_res = csv.reader(f_res)
 
 #Connect to db
@@ -32,9 +32,10 @@ for row in reader_cat:
     cur.execute("INSERT INTO categories VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11]))
 
 #Print saved rows
-print('Categories:')
-for row in cur.execute('SELECT * FROM categories'):
-    print(row)
+#print('Categories:')
+#for row in cur.execute('SELECT * FROM categories'):
+#    print(row)
+print('Categories:', len(list(cur.execute('SELECT * FROM categories'))))
 
 #Fill db with resources and resources by category
 for row in reader_res:
@@ -46,14 +47,16 @@ for row in reader_res:
             cur.execute("INSERT INTO resource_category VALUES (?, ?)", (row[0], category_id))
 
 #Print saved rows
-print('Resources:')
-for row in cur.execute('SELECT * FROM resources'):
-    print(row)
+#print('Resources:')
+#for row in cur.execute('SELECT * FROM resources'):
+#    print(row)
+print('Resources:', len(list(cur.execute('SELECT * FROM resources'))))
 
 #Print saved rows
-print('Resources by category:')
-for row in cur.execute('SELECT * FROM resource_category'):
-    print(row)
+#print('Resources by category:')
+#for row in cur.execute('SELECT * FROM resource_category'):
+#    print(row)
+print('Resources by category:', len(list(cur.execute('SELECT * FROM resource_category'))))
 
 #Close file and conection
 f_cat.close()
@@ -63,4 +66,4 @@ sql.close()
 
 #Move database.db to /assets
 os.replace('database.db', '../assets/database.db')
-print('Move database.db to /assets')
+print('Move database.db to ../assets')
