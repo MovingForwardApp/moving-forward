@@ -16,7 +16,6 @@ CREATE TABLE IF NOT EXISTS "categories" (
 
 CREATE TABLE IF NOT EXISTS "resources" (
 	"id"	INTEGER NOT NULL UNIQUE,
-	"category_id"	INTEGER,
 	"lat"	REAL,
 	"long"	REAL,
     "googlemap_url"	TEXT,
@@ -24,18 +23,22 @@ CREATE TABLE IF NOT EXISTS "resources" (
 	"phone"	TEXT,
 	"email"	TEXT,
 	"web"	TEXT,
-	"name_es"	TEXT NOT NULL,
+	"name"	TEXT NOT NULL,
 	"description_es"	TEXT,
 	"tag_es"	TEXT,
-	"name_ar"	TEXT NOT NULL,
 	"description_ar"	TEXT,
 	"tag_ar"	TEXT,
-	"name_fr"	TEXT NOT NULL,
 	"description_fr"	TEXT,
 	"tag_fr"	TEXT,
-	"name_en"	TEXT NOT NULL,
 	"description_en"	TEXT,
 	"tag_en"	TEXT,
-	FOREIGN KEY("category_id") REFERENCES "categories"("id") ON UPDATE NO ACTION ON DELETE SET NULL,
 	PRIMARY KEY("id")
+);
+
+CREATE TABLE IF NOT EXISTS "resource_category" (
+    resource_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+    PRIMARY KEY("resource_id", "category_id"),
+    FOREIGN KEY(resource_id) REFERENCES resources(resource_id),
+    FOREIGN KEY(category_id) REFERENCES categories(category_id)
 );
