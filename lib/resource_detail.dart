@@ -5,6 +5,7 @@ import 'package:latlong/latlong.dart';
 import 'package:moving_forward/localization.dart';
 import 'package:moving_forward/models/category.dart';
 import 'package:moving_forward/models/resource.dart';
+import 'package:moving_forward/services/db.dart';
 import 'package:moving_forward/services/location.dart';
 import 'package:moving_forward/theme.dart';
 import 'package:share/share.dart';
@@ -23,6 +24,8 @@ class ResourceDetailPage extends StatefulWidget {
 }
 
 class _ResourceDetailState extends State<ResourceDetailPage> {
+  final _db = DBService.instance;
+
   IconData _savedIcon = Icons.bookmark_border_outlined;
   List<String> _savedResources;
 
@@ -265,13 +268,29 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 3.0),
-                child: Chip(
-                  backgroundColor: Color(int.parse(widget.category.color)),
-                  label: Text(
-                    widget.category.name,
-                    style: TextStyle(color: MfColors.dark),
-                  ),
-                ),
+
+                child: FutureBuilder<List<Category>>(
+                    future: _db.listCategoriesByResource(
+                        widget.resource.id,
+                        lang: AppLocalizations.locale.languageCode),
+                    builder: (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
+                      if (snapshot.data != null) {
+                        List<Category> categories = snapshot.data;
+                        return  Wrap(
+                          spacing: 6.0, // gap between adjacent chips
+                          runSpacing: 6.0, // gap between lines
+                          children: categories.map((Category category) => Chip(
+                            backgroundColor: Color(int.parse(category.color)),
+                            label: Text(
+                              category.name,
+                              style: TextStyle(color: MfColors.dark),
+                            ),
+                          )).toList()
+                        );
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    }),
               ),
             ],
           ),
