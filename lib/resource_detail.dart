@@ -11,7 +11,7 @@ import 'package:moving_forward/theme.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'services/storage.dart';
 
 class ResourceDetailPage extends StatefulWidget {
   final Resource resource;
@@ -41,42 +41,24 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
     });
   }
 
-  _setSavedResources (List<String> list) {
-    setState(() {
-      _savedResources = list;
-    });
-  }
-
-  _isSavedResource(int resourceId) {
+  bool _isSavedResource(int resourceId) {
     String resource = resourceId.toString();
-    print("saved resources: $_savedResources");
-    if (_savedResources != null) {
-      bool isSaved = _savedResources.contains(resource);
-      return isSaved;
-    }
-    return false;
+    return sharedPrefs.contains('saved', resource);
   }
 
   _toggleResource (int resourceId) {
     String resource = resourceId.toString();
-    print(_savedResources);
-    if (!_savedResources.contains(resource)) {
-      setState(() {
-        _savedResources.add(resource);
-      });
+    if (!sharedPrefs.contains('saved', resource)) {
+      sharedPrefs.putIntoList('saved', resource);
     } else {
-      setState(() {
-        _savedResources.remove(resource);
-      });
+      sharedPrefs.deleteFromList('saved', resource);
     }
-    print(_savedResources);
+    _getSavedBookmarks();
   }
 
-  Future<void> _initializeSharedPreferences () async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> savedList = (prefs.getStringList('saved') ?? List<String>());
-    _setSavedResources(savedList);
-    print("savedList $savedList");
+  _getSavedBookmarks () async {
+    List<String> savedResources = sharedPrefs.getList('saved');
+    print("savedList $savedResources");
   }
 
   _launchMap({double lat = 47.6, double long = -122.3}) async {
@@ -99,7 +81,7 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
   @override
   void initState() {
     super.initState();
-    _initializeSharedPreferences();
+    _getSavedBookmarks();
     initPage();
   }
 
