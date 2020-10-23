@@ -79,7 +79,7 @@ class CategoryDetail extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    ResourceDetail(resource: resource, category: category)),
+                    ResourceDetailPage(resource: resource, category: category)),
           );
         },
         child: Container(
