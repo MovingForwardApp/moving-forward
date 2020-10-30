@@ -8,6 +8,26 @@ class LocationService {
   LocationService._privateConstructor();
   static final LocationService instance = LocationService._privateConstructor();
 
+  get getLocationLat {
+    double lat = instance._position.latitude;
+    print('Lat: $lat');
+    if (instance._position != null) {
+      return instance._position.latitude;
+    } else {
+      return null;
+    }
+  }
+
+  get getLocationLong {
+    double long = instance._position.longitude;
+    print('Long: $long');
+    if (instance._position != null) {
+      return instance._position.longitude;
+    } else {
+      return null;
+    }
+  }
+
   get getLocality {
     return instance.locality;
   }
