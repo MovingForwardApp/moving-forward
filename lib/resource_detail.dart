@@ -25,9 +25,14 @@ class ResourceDetailPage extends StatefulWidget {
 
 class _ResourceDetailState extends State<ResourceDetailPage> {
   final _db = DBService.instance;
-
-  IconData _savedIcon = Icons.bookmark_border_outlined;
   List<String> _savedResources;
+
+  _savedResourcesList (List resources) {
+    setState(() {
+      _savedResources = resources;
+    });
+  }
+
 
   Future<void> initPage() async {
     await FlutterMatomo.trackScreenWithName(
@@ -35,20 +40,18 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
         "Screen opened");
   }
 
-  _setIcon (IconData icon) {
-    setState(() {
-      _savedIcon = icon;
-    });
-  }
-
-  bool _isSavedResource(int resourceId) {
-    String resource = resourceId.toString();
-    return sharedPrefs.contains('saved', resource);
-  }
+  // _displayIcon(int resourceId) {
+  //   String resource = resourceId.toString();
+  //   List<String> bookmarkList = sharedPrefs.getList('saved');
+  //   bool isSaved = (bookmarkList.contains(resource));
+  //   return _savedResources.contains(resource) ? Icons.bookmark : Icons.bookmark_border_outlined;
+  // }
 
   _toggleResource (int resourceId) {
     String resource = resourceId.toString();
-    if (!sharedPrefs.contains('saved', resource)) {
+    var isBookmarked = sharedPrefs.contains('saved', resource);
+    print(isBookmarked);
+    if (isBookmarked == false) {
       sharedPrefs.putIntoList('saved', resource);
     } else {
       sharedPrefs.deleteFromList('saved', resource);
@@ -56,9 +59,9 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
     _getSavedBookmarks();
   }
 
-  _getSavedBookmarks () async {
-    List<String> savedResources = sharedPrefs.getList('saved');
-    print("savedList $savedResources");
+  _getSavedBookmarks () {
+    List resources = sharedPrefs.getList('saved');
+    _savedResourcesList(resources);
   }
 
   _launchMap({double lat = 47.6, double long = -122.3}) async {
@@ -309,7 +312,7 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
             ),
           if (widget.resource.id != null)
             _actionIcon(
-              _isSavedResource(widget.resource.id) ? Icons.bookmark : Icons.bookmark_border_outlined,
+              _savedResources.contains(widget.resource.id) ? Icons.bookmark : Icons.bookmark_border_outlined,
               AppLocalizations.of(context).translate("save"),
               'save'
             ),
