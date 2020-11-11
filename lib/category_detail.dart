@@ -91,7 +91,7 @@ class CategoryDetail extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    if (resource.lat > 0)
+                    if (resource.lat != null && resource.long != null)
                       FutureBuilder<int>(
                           future: LocationService.instance
                               .getDistance(resource.lat, resource.long),
@@ -107,7 +107,7 @@ class CategoryDetail extends StatelessWidget {
                                 ),
                               );
                             } else {
-                              return Text('...');
+                              return Text('');
                             }
                           }),
                     Container(

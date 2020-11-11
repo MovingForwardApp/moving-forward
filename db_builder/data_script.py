@@ -7,11 +7,6 @@ import os
 from os import remove, replace
 from os import path
 
-#Delete database.db if exists
-if path.exists('../assets/database.db'):
-    remove('../assets/database.db')
-    print('Delete db')
-
 #Create db schema
 os.system('sqlite3 database.db < db.schema')
 print('Create db schema')
@@ -28,8 +23,9 @@ sql = sqlite3.connect('database.db')
 cur = sql.cursor()
 
 #Fill db with categories
-for row in reader_cat:
-    cur.execute("INSERT INTO categories VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11]))
+#for row in reader_cat:
+#    cur.execute("INSERT INTO categories VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11]))
+cur.executemany("INSERT INTO categories VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", reader_cat)
 
 #Print saved rows
 #print('Categories:')
@@ -63,6 +59,11 @@ f_cat.close()
 f_res.close()
 sql.commit()
 sql.close()
+
+#Delete database.db if exists
+if path.exists('../assets/database.db'):
+    remove('../assets/database.db')
+    print('Delete db')
 
 #Move database.db to /assets
 os.replace('database.db', '../assets/database.db')
