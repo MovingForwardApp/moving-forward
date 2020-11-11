@@ -1,8 +1,8 @@
 1,0xFFE1EFFF,accomodation,1,Alojamiento de urgencia,Sólo o en familia,سكن الطوارئ,وحيد أو مع عائلة,Logement d'urgence,Seul ou en famille,Emergency housing,Alone or with family
-2,0xFFDBEBE6,info,2,Información,"Asilo, extranjería, derechos",معلومات عامة,اللجوء والهجرة والحقوق,information,"Asile, immigration, droits",information,"Asylum, immigration, rights"
-3,0xFFFDD5D5,health,3,Asistencia sanitaria y psicológica,Profesionales y centros médicos,دعم صحي و نفسي,دعم صحي و نفسي,soins médicaux et psychologiques,Professionnels et centres médicaux,health and psychological care,Professional and medical centers
-4,0xFFFDDFD5,feeding,4,Alimentación,Comedores sociales y otros recursos,تغذية,مطعم إجتماعي و موارد أخرى,Alimentation,soupes populaires et d'autres ressources,Feeding,soup kitchens and other resources
-5,0xFFFEE1FF,lgtbi,5,LGTBI,Discriminación por sexo o género,مجتمع الميم (مثليين),تمييز بسبب الجنس أو الهوية الجندرية,LGTBI,Discrimination sexuelle ou le sexe,LGTBI,Sex or gender discrimination
-6,0xFFE5E1FF,violence,6,Violencia contra la mujer,"Urgencias, prostitución, violencia",عنف ضد المرأة,طوارئ، ضد الاستغلال و العنف الجنسي ,La violence contre les femmes,"D'urgence, la prostitution, la violence",Violence against women,"Emergency, prostitution, violence"
-7,0xFFE3FFE1,minors,7,Menores ,No acompañados o en familias,قاصرون,وحيد أو مع عائلة,mineurs,Unaccompanied ou dans les familles,minors,Unaccompanied or in families
+2,0xFFDBEBE6,info,2,Información,"Asilo, extranjería, derechos",معلومات عامة,اللجوء والهجرة والحقوق,Information,"Asile, immigration, droits",Information,"Asylum, immigration, rights"
+3,0xFFFDD5D5,health,3,Asistencia sanitaria y psicológica,Profesionales y centros médicos,دعم صحي و نفسي,دعم صحي و نفسي,Soins médicaux et psychologiques,Professionnels et centres médicaux,Health and psychological care,Professional and medical centers
+4,0xFFFDDFD5,feeding,4,Alimentación,Comedores sociales y otros recursos,تغذية,مطعم إجتماعي و موارد أخرى,Alimentation,Cantines sociales et autres ressources,Feeding,Soup kitchens and other resources
+5,0xFFFEE1FF,lgtbi,5,LGTBI,Discriminación por sexo o género,مجتمع الميم (مثليين),تمييز بسبب الجنس أو الهوية الجندرية,LGTBI,Discrimination orientation sexuelle ou identité de genre,LGTBI,Sex or gender discrimination
+6,0xFFE5E1FF,violence,6,Violencia contra la mujer,"Urgencias, prostitución, violencia",عنف ضد المرأة,طوارئ، ضد الاستغلال و العنف الجنسي ,La violence contre les femmes,"Urgence, prostitution, violence",Violence against women,"Emergency, prostitution, violence"
+7,0xFFE3FFE1,minors,7,Menores ,No acompañados o en familias,قاصرون,وحيد أو مع عائلة,Mineurs,Non accompagné ou en famille,Minors,Unaccompanied or in families
 8,0xFFFEF3DE,job,8,Trabajo,"Derechos, búsqueda y orientación",عمل,حقوق، بحث و توجيه,Emploi,"Droits, recherche et conseils",Job,"Rights, search and guidance"

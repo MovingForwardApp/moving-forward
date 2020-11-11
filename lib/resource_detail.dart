@@ -94,7 +94,8 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
             child: Center(
               child: Column(
                 children: [
-                  _mapSection(),
+                  if (widget.resource.lat != null && widget.resource.long != null)
+                    _mapSection(),
                   _titleSection(),
                   _actionSection(context),
                   _dataSection()
@@ -244,37 +245,33 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
               fontSize: 16,
             ),
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 3.0),
-
-                child: FutureBuilder<List<Category>>(
-                    future: _db.listCategoriesByResource(
-                        widget.resource.id,
-                        lang: AppLocalizations.locale.languageCode),
-                    builder: (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
-                      if (snapshot.data != null) {
-                        List<Category> categories = snapshot.data;
-                        return  Wrap(
-                          spacing: 6.0, // gap between adjacent chips
-                          runSpacing: 6.0, // gap between lines
-                          children: categories.map((Category category) => Chip(
-                            backgroundColor: Color(int.parse(category.color)),
-                            label: Text(
-                              category.name,
-                              style: TextStyle(color: MfColors.dark),
-                            ),
-                          )).toList()
-                        );
-                      } else {
-                        return CircularProgressIndicator();
-                      }
-                    }),
-              ),
-            ],
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
+            child: FutureBuilder<List<Category>>(
+                future: _db.listCategoriesByResource(
+                    widget.resource.id,
+                    lang: AppLocalizations.locale.languageCode),
+                builder: (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
+                  if (snapshot.data != null) {
+                    List<Category> categories = snapshot.data;
+                    return Wrap(
+                      spacing: 4.0, // gap between adjacent chips
+                      runSpacing: 0.0, // gap between lines
+                      alignment: WrapAlignment.center,
+                      runAlignment: WrapAlignment.center,
+                      children: categories.map((Category category) => Chip(
+                        backgroundColor: Color(int.parse(category.color)),
+                        label: Text(
+                          category.name,
+                          style: TextStyle(color: MfColors.dark),
+                        ),
+                      )).toList()
+                    );
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                }
+            ),
           ),
         ],
       ),

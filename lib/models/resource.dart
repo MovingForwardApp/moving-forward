@@ -1,3 +1,5 @@
+import 'package:latlong/latlong.dart';
+
 class Resource {
   final int id;
   final double lat;
@@ -20,8 +22,8 @@ class Resource {
 
   Resource({
     this.id,
-    this.lat,
-    this.long,
+    this.lat = null,
+    this.long = null,
     this.googlemapUrl,
     this.address,
     this.phone,
@@ -77,8 +79,8 @@ class Resource {
   factory Resource.fromMap(Map<String, dynamic> map) {
     return Resource(
         id: map['id'] as int,
-        lat: map['lat'] as double,
-        long: map['long'] as double,
+        lat: (map['lat'] != "") ? map['lat']  as double: null,
+        long: (map['long'] != "") ? map['long']  as double: null,
         googlemapUrl: map['googlemap_url'] as String,
         address: map['address'] as String,
         phone: map['phone'] as String,
