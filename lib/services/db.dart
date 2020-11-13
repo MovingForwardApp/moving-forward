@@ -85,15 +85,21 @@ class DBService {
 
     if ((locationLat != null) & (locationLong != null)) {
       query = '''
-      SELECT * FROM resources join resource_category on resources.id = resource_category.resource_id
-       where category_id = ?1 
-       ORDER BY ((?2 - resources.lat)*(?2 - resources.lat)) + ((?3 - resources.long)*(?3 - resources.long)) ASC
+         SELECT *, 
+                (
+                  (?2 - resources.lat) * (?2 - resources.lat)) + 
+                  ((?3 - resources.long) * (?3 - resources.long)
+                ) AS distance
+           FROM resources JOIN resource_category ON resources.id = resource_category.resource_id
+          WHERE category_id = ?1 
+       ORDER BY distance ASC
       ''';
       params = [categoryId, locationLat, locationLong];
     } else {
       query = '''
-      SELECT * FROM resources join resource_category on resources.id = resource_category.resource_id
-       where category_id = ?1
+         SELECT * 
+           FROM resources JOIN resource_category ON resources.id = resource_category.resource_id
+          WHERE category_id = ?1
       ''';
       params = [categoryId];
     }
@@ -107,10 +113,10 @@ class DBService {
       {String lang: 'es'}) async {
     Database db = await instance.database;
     final String query = """
-      select *
-        from categories join resource_category 
-                          on categories.id = resource_category.category_id
-       where resource_id = ?1
+       SELECT *
+         FROM categories 
+         JOIN resource_category ON categories.id = resource_category.category_id
+        WHERE resource_id = ?1
     """;
     final List<int> params = [resourceId];
 
