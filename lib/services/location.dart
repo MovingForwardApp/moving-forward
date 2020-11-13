@@ -21,7 +21,7 @@ class LocationService {
   }
 
   Future _getCurrentLocation() async {
-    await geolocator
+    await instance.geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position currentPosition) {
       instance._position = currentPosition;
@@ -29,7 +29,9 @@ class LocationService {
   }
 
   Future<String> fetchCurrentLocality() async {
-    await _getCurrentLocation();
+    if (instance._position == null) {
+      await _getCurrentLocation();
+    }
     List<Placemark> p = await geolocator.placemarkFromCoordinates(
         instance._position.latitude, instance._position.longitude);
 
@@ -41,8 +43,11 @@ class LocationService {
   }
 
   Future<int> getDistance(double endLatitude, double endLongitude) async {
-    await _getCurrentLocation();
-    double distance = await Geolocator().distanceBetween(
+    if (instance._position == null) {
+      await _getCurrentLocation();
+    }
+
+    final double distance = await instance.geolocator.distanceBetween(
         instance._position.latitude,
         instance._position.longitude,
         endLatitude,
