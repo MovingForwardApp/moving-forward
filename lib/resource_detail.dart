@@ -11,7 +11,7 @@ import 'package:moving_forward/theme.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'services/storage.dart';
 
 class ResourceDetailPage extends StatefulWidget {
   final Resource resource;
@@ -25,9 +25,14 @@ class ResourceDetailPage extends StatefulWidget {
 
 class _ResourceDetailState extends State<ResourceDetailPage> {
   final _db = DBService.instance;
-
-  IconData _savedIcon = Icons.bookmark_border_outlined;
   List<String> _savedResources;
+
+  _savedResourcesList (List resources) {
+    setState(() {
+      _savedResources = resources;
+    });
+  }
+
 
   Future<void> initPage() async {
     await FlutterMatomo.trackScreenWithName(
@@ -35,48 +40,25 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
         "Screen opened");
   }
 
-  _setIcon (IconData icon) {
-    setState(() {
-      _savedIcon = icon;
-    });
-  }
-
-  _setSavedResources (List<String> list) {
-    setState(() {
-      _savedResources = list;
-    });
-  }
-
-  _isSavedResource(int resourceId) {
+  _displayIcon(int resourceId) {
     String resource = resourceId.toString();
-    print("saved resources: $_savedResources");
-    if (_savedResources != null) {
-      bool isSaved = _savedResources.contains(resource);
-      return isSaved;
-    }
-    return false;
+    return _savedResources.contains(resource) ? Icons.bookmark : Icons.bookmark_border_outlined;
   }
 
   _toggleResource (int resourceId) {
     String resource = resourceId.toString();
-    print(_savedResources);
-    if (!_savedResources.contains(resource)) {
-      setState(() {
-        _savedResources.add(resource);
-      });
+    var isBookmarked = sharedPrefs.contains('saved', resource);
+    if (isBookmarked == false) {
+      sharedPrefs.putIntoList('saved', resource);
     } else {
-      setState(() {
-        _savedResources.remove(resource);
-      });
+      sharedPrefs.deleteFromList('saved', resource);
     }
-    print(_savedResources);
+    _getSavedBookmarks();
   }
 
-  Future<void> _initializeSharedPreferences () async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> savedList = (prefs.getStringList('saved') ?? List<String>());
-    _setSavedResources(savedList);
-    print("savedList $savedList");
+  _getSavedBookmarks () {
+    List resources = sharedPrefs.getList('saved');
+    _savedResourcesList(resources);
   }
 
   _launchMap({double lat = 47.6, double long = -122.3}) async {
@@ -99,7 +81,7 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
   @override
   void initState() {
     super.initState();
-    _initializeSharedPreferences();
+    _getSavedBookmarks();
     initPage();
   }
 
@@ -327,9 +309,9 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
             ),
           if (widget.resource.id != null)
             _actionIcon(
-              _isSavedResource(widget.resource.id) ? Icons.bookmark : Icons.bookmark_border_outlined,
-              AppLocalizations.of(context).translate("save"),
-              'save'
+                _displayIcon(widget.resource.id),
+                AppLocalizations.of(context).translate("save"),
+                'save'
             ),
         ],
       ),

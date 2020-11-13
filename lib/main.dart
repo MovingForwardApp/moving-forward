@@ -8,6 +8,7 @@ import 'package:moving_forward/layout.dart';
 import 'package:moving_forward/localization.dart';
 import 'package:moving_forward/location.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
+import 'services/storage.dart';
 
 const URL = 'https://matomo.kaleidos.net/piwik.php';
 const SITE_ID = 20;
@@ -30,6 +31,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> initPlatformState() async {
     await FlutterMatomo.initializeTracker(URL, SITE_ID);
+    await sharedPrefs.init();
     setState(() {});
 
     // Future.delayed(Duration(seconds: 10), () async {
