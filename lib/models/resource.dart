@@ -4,6 +4,7 @@ class Resource {
   final int id;
   final double lat;
   final double long;
+  final double distance;
   final String googlemapUrl;
   final String address;
   final String phone;
@@ -24,6 +25,7 @@ class Resource {
     this.id,
     this.lat = null,
     this.long = null,
+    this.distance = null,
     this.googlemapUrl,
     this.address,
     this.phone,
@@ -81,6 +83,7 @@ class Resource {
         id: map['id'] as int,
         lat: (map['lat'] != "") ? map['lat']  as double: null,
         long: (map['long'] != "") ? map['long']  as double: null,
+        distance: map.containsKey('distance') ? map['distance'] as double: null,
         googlemapUrl: map['googlemap_url'] as String,
         address: map['address'] as String,
         phone: map['phone'] as String,

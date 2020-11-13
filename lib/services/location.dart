@@ -8,28 +8,16 @@ class LocationService {
   LocationService._privateConstructor();
   static final LocationService instance = LocationService._privateConstructor();
 
-  get getLocationLat {
-    double lat = instance._position.latitude;
-    print('Lat: $lat');
-    if (instance._position != null) {
-      return instance._position.latitude;
-    } else {
-      return null;
-    }
+  get locationLat {
+    return instance._position != null
+      ? instance._position.latitude
+      : null;
   }
 
-  get getLocationLong {
-    double long = instance._position.longitude;
-    print('Long: $long');
-    if (instance._position != null) {
-      return instance._position.longitude;
-    } else {
-      return null;
-    }
-  }
-
-  get getLocality {
-    return instance.locality;
+  get locationLong {
+    return instance._position != null
+      ? instance._position.longitude
+      : null;
   }
 
   Future _getCurrentLocation() async {
@@ -59,13 +47,7 @@ class LocationService {
         instance._position.longitude,
         endLatitude,
         endLongitude);
-    if (distance < 500) {
-      return 500;
-    } else if (distance < 1000) {
-      return 1000;
-    } else if (distance < 5000) {
-      return 5000;
-    }
+
     return distance.round();
   }
 }

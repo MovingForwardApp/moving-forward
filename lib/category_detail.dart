@@ -269,8 +269,8 @@ class CategoryDetail extends StatelessWidget {
                   FutureBuilder<List<Resource>>(
                       future: _db.listResourcesByCategory(
                           category.id,
-                          LocationService.instance.getLocationLat,
-                          LocationService.instance.getLocationLong,
+                          LocationService.instance.locationLat,
+                          LocationService.instance.locationLong,
                           lang: AppLocalizations.locale.languageCode),
                       builder: (BuildContext context,
                           AsyncSnapshot<List<Resource>> snapshot) {
