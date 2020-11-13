@@ -43,6 +43,9 @@ class BottomNavigation extends StatelessWidget {
         child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             backgroundColor: MfColors.white,
+            fixedColor: MfColors.primary,
+            unselectedLabelStyle: TextStyle(color: MfColors.dark),
+            unselectedItemColor: MfColors.dark,
             iconSize: 30,
             items: [
               _buildItem(tabItem: TabItem.saved, context: context),
@@ -65,12 +68,10 @@ class BottomNavigation extends StatelessWidget {
     String text =
         AppLocalizations.of(context).translate(tabItemsInfo[tabItem].name);
     IconData icon = tabItemsInfo[tabItem].icon;
-    Color color = currentTab == tabItem ? MfColors.primary : MfColors.dark;
 
     return BottomNavigationBarItem(
       icon: Icon(
         icon,
-        color: color,
       ),
       label: text,
     );
