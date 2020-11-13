@@ -31,6 +31,7 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
     setState(() {
       _savedResources = resources;
     });
+    print("_savedResources $_savedResources");
   }
 
 
@@ -40,17 +41,15 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
         "Screen opened");
   }
 
-  // _displayIcon(int resourceId) {
-  //   String resource = resourceId.toString();
-  //   List<String> bookmarkList = sharedPrefs.getList('saved');
-  //   bool isSaved = (bookmarkList.contains(resource));
-  //   return _savedResources.contains(resource) ? Icons.bookmark : Icons.bookmark_border_outlined;
-  // }
+  _displayIcon(int resourceId) {
+    String resource = resourceId.toString();
+    return _savedResources.contains(resource) ? Icons.bookmark : Icons.bookmark_border_outlined;
+  }
 
   _toggleResource (int resourceId) {
     String resource = resourceId.toString();
     var isBookmarked = sharedPrefs.contains('saved', resource);
-    print(isBookmarked);
+    print("isBookmarked $isBookmarked");
     if (isBookmarked == false) {
       sharedPrefs.putIntoList('saved', resource);
     } else {
@@ -312,9 +311,9 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
             ),
           if (widget.resource.id != null)
             _actionIcon(
-              _savedResources.contains(widget.resource.id) ? Icons.bookmark : Icons.bookmark_border_outlined,
-              AppLocalizations.of(context).translate("save"),
-              'save'
+                _displayIcon(widget.resource.id),
+                AppLocalizations.of(context).translate("save"),
+                'save'
             ),
         ],
       ),
