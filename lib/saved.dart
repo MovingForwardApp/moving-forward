@@ -2,8 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:moving_forward/localization.dart';
 import 'package:moving_forward/theme.dart';
+import 'services/storage.dart';
+import 'package:flutter_matomo/flutter_matomo.dart';
+import 'package:moving_forward/models/resource.dart';
+import 'package:moving_forward/services/location.dart';
+import 'package:moving_forward/services/db.dart';
 
-class Saved extends StatelessWidget {
+class SavedBookmarksPage extends StatefulWidget {
+  @override
+  _SavedBookmarksPageState createState() => _SavedBookmarksPageState();
+}
+
+class _SavedBookmarksPageState extends State<SavedBookmarksPage> {
+  List<String> _savedResources;
+  final _db = DBService.instance;
+
+  _savedResourcesList (List resources) {
+    setState(() {
+      _savedResources = resources;
+    });
+  }
+
+  _getSavedBookmarks () {
+    List resources = sharedPrefs.getList('saved');
+    _savedResourcesList(resources);
+  }
+
+  Future<void> initPage() async {
+    await FlutterMatomo.trackScreenWithName(
+        "Saved bookmarks page",
+        "Screen opened");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getSavedBookmarks();
+    initPage();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,24 +53,189 @@ class Saved extends StatelessWidget {
               AppLocalizations.of(context).translate('resources_saved'),
               style: TextStyle(color: MfColors.dark),
             ),
-            backgroundColor: Colors.transparent),
-        body: Container(
-            padding: EdgeInsets.symmetric(horizontal: 100),
+            backgroundColor: Colors.transparent
+        ),
+        body: Stack(
+          children: <Widget>[
+              SingleChildScrollView(
+                child: Container(
+                  child: Column(
+                    children: [
+                      Container(child: CircularProgressIndicator()),
+                      for (String resource in _savedResources) {
+                        FutureBuilder<Widget> async (
+                          future: await _db.getResource(
+                            bookmark,
+                            lang: AppLocalizations.locale.languageCode
+                          ),
+                          builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                              if(snapshot.hasData)
+                                  return snapshot.data;
+                              return Container(child: CircularProgressIndicator());
+                            }
+                          }
+                        ),
+                      }
+                    ],
+                  ),
+                ),
+              ),
+            ],
+        )
+    );
+  }
+
+  bool _haveSavedBookmarks() {
+    return false;
+  }
+
+  Container _emptyResources(BuildContext context) {
+    return Container(
+        padding: EdgeInsets.symmetric(horizontal: 100),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              Icons.bookmark_border,
+              color: MfColors.light,
+              size: 60,
+            ),
+            Text(
+              AppLocalizations.of(context).translate('saved_resource'),
+              textAlign: TextAlign.center,
+              style: TextStyle(color: MfColors.dark),
+            ),
+          ],
+        )
+    );
+  }
+
+  Future<Card> _displayResources(BuildContext context) async {
+    return FutureBuilder<Card>(
+        future: _db.getResource(category.id, lang: AppLocalizations.locale.languageCode),
+        builder: (BuildContext context,
+            AsyncSnapshot<Card> snapshot) {
+          if (snapshot.data != null) {
+            return _resourcesList(context, snapshot.data);
+          } else {
+            return CircularProgressIndicator();
+          }
+        }),
+    // _savedResources.forEach((bookmark) {
+    //   int bookmarkInt = int.parse(bookmark);
+    //   print('bookmarkInt $bookmarkInt');
+    //   return FutureBuilder<Resource>(
+    //       future: _db.getResource(bookmarkInt, lang: AppLocalizations.locale.languageCode),
+    //       builder: (BuildContext context,
+    //           AsyncSnapshot<Resource> snapshot) {
+    //         if (snapshot.data != null) {
+    //           return _resourceCard(context, snapshot.data);
+    //         } else {
+    //           return CircularProgressIndicator();
+    //         }
+    //       });
+    // });
+  }
+
+  Card _resourceCard(BuildContext context, Resource resource) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      elevation: 6,
+      shadowColor: Colors.grey[100],
+      child: new InkWell(
+        onTap: () async {
+          await FlutterMatomo.trackEventWithName(
+              'CategoryDetail', 'category_name/${resource.name}', 'Clicked');
+          FlutterMatomo.dispatchEvents();
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //       builder: (context) =>
+          //           ResourceDetailPage(resource: resource, category: category)),
+          // );
+        },
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+          child: Container(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Icon(
-                  Icons.bookmark_border,
-                  color: MfColors.light,
-                  size: 60,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    if (resource.lat > 0)
+                      FutureBuilder<int>(
+                          future: LocationService.instance
+                              .getDistance(resource.lat, resource.long),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<int> snapshot) {
+                            if (snapshot.data != null) {
+                              return Container(
+                                alignment: Alignment.topLeft,
+                                child: Chip(
+                                  avatar: const Icon(Icons.directions_walk),
+                                  backgroundColor: MfColors.primary[100],
+                                  label: Text('A menos de ${snapshot.data}m'),
+                                ),
+                              );
+                            } else {
+                              return Text('...');
+                            }
+                          }),
+                    Container(
+                      alignment: Alignment.topRight,
+                      child: Icon(Icons.bookmark_border, size: 30.0),
+                    ),
+                  ],
                 ),
-                Text(
-                  AppLocalizations.of(context).translate('saved_resource'),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: MfColors.dark),
+                Container(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: Text(
+                    resource.name,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
                 ),
+                if (resource.description != '')
+                  Container(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                    ),
+                    child: Text(
+                      resource.description,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                if (resource.address != '')
+                  Container(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.location_on, color: MfColors.gray),
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: Text(
+                              resource.address,
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
               ],
-            )));
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

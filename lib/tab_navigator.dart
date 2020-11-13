@@ -14,7 +14,7 @@ Resource resource;
 Category category;
 Map<TabItem, Map<String, WidgetBuilder>> tabItemsRoutes = {
   TabItem.saved: {
-    '/': (context) => Saved(),
+    '/': (context) => SavedBookmarksPage(),
   },
   TabItem.home: {
     '/': (context) => CategoryList(),
