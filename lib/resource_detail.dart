@@ -31,7 +31,6 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
     setState(() {
       _savedResources = resources;
     });
-    print("_savedResources $_savedResources");
   }
 
 
@@ -49,7 +48,6 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
   _toggleResource (int resourceId) {
     String resource = resourceId.toString();
     var isBookmarked = sharedPrefs.contains('saved', resource);
-    print("isBookmarked $isBookmarked");
     if (isBookmarked == false) {
       sharedPrefs.putIntoList('saved', resource);
     } else {
