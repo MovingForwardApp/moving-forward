@@ -5,6 +5,7 @@ import 'package:moving_forward/theme.dart';
 import 'services/storage.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
 import 'package:moving_forward/models/resource.dart';
+import 'package:moving_forward/resource_detail.dart';
 import 'package:moving_forward/services/location.dart';
 import 'package:moving_forward/services/db.dart';
 
@@ -55,38 +56,28 @@ class _SavedBookmarksPageState extends State<SavedBookmarksPage> {
             ),
             backgroundColor: Colors.transparent
         ),
-        body: Stack(
-          children: <Widget>[
-              SingleChildScrollView(
-                child: Container(
-                  child: Column(
+        body: FutureBuilder<List<Resource>>(
+            future: _db.listResourcesById(
+                _savedResources,
+                lang: AppLocalizations.locale.languageCode
+            ),
+            builder: (
+                BuildContext context,
+                AsyncSnapshot<List<Resource>> snapshot
+            ) {
+              if (snapshot.data != null) {
+                return ListView(
                     children: [
-                      Container(child: CircularProgressIndicator()),
-                      for (String resource in _savedResources) {
-                        FutureBuilder<Widget> async (
-                          future: await _db.getResource(
-                            bookmark,
-                            lang: AppLocalizations.locale.languageCode
-                          ),
-                          builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-                              if(snapshot.hasData)
-                                  return snapshot.data;
-                              return Container(child: CircularProgressIndicator());
-                            }
-                          }
-                        ),
-                      }
-                    ],
-                  ),
-                ),
-              ),
-            ],
+                      for (var resource in snapshot.data)
+                        _resourceCard(context, resource)
+                    ]
+                );
+              } else {
+                return _emptyResources(context);
+              }
+            }
         )
     );
-  }
-
-  bool _haveSavedBookmarks() {
-    return false;
   }
 
   Container _emptyResources(BuildContext context) {
@@ -111,35 +102,9 @@ class _SavedBookmarksPageState extends State<SavedBookmarksPage> {
     );
   }
 
-  Future<Card> _displayResources(BuildContext context) async {
-    return FutureBuilder<Card>(
-        future: _db.getResource(category.id, lang: AppLocalizations.locale.languageCode),
-        builder: (BuildContext context,
-            AsyncSnapshot<Card> snapshot) {
-          if (snapshot.data != null) {
-            return _resourcesList(context, snapshot.data);
-          } else {
-            return CircularProgressIndicator();
-          }
-        }),
-    // _savedResources.forEach((bookmark) {
-    //   int bookmarkInt = int.parse(bookmark);
-    //   print('bookmarkInt $bookmarkInt');
-    //   return FutureBuilder<Resource>(
-    //       future: _db.getResource(bookmarkInt, lang: AppLocalizations.locale.languageCode),
-    //       builder: (BuildContext context,
-    //           AsyncSnapshot<Resource> snapshot) {
-    //         if (snapshot.data != null) {
-    //           return _resourceCard(context, snapshot.data);
-    //         } else {
-    //           return CircularProgressIndicator();
-    //         }
-    //       });
-    // });
-  }
-
-  Card _resourceCard(BuildContext context, Resource resource) {
-    return Card(
+  Container _resourceCard(BuildContext context, Resource resource) {
+    return Container (
+      child: Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
@@ -150,12 +115,12 @@ class _SavedBookmarksPageState extends State<SavedBookmarksPage> {
           await FlutterMatomo.trackEventWithName(
               'CategoryDetail', 'category_name/${resource.name}', 'Clicked');
           FlutterMatomo.dispatchEvents();
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //       builder: (context) =>
-          //           ResourceDetailPage(resource: resource, category: category)),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    ResourceDetailPage(resource: resource)),
+          );
         },
         child: Container(
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
@@ -236,6 +201,7 @@ class _SavedBookmarksPageState extends State<SavedBookmarksPage> {
           ),
         ),
       ),
+    )
     );
   }
 }
