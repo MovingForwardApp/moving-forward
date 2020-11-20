@@ -72,14 +72,23 @@ class DBService {
 
   Future<List<Resource>> listResourcesById(List<String> resourceIds, {String lang: 'es'}) async {
     Database db = await instance.database;
+
+    print('resourceIds $resourceIds');
+
     final String query = '''
-      SELECT * FROM resources WHERE id = '5'
+      SELECT *  
+        FROM resources
+        WHERE id in ?1
     ''';
-    final List<String> params = ['5'];
 
-    final List<Map<String, dynamic>> maps = await db.rawQuery(query);
+    final List<String> params = ["($resourceIds.join(','))"];
 
-    print('maps $maps');
+    final List<Map<String, dynamic>> maps = await db.rawQuery(query, params);
+
+    // final List<Map<String, dynamic>> maps = await db.query('resources',
+    //     where: "id IN ('5')",
+    //     whereArgs: [params],
+    // );
 
     return maps.map((m) => Resource.fromMap(m).applyLang(lang))
         .toList();
