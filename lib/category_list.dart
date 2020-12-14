@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moving_forward/category_detail.dart';
 import 'package:moving_forward/search.dart';
-import 'package:moving_forward/localization.dart';
+import 'package:moving_forward/services/localization.dart';
 import 'package:moving_forward/models/category.dart';
 import 'package:moving_forward/services/db.dart';
 import 'package:moving_forward/theme.dart';

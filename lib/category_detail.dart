@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:moving_forward/localization.dart';
+import 'package:moving_forward/services/localization.dart';
 import 'package:moving_forward/models/category.dart';
 import 'package:moving_forward/models/resource.dart';
 import 'package:moving_forward/resource_detail.dart';

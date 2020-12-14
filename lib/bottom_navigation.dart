@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'theme.dart';
-import 'package:moving_forward/localization.dart';
+import 'package:moving_forward/services/localization.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
 
 class TabInfo {

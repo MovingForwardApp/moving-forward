@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:moving_forward/localization.dart';
+import 'package:moving_forward/services/localization.dart';
 import 'package:moving_forward/theme.dart';
 
 class Search extends ModalRoute<void> {

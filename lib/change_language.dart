@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moving_forward/localization.dart';
+import 'package:moving_forward/services/localization.dart';
 import 'package:moving_forward/location.dart';
 import 'package:moving_forward/theme.dart';
 

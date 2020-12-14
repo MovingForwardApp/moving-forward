@@ -5,7 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moving_forward/change_language.dart';
 import 'package:moving_forward/layout.dart';
-import 'package:moving_forward/localization.dart';
+import 'package:moving_forward/services/localization.dart';
 import 'package:moving_forward/location.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
 import 'services/storage.dart';

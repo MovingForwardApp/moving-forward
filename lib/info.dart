@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'theme.dart';
+import 'services/localization.dart';
+import 'services/location.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
 
@@ -22,16 +24,51 @@ class Info extends StatelessWidget {
           title: Text('Idioma', style: TextStyle(fontSize: 14)),
           subtitle: Text('Español',
               style: TextStyle(fontSize: 18, color: MfColors.dark)),
-          trailing: Icon(Icons.keyboard_arrow_right),
+          // trailing: Icon(Icons.keyboard_arrow_right), // TODO
           dense: true,
         ),
         Divider(),
         ListTile(
           leading: Icon(Icons.language, size: 30, color: MfColors.gray),
           title: Text('Ubicación', style: TextStyle(fontSize: 14)),
-          subtitle: Text('28012, Madrid',
-              style: TextStyle(fontSize: 18, color: MfColors.dark)),
-          trailing: Icon(Icons.keyboard_arrow_right),
+          subtitle: FutureBuilder<String>(
+              future: LocationService.instance.fetchCurrentLocality(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<String> snapshot) {
+                if (snapshot.data != null) {
+                  return Text(
+                    LocationService.instance.locality,
+                    style: TextStyle(fontSize: 18, color: MfColors.dark),
+                  );
+                } else {
+                  return Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: SizedBox(
+                                  height: 10,
+                                  width: 10,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 1,
+                                    valueColor: new AlwaysStoppedAnimation<Color>(MfColors.dark),
+                                  )
+                              ),
+                            ),
+                            Text(
+                              AppLocalizations.of(context).translate('loading_location'),
+                              style: TextStyle(fontSize: 18, color: MfColors.dark),
+                            ),
+                          ]
+                      )
+                  );
+                }
+              }
+          ),
+          //trailing: Icon(Icons.keyboard_arrow_right), // TODO
           dense: true,
         ),
         Divider(),

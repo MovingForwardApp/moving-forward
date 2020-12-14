@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moving_forward/layout.dart';
-import 'package:moving_forward/localization.dart';
+import 'package:moving_forward/services/localization.dart';
 
 import 'package:flutter_matomo/flutter_matomo.dart';
 
@@ -79,16 +79,8 @@ class _LocationPageState extends State<LocationPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    AppLocalizations.of(context).translate('loading_location'),
-                                    style: TextStyle(
-                                      color: MfColors.white,
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
                                   Padding(
-                                    padding: EdgeInsets.only(left: 10),
+                                    padding: EdgeInsets.only(right: 10),
                                     child: SizedBox(
                                       height: 10,
                                       width: 10,
@@ -97,7 +89,15 @@ class _LocationPageState extends State<LocationPage> {
                                         valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
                                       )
                                     ),
-                                  )
+                                  ),
+                                  Text(
+                                    AppLocalizations.of(context).translate('loading_location'),
+                                    style: TextStyle(
+                                      color: MfColors.white,
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ]
                             )
                         );
