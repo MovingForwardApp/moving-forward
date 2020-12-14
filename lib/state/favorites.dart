@@ -8,14 +8,15 @@ class FavoritesState extends ChangeNotifier {
 
   UnmodifiableListView<Resource> get resources => UnmodifiableListView(_resources);
 
-  /// Checks if [resource] exists in ist  .
-  bool contains(Resource resource) {
+  /// Checks if [resource] exists in list  .
+  bool isFavorite(Resource resource) {
     return _resources.contains(resource);
   }
 
   /// Adds [resource] to resources list.
   void add(Resource resource) {
     _resources.add(resource);
+
     // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
   }

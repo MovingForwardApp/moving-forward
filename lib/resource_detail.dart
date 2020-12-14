@@ -7,8 +7,10 @@ import 'package:moving_forward/models/category.dart';
 import 'package:moving_forward/models/resource.dart';
 import 'package:moving_forward/services/db.dart';
 import 'package:moving_forward/services/location.dart';
+import 'package:moving_forward/state/favorites.dart';
 import 'package:moving_forward/theme.dart';
 import 'package:moving_forward/utils.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
@@ -27,24 +29,6 @@ class ResourceDetailPage extends StatelessWidget {
         "ResourceDetail - ${category.name}/${resource.name} ", "Screen opened");
   }
 
-  _displayIcon(int resourceId) {
-    // String resource = resourceId.toString();
-    // return _savedResources.contains(resource) ? Icons.bookmark : Icons.bookmark_border_outlined;
-    print('_displayIcon');
-  }
-
-  _toggleResource(int resourceId) {
-    // String resource = resourceId.toString();
-    // _getSavedBookmarks();
-    print('_toggleResource');
-  }
-
-  // _getSavedBookmarks () {
-  //   // List resources = sharedPrefs.getList('saved');
-  //   // _savedResourcesList(resources);
-  //   print('_getSavedBookmarks');
-  // }
-
   _launchMap({double lat = 47.6, double long = -122.3}) async {
     var mapSchema = 'geo:$lat,$long';
     if (await canLaunch(mapSchema)) {
@@ -54,11 +38,17 @@ class ResourceDetailPage extends StatelessWidget {
     }
   }
 
-  _executeAction(String action) async {
-    if (await canLaunch(action)) {
-      await launch(action);
+  _executeAction(String action, BuildContext context, Resource resource) async {
+    if (action == 'save') {
+      Provider.of<FavoritesState>(context, listen: false).add(resource);
+    } else if (action == 'remove') {
+      Provider.of<FavoritesState>(context, listen: false).remove(resource);
     } else {
-      throw 'Could not execute action';
+      if (await canLaunch(action)) {
+        await launch(action);
+      } else {
+        throw 'Could not execute action';
+      }
     }
   }
 
@@ -252,35 +242,48 @@ class ResourceDetailPage extends StatelessWidget {
         children: [
           if (resource.phone != '')
             _actionIcon(
-              Icons.call,
-              AppLocalizations.of(context).translate("phone_call"),
-              'tel:${resource.phone}',
-            ),
+                Icons.call,
+                AppLocalizations.of(context).translate("phone_call"),
+                'tel:${resource.phone}',
+                context),
           if (resource.email != '')
             _actionIcon(
-              Icons.mail_outline,
-              AppLocalizations.of(context).translate("send_email"),
-              'mailto:${resource.email}',
-            ),
+                Icons.mail_outline,
+                AppLocalizations.of(context).translate("send_email"),
+                'mailto:${resource.email}',
+                context),
           if (resource.web != '')
             _actionIcon(
-              Icons.public,
-              AppLocalizations.of(context).translate("browse_web"),
-              resource.web,
-            ),
-          if (resource.id != null)
-            _actionIcon(_displayIcon(resource.id),
-                AppLocalizations.of(context).translate("save"), 'save'),
+                Icons.public,
+                AppLocalizations.of(context).translate("browse_web"),
+                resource.web,
+                context),
+          if (resource.id != null) _favoritesIcon(resource),
         ],
       ),
     );
   }
 
+  Consumer _favoritesIcon(Resource resource) {
+    return Consumer<FavoritesState>(
+      builder: (context, favorites, child) {
+        print(favorites.isFavorite(resource));
+        if (favorites.isFavorite(resource)) {
+          return _actionIcon(
+              Icons.bookmark_border_outlined,
+              AppLocalizations.of(context).translate("save"),
+              'remove',
+              context);
+        } else {
+          return _actionIcon(Icons.bookmark,
+              AppLocalizations.of(context).translate("save"), 'save', context);
+        }
+      },
+    );
+  }
+
   Column _actionIcon(
-    IconData icon,
-    String text,
-    String action,
-  ) {
+      IconData icon, String text, String action, BuildContext context) {
     return Column(
       children: <Widget>[
         Container(
@@ -297,11 +300,7 @@ class ResourceDetailPage extends StatelessWidget {
               await FlutterMatomo.trackEventWithName(
                   'ResourcesDetail', action, 'Clicked');
               FlutterMatomo.dispatchEvents();
-              if (action != 'save') {
-                _executeAction(action);
-              } else {
-                _toggleResource(resource.id);
-              }
+              _executeAction(action, context, resource);
             },
           ),
         ),

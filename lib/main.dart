@@ -8,12 +8,19 @@ import 'package:moving_forward/layout.dart';
 import 'package:moving_forward/services/localization.dart';
 import 'package:moving_forward/location.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
+import 'package:provider/provider.dart';
+import 'state/favorites.dart';
 
 const URL = 'https://matomo.kaleidos.net/piwik.php';
 const SITE_ID = 20;
 
 void main() async {
-  runApp(MyApp());
+  runApp(
+      ChangeNotifierProvider(
+        create: (context) => FavoritesState(),
+        child: MyApp(),
+      )
+  );
 }
 
 class MyApp extends StatefulWidget {
