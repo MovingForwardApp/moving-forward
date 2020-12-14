@@ -8,6 +8,7 @@ import 'package:moving_forward/models/resource.dart';
 import 'package:moving_forward/services/db.dart';
 import 'package:moving_forward/services/location.dart';
 import 'package:moving_forward/theme.dart';
+import 'package:moving_forward/utils.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
@@ -17,7 +18,9 @@ class ResourceDetailPage extends StatefulWidget {
   final Resource resource;
   final Category category;
 
-  ResourceDetailPage({Key key, @required this.category, @required this.resource}) : super(key: key);
+  ResourceDetailPage(
+      {Key key, @required this.category, @required this.resource})
+      : super(key: key);
 
   @override
   _ResourceDetailState createState() => _ResourceDetailState();
@@ -27,12 +30,11 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
   final _db = DBService.instance;
   List<String> _savedResources;
 
-  _savedResourcesList (List resources) {
+  _savedResourcesList(List resources) {
     setState(() {
       _savedResources = resources;
     });
   }
-
 
   Future<void> initPage() async {
     await FlutterMatomo.trackScreenWithName(
@@ -42,10 +44,12 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
 
   _displayIcon(int resourceId) {
     String resource = resourceId.toString();
-    return _savedResources.contains(resource) ? Icons.bookmark : Icons.bookmark_border_outlined;
+    return _savedResources.contains(resource)
+        ? Icons.bookmark
+        : Icons.bookmark_border_outlined;
   }
 
-  _toggleResource (int resourceId) {
+  _toggleResource(int resourceId) {
     String resource = resourceId.toString();
     var isBookmarked = sharedPrefs.contains('saved', resource);
     if (isBookmarked == false) {
@@ -56,7 +60,7 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
     _getSavedBookmarks();
   }
 
-  _getSavedBookmarks () {
+  _getSavedBookmarks() {
     List resources = sharedPrefs.getList('saved');
     _savedResourcesList(resources);
   }
@@ -86,7 +90,7 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
   }
 
   @override
-  Widget build (BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -94,7 +98,8 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
             child: Center(
               child: Column(
                 children: [
-                  if (widget.resource.lat != null && widget.resource.long != null)
+                  if (widget.resource.lat != null &&
+                      widget.resource.long != null)
                     _mapSection(),
                   _titleSection(),
                   _actionSection(context),
@@ -136,10 +141,10 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
                     */
                     /* MapBox Tile */
                     urlTemplate:
-                    "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+                        "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
                     additionalOptions: {
                       "accessToken":
-                      "pk.eyJ1IjoiYmFtZWRhIiwiYSI6ImNrNDl2OGh4cjA4dzMzc3A4c2Q2N25wenUifQ.-9r_WubwqOJqqVl1sZdjtg",
+                          "pk.eyJ1IjoiYmFtZWRhIiwiYSI6ImNrNDl2OGh4cjA4dzMzc3A4c2Q2N25wenUifQ.-9r_WubwqOJqqVl1sZdjtg",
                       "id": "mapbox.streets",
                     },
                   ),
@@ -150,7 +155,8 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
                       Marker(
                         width: 16.0,
                         height: 22.0,
-                        point: LatLng(widget.resource.lat, widget.resource.long),
+                        point:
+                            LatLng(widget.resource.lat, widget.resource.long),
                         builder: (ctx) => Container(
                           child: Image(
                             image: AssetImage('assets/marker.png'),
@@ -177,31 +183,27 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
                 await FlutterMatomo.trackEventWithName(
                     'ResourceDetail', 'launchMap', 'Clicked');
                 FlutterMatomo.dispatchEvents();
-                _launchMap(lat: widget.resource.lat, long: widget.resource.long);
+                _launchMap(
+                    lat: widget.resource.lat, long: widget.resource.long);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Icon(
-                    Icons.directions_walk,
-                    color: MfColors.white,
-                    size: 18.0,
-                  ),
                   Text(
-                    "Ruta a pie",
+                    "Ruta",
                     style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   FutureBuilder<int>(
-                      future: LocationService.instance
-                          .getDistance(widget.resource.lat, widget.resource.long),
+                      future: LocationService.instance.getDistance(
+                          widget.resource.lat, widget.resource.long),
                       builder:
                           (BuildContext context, AsyncSnapshot<int> snapshot) {
                         if (snapshot.data != null) {
                           return Text(
-                            " (menos de ${snapshot.data}m)",
+                            " (menos de ${getFormatedDistance(snapshot.data)})",
                             style: TextStyle(fontSize: 14.0),
                           );
                         } else {
@@ -248,30 +250,31 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
           Container(
             margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
             child: FutureBuilder<List<Category>>(
-                future: _db.listCategoriesByResource(
-                    widget.resource.id,
+                future: _db.listCategoriesByResource(widget.resource.id,
                     lang: AppLocalizations.locale.languageCode),
-                builder: (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<Category>> snapshot) {
                   if (snapshot.data != null) {
                     List<Category> categories = snapshot.data;
                     return Wrap(
-                      spacing: 4.0, // gap between adjacent chips
-                      runSpacing: 0.0, // gap between lines
-                      alignment: WrapAlignment.center,
-                      runAlignment: WrapAlignment.center,
-                      children: categories.map((Category category) => Chip(
-                        backgroundColor: Color(int.parse(category.color)),
-                        label: Text(
-                          category.name,
-                          style: TextStyle(color: MfColors.dark),
-                        ),
-                      )).toList()
-                    );
+                        spacing: 4.0, // gap between adjacent chips
+                        runSpacing: 0.0, // gap between lines
+                        alignment: WrapAlignment.center,
+                        runAlignment: WrapAlignment.center,
+                        children: categories
+                            .map((Category category) => Chip(
+                                  backgroundColor:
+                                      Color(int.parse(category.color)),
+                                  label: Text(
+                                    category.name,
+                                    style: TextStyle(color: MfColors.dark),
+                                  ),
+                                ))
+                            .toList());
                   } else {
                     return CircularProgressIndicator();
                   }
-                }
-            ),
+                }),
           ),
         ],
       ),
@@ -305,21 +308,18 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
               widget.resource.web,
             ),
           if (widget.resource.id != null)
-            _actionIcon(
-                _displayIcon(widget.resource.id),
-                AppLocalizations.of(context).translate("save"),
-                'save'
-            ),
+            _actionIcon(_displayIcon(widget.resource.id),
+                AppLocalizations.of(context).translate("save"), 'save'),
         ],
       ),
     );
   }
 
   Column _actionIcon(
-      IconData icon,
-      String text,
-      String action,
-      ) {
+    IconData icon,
+    String text,
+    String action,
+  ) {
     return Column(
       children: <Widget>[
         Container(
@@ -334,7 +334,7 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
             tooltip: text,
             onPressed: () async {
               await FlutterMatomo.trackEventWithName(
-              'ResourcesDetail', action, 'Clicked');
+                  'ResourcesDetail', action, 'Clicked');
               FlutterMatomo.dispatchEvents();
               if (action != 'save') {
                 _executeAction(action);

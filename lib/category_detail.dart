@@ -8,6 +8,7 @@ import 'package:moving_forward/services/db.dart';
 import 'package:moving_forward/services/location.dart';
 import 'package:moving_forward/theme.dart';
 import 'package:moving_forward/search.dart';
+import 'package:moving_forward/utils.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
 
 class CategoryDetail extends StatelessWidget {
@@ -101,9 +102,9 @@ class CategoryDetail extends StatelessWidget {
                               return Container(
                                 alignment: Alignment.topLeft,
                                 child: Chip(
-                                  avatar: const Icon(Icons.directions_walk),
                                   backgroundColor: MfColors.primary[100],
-                                  label: Text('A menos de ${snapshot.data}m'),
+                                  label: Text(
+                                      'A menos de ${getFormatedDistance(snapshot.data)}'),
                                 ),
                               );
                             } else {
