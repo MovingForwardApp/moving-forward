@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import '../models/resource.dart';
 import 'dart:collection';
 
 class FavoritesState extends ChangeNotifier {
