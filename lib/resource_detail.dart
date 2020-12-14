@@ -40,9 +40,9 @@ class ResourceDetailPage extends StatelessWidget {
 
   _executeAction(String action, BuildContext context, Resource resource) async {
     if (action == 'save') {
-      Provider.of<FavoritesState>(context, listen: false).add(resource);
+      Provider.of<FavoritesState>(context, listen: false).add(resource.id);
     } else if (action == 'remove') {
-      Provider.of<FavoritesState>(context, listen: false).remove(resource);
+      Provider.of<FavoritesState>(context, listen: false).remove(resource.id);
     } else {
       if (await canLaunch(action)) {
         await launch(action);
@@ -267,15 +267,14 @@ class ResourceDetailPage extends StatelessWidget {
   Consumer _favoritesIcon(Resource resource) {
     return Consumer<FavoritesState>(
       builder: (context, favorites, child) {
-        print(favorites.isFavorite(resource));
-        if (favorites.isFavorite(resource)) {
+        if (favorites.isFavorite(resource.id)) {
           return _actionIcon(
-              Icons.bookmark_border_outlined,
+              Icons.bookmark,
               AppLocalizations.of(context).translate("save"),
               'remove',
               context);
         } else {
-          return _actionIcon(Icons.bookmark,
+          return _actionIcon(Icons.bookmark_border_outlined,
               AppLocalizations.of(context).translate("save"), 'save', context);
         }
       },
