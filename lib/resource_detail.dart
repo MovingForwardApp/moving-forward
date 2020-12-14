@@ -12,58 +12,38 @@ import 'package:moving_forward/utils.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
-import 'services/storage.dart';
 
-class ResourceDetailPage extends StatefulWidget {
-  final Resource resource;
-  final Category category;
-
+class ResourceDetailPage extends StatelessWidget {
   ResourceDetailPage(
       {Key key, @required this.category, @required this.resource})
       : super(key: key);
 
-  @override
-  _ResourceDetailState createState() => _ResourceDetailState();
-}
-
-class _ResourceDetailState extends State<ResourceDetailPage> {
+  final Resource resource;
+  final Category category;
   final _db = DBService.instance;
-  List<String> _savedResources;
-
-  _savedResourcesList(List resources) {
-    setState(() {
-      _savedResources = resources;
-    });
-  }
 
   Future<void> initPage() async {
     await FlutterMatomo.trackScreenWithName(
-        "ResourceDetail - ${widget.category.name}/${widget.resource.name} ",
-        "Screen opened");
+        "ResourceDetail - ${category.name}/${resource.name} ", "Screen opened");
   }
 
   _displayIcon(int resourceId) {
-    String resource = resourceId.toString();
-    return _savedResources.contains(resource)
-        ? Icons.bookmark
-        : Icons.bookmark_border_outlined;
+    // String resource = resourceId.toString();
+    // return _savedResources.contains(resource) ? Icons.bookmark : Icons.bookmark_border_outlined;
+    print('_displayIcon');
   }
 
   _toggleResource(int resourceId) {
-    String resource = resourceId.toString();
-    var isBookmarked = sharedPrefs.contains('saved', resource);
-    if (isBookmarked == false) {
-      sharedPrefs.putIntoList('saved', resource);
-    } else {
-      sharedPrefs.deleteFromList('saved', resource);
-    }
-    _getSavedBookmarks();
+    // String resource = resourceId.toString();
+    // _getSavedBookmarks();
+    print('_toggleResource');
   }
 
-  _getSavedBookmarks() {
-    List resources = sharedPrefs.getList('saved');
-    _savedResourcesList(resources);
-  }
+  // _getSavedBookmarks () {
+  //   // List resources = sharedPrefs.getList('saved');
+  //   // _savedResourcesList(resources);
+  //   print('_getSavedBookmarks');
+  // }
 
   _launchMap({double lat = 47.6, double long = -122.3}) async {
     var mapSchema = 'geo:$lat,$long';
@@ -83,13 +63,6 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _getSavedBookmarks();
-    initPage();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -98,8 +71,7 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
             child: Center(
               child: Column(
                 children: [
-                  if (widget.resource.lat != null &&
-                      widget.resource.long != null)
+                  if (resource.lat != null && resource.long != null)
                     _mapSection(),
                   _titleSection(),
                   _actionSection(context),
@@ -128,7 +100,7 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
           Container(
             child: FlutterMap(
               options: MapOptions(
-                center: LatLng(widget.resource.lat, widget.resource.long),
+                center: LatLng(resource.lat, resource.long),
                 zoom: 15.0,
               ),
               children: <Widget>[
@@ -145,8 +117,7 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
                       Marker(
                         width: 16.0,
                         height: 22.0,
-                        point:
-                            LatLng(widget.resource.lat, widget.resource.long),
+                        point: LatLng(resource.lat, resource.long),
                         builder: (ctx) => Container(
                           child: Image(
                             image: AssetImage('assets/marker.png'),
@@ -173,8 +144,7 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
                 await FlutterMatomo.trackEventWithName(
                     'ResourceDetail', 'launchMap', 'Clicked');
                 FlutterMatomo.dispatchEvents();
-                _launchMap(
-                    lat: widget.resource.lat, long: widget.resource.long);
+                _launchMap(lat: resource.lat, long: resource.long);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -187,8 +157,8 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
                     ),
                   ),
                   FutureBuilder<int>(
-                      future: LocationService.instance.getDistance(
-                          widget.resource.lat, widget.resource.long),
+                      future: LocationService.instance
+                          .getDistance(resource.lat, resource.long),
                       builder:
                           (BuildContext context, AsyncSnapshot<int> snapshot) {
                         if (snapshot.data != null) {
@@ -220,7 +190,7 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
           Container(
             margin: const EdgeInsets.only(bottom: 8.0),
             child: Text(
-              widget.resource.name,
+              resource.name,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: MfColors.dark,
@@ -230,7 +200,7 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
             ),
           ),
           Text(
-            widget.resource.description,
+            resource.description,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: MfColors.dark,
@@ -241,7 +211,7 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
           Container(
             margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
             child: FutureBuilder<List<Category>>(
-                future: _db.listCategoriesByResource(widget.resource.id,
+                future: _db.listCategoriesByResource(resource.id,
                     lang: AppLocalizations.locale.languageCode),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<Category>> snapshot) {
@@ -280,26 +250,26 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          if (widget.resource.phone != '')
+          if (resource.phone != '')
             _actionIcon(
               Icons.call,
               AppLocalizations.of(context).translate("phone_call"),
-              'tel:${widget.resource.phone}',
+              'tel:${resource.phone}',
             ),
-          if (widget.resource.email != '')
+          if (resource.email != '')
             _actionIcon(
               Icons.mail_outline,
               AppLocalizations.of(context).translate("send_email"),
-              'mailto:${widget.resource.email}',
+              'mailto:${resource.email}',
             ),
-          if (widget.resource.web != '')
+          if (resource.web != '')
             _actionIcon(
               Icons.public,
               AppLocalizations.of(context).translate("browse_web"),
-              widget.resource.web,
+              resource.web,
             ),
-          if (widget.resource.id != null)
-            _actionIcon(_displayIcon(widget.resource.id),
+          if (resource.id != null)
+            _actionIcon(_displayIcon(resource.id),
                 AppLocalizations.of(context).translate("save"), 'save'),
         ],
       ),
@@ -330,7 +300,7 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
               if (action != 'save') {
                 _executeAction(action);
               } else {
-                _toggleResource(widget.resource.id);
+                _toggleResource(resource.id);
               }
             },
           ),
@@ -352,16 +322,16 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
       padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 10.0),
       child: Column(
         children: [
-          if (widget.resource.address != '')
+          if (resource.address != '')
             _dataRow(
               Icons.location_on,
-              widget.resource.address,
+              resource.address,
               MfColors.dark,
             ),
-          if (widget.resource.phone != '')
+          if (resource.phone != '')
             _dataRow(
               Icons.call,
-              widget.resource.phone,
+              resource.phone,
               MfColors.dark,
             ),
           _dataRow(
@@ -369,22 +339,22 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
             'L - V de 9:00h a 18:00h',
             MfColors.dark,
           ),
-          if (widget.resource.email != '')
+          if (resource.email != '')
             _dataRow(
               Icons.mail_outline,
-              widget.resource.email,
+              resource.email,
               MfColors.primary[400],
             ),
-          if (widget.resource.phone != '')
+          if (resource.phone != '')
             _dataRow(
               Icons.whatshot,
-              widget.resource.phone,
+              resource.phone,
               MfColors.dark,
             ),
-          if (widget.resource.web != '')
+          if (resource.web != '')
             _dataRow(
               Icons.public,
-              widget.resource.web,
+              resource.web,
               MfColors.primary[400],
             ),
         ],
@@ -423,7 +393,7 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
                 'ResouceDetail', 'Share', 'Clicked');
             FlutterMatomo.dispatchEvents();
             Share.share(
-                '${widget.resource.name} ${widget.resource.description}, ${widget.resource.address}, ${widget.resource.googlemapUrl}');
+                '${resource.name} ${resource.description}, ${resource.address}, ${resource.googlemapUrl}');
           },
         )
       ],

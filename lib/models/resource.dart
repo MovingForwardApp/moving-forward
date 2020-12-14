@@ -1,5 +1,3 @@
-import 'package:latlong/latlong.dart';
-
 class Resource {
   final int id;
   final double lat;
@@ -23,9 +21,9 @@ class Resource {
 
   Resource({
     this.id,
-    this.lat = null,
-    this.long = null,
-    this.distance = null,
+    this.lat,
+    this.long,
+    this.distance,
     this.googlemapUrl,
     this.address,
     this.phone,
