@@ -11,7 +11,6 @@ class FavoritesState extends ChangeNotifier {
   /// Checks if [resource] exists in list  .
   bool isFavorite(int id) {
     print(_resources);
-    print(id);
     return _resources.contains(id);
   }
 
