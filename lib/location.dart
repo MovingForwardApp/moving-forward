@@ -73,8 +73,34 @@ class _LocationPageState extends State<LocationPage> {
                           ),
                         );
                       } else {
-                        return Text(AppLocalizations.of(context)
-                            .translate('loading_location'));
+                        return Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    AppLocalizations.of(context).translate('loading_location'),
+                                    style: TextStyle(
+                                      color: MfColors.white,
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: SizedBox(
+                                      height: 10,
+                                      width: 10,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 1,
+                                        valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+                                      )
+                                    ),
+                                  )
+                                ]
+                            )
+                        );
                       }
                     }),
                 Container(

@@ -1,7 +1,7 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 class LocationService {
-  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
   Position _position;
   String locality;
 
@@ -20,19 +20,39 @@ class LocationService {
       : null;
   }
 
-  Future _getCurrentLocation() async {
-    await instance.geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position currentPosition) {
-      instance._position = currentPosition;
-    });
+  Future<Position> _getCurrentPosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      print("EE Location services are disabled.");
+      return Future.error("Location services are disabled.");
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.deniedForever) {
+      print("EE Location permissions are permantly denied, we cannot request permissions.");
+      return Future.error("Location permissions are permantly denied, we cannot request permissions.");
+    }
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission != LocationPermission.whileInUse && permission != LocationPermission.always) {
+        print("EE Location permissions are denied (actual value: $permission).");
+        return Future.error("Location permissions are denied (actual value: $permission).");
+      }
+    }
+    return Geolocator.getCurrentPosition();
   }
 
   Future<String> fetchCurrentLocality() async {
     if (instance._position == null) {
-      await _getCurrentLocation();
+      instance._position =  await _getCurrentPosition();
+      print("Geolocate at ${instance._position}");
     }
-    List<Placemark> p = await geolocator.placemarkFromCoordinates(
+
+    List<Placemark> p = await placemarkFromCoordinates(
         instance._position.latitude, instance._position.longitude);
 
     Placemark place = p[0];
@@ -44,10 +64,10 @@ class LocationService {
 
   Future<int> getDistance(double endLatitude, double endLongitude) async {
     if (instance._position == null) {
-      await _getCurrentLocation();
+      await _getCurrentPosition();
     }
 
-    final double distance = await instance.geolocator.distanceBetween(
+    final double distance = await Geolocator.distanceBetween(
         instance._position.latitude,
         instance._position.longitude,
         endLatitude,

@@ -50,7 +50,8 @@ dependencies:
   google_fonts: ^1.1.1
 
   #Geolocation
-  geolocator: ^5.3.2+2
+  geolocator: ^6.1.13
+  geocoding: ^1.0.5
 
   #share
   share: ^0.6.5+4
