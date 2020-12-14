@@ -1,11 +1,17 @@
 import 'package:flutter/foundation.dart';
 import '../models/resource.dart';
+import 'dart:collection';
 
-class CartModel extends ChangeNotifier {
+class FavoritesState extends ChangeNotifier {
   /// Internal, private state of the resources list.
   final List<Resource> _resources = [];
 
-  List<Resource> get resources => _resources;
+  UnmodifiableListView<Resource> get resources => UnmodifiableListView(_resources);
+
+  /// Checks if [resource] exists in ist  .
+  bool contains(Resource resource) {
+    return _resources.contains(resource);
+  }
 
   /// Adds [resource] to resources list.
   void add(Resource resource) {
