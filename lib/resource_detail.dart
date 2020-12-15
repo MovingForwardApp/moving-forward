@@ -16,9 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
 
 class ResourceDetailPage extends StatelessWidget {
-  ResourceDetailPage(
-      {Key key, @required this.resource})
-      : super(key: key);
+  ResourceDetailPage({Key key, @required this.resource}) : super(key: key);
 
   final Resource resource;
   final _db = DBService.instance;
@@ -128,11 +126,7 @@ class ResourceDetailPage extends StatelessWidget {
                 await FlutterMatomo.trackEventWithName(
                     'ResourceDetail', 'launchMap', 'Clicked');
                 FlutterMatomo.dispatchEvents();
-<<<<<<< HEAD
-                _launchMap(lat: resource.lat, long: resource.long);
-=======
-                _launchMap(googlemapUrl: widget.resource.googlemapUrl);
->>>>>>> ca0f02b (Resource in google maps)
+                _launchMap(googlemapUrl: resource.googlemapUrl);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
