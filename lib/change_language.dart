@@ -81,6 +81,7 @@ class AppLang extends StatelessWidget {
                 fontSize: 32.0,
                 fontWeight: FontWeight.bold,
               ),
+              textAlign: TextAlign.center,
             ),
             Padding(padding: EdgeInsets.only(top: 60)),
             Column(
