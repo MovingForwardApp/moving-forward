@@ -39,7 +39,7 @@ class SavedResources extends StatelessWidget {
                     BuildContext context,
                     AsyncSnapshot<List<Resource>> snapshot
                 ) {
-                    if (snapshot.data != null) {
+                    if (snapshot.data.length > 0) {
                         return ListView(
                             children: [
                                 for (var resource in snapshot.data) _resourceCard(context, resource)
