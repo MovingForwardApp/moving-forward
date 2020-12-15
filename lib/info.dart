@@ -96,7 +96,7 @@ class Info extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Image(
-                image: AssetImage('assets/cear.jpg'),
+                image: AssetImage('assets/cear.png'),
               ),
             ))
       ],
