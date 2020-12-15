@@ -136,37 +136,7 @@ class SavedResources extends StatelessWidget {
                             },
                           ),
                     )
-                    // Consumer<FavoritesState>(
-                    //   builder: (context, favorites, child) {
-                    //     if (favorites.isFavorite(resource.id)) {
-                    //       return Container(
-                    //         alignment: Alignment.topRight,
-                    //         child: IconButton(
-                    //           icon: Icon(Icons.bookmark, size: 30.0),
-                    //           onPressed: () async {
-                    //             await FlutterMatomo.trackEventWithName(
-                    //                 'savedResources', 'remove', 'Clicked');
-                    //             FlutterMatomo.dispatchEvents();
-                    //             Provider.of<FavoritesState>(context, listen: false).remove(resource.id);
-                    //           },
-                    //         ),
-                    //       );
-                    //     } else {
-                    //       return Container(
-                    //         alignment: Alignment.topRight,
-                    //         child: IconButton(
-                    //           icon: Icon(Icons.bookmark_border_outlined, size: 30.0),
-                    //           onPressed: () async {
-                    //             await FlutterMatomo.trackEventWithName(
-                    //                 'savedResources', 'save', 'Clicked');
-                    //             FlutterMatomo.dispatchEvents();
-                    //             Provider.of<FavoritesState>(context, listen: false).add(resource.id);
-                    //           },
-                    //         ),
-                    //       );
-                    //     }
-                    //   },
-                    // )
+
                   ],
                 ),
                 Container(

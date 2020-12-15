@@ -6,10 +6,12 @@ import 'package:moving_forward/models/resource.dart';
 import 'package:moving_forward/resource_detail.dart';
 import 'package:moving_forward/services/db.dart';
 import 'package:moving_forward/services/location.dart';
+import 'package:moving_forward/state/favorites.dart';
 import 'package:moving_forward/theme.dart';
 import 'package:moving_forward/search.dart';
 import 'package:moving_forward/utils.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
+import 'package:provider/provider.dart';
 
 class CategoryDetail extends StatelessWidget {
   final _db = DBService.instance;
@@ -111,10 +113,37 @@ class CategoryDetail extends StatelessWidget {
                               return Text('');
                             }
                           }),
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: Icon(Icons.bookmark_border, size: 30.0),
-                    ),
+                    Consumer<FavoritesState>(
+                      builder: (context, favorites, child) {
+                        if (favorites.isFavorite(resource.id)) {
+                          return Container(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                              icon: Icon(Icons.bookmark, size: 30.0),
+                              onPressed: () async {
+                                await FlutterMatomo.trackEventWithName(
+                                    'savedResources', 'remove', 'Clicked');
+                                FlutterMatomo.dispatchEvents();
+                                Provider.of<FavoritesState>(context, listen: false).remove(resource.id);
+                              },
+                            ),
+                          );
+                        } else {
+                          return Container(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                              icon: Icon(Icons.bookmark_border_outlined, size: 30.0),
+                              onPressed: () async {
+                                await FlutterMatomo.trackEventWithName(
+                                    'savedResources', 'save', 'Clicked');
+                                FlutterMatomo.dispatchEvents();
+                                Provider.of<FavoritesState>(context, listen: false).add(resource.id);
+                              },
+                            ),
+                          );
+                        }
+                      },
+                    )
                   ],
                 ),
                 Container(
