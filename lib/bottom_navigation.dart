@@ -47,6 +47,7 @@ class BottomNavigation extends StatelessWidget {
             unselectedLabelStyle: TextStyle(color: MfColors.dark),
             unselectedItemColor: MfColors.dark,
             iconSize: 30,
+            currentIndex: currentTab.index,
             items: [
               _buildItem(tabItem: TabItem.saved, context: context),
               _buildItem(tabItem: TabItem.home, context: context),
