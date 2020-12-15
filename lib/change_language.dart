@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:moving_forward/services/localization.dart';
 import 'package:moving_forward/location.dart';
+import 'package:moving_forward/state/settings.dart';
 import 'package:moving_forward/theme.dart';
 
 import 'package:flutter_matomo/flutter_matomo.dart';
+import 'package:provider/provider.dart';
 
 class AppLang extends StatelessWidget {
   AppLang({Key key}) : super(key: key) {
@@ -28,7 +30,7 @@ class AppLang extends StatelessWidget {
       onPressed: () async {
         await FlutterMatomo.trackEvent(context, trackText, trackEvent);
         FlutterMatomo.dispatchEvents();
-        AppLocalizations.load(Locale(lang, lang.toUpperCase()));
+        Provider.of<SettingsState>(context, listen: false).setLanguage(lang);
         Navigator.push(
           context,
           MaterialPageRoute(

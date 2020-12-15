@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:moving_forward/state/settings.dart';
+import 'package:provider/provider.dart';
 import 'theme.dart';
 import 'services/localization.dart';
 import 'services/location.dart';
@@ -19,17 +21,23 @@ class Info extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         Divider(),
-        ListTile(
-          leading: Icon(Icons.room, size: 30, color: MfColors.gray),
-          title: Text(
-            AppLocalizations.of(context).translate('language'),
-            style: TextStyle(fontSize: 14)
-          ),
-          subtitle: Text('Español',
-              style: TextStyle(fontSize: 18, color: MfColors.dark)),
-          // trailing: Icon(Icons.keyboard_arrow_right), // TODO
-          dense: true,
+        Consumer<SettingsState>(
+            builder: (context, settings, child) {
+              return ListTile(
+                leading: Icon(Icons.room, size: 30, color: MfColors.gray),
+                title: Text(
+                  AppLocalizations.of(context).translate('language'),
+                  style: TextStyle(fontSize: 14)
+                ),
+                subtitle: Text(
+                    _getLanguageName(settings.language),
+                    style: TextStyle(fontSize: 18, color: MfColors.dark)),
+                trailing: Icon(Icons.keyboard_arrow_right), // TODO
+                dense: true,
+              );
+            }
         ),
+
         Divider(),
         ListTile(
           leading: Icon(Icons.language, size: 30, color: MfColors.gray),
@@ -109,5 +117,34 @@ class Info extends StatelessWidget {
             ))
       ],
     )));
+  }
+
+  String _getLanguageName(String lang) {
+    switch(lang) {
+      case 'ar': {
+        return 'العربية';
+      }
+      break;
+
+      case 'fr': {
+        return 'Français (FR)';
+      }
+      break;
+
+      case 'en': {
+        return 'English (US)';
+      }
+      break;
+
+      case 'es': {
+        return 'Español (ES)';
+      }
+      break;
+
+      default: {
+        return lang;
+      }
+      break;
+    }
   }
 }

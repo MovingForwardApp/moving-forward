@@ -8,6 +8,7 @@ import 'package:moving_forward/layout.dart';
 import 'package:moving_forward/services/localization.dart';
 import 'package:moving_forward/location.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
+import 'package:moving_forward/state/settings.dart';
 import 'package:provider/provider.dart';
 import 'state/favorites.dart';
 
@@ -16,8 +17,15 @@ const SITE_ID = 20;
 
 void main() async {
   runApp(
-      ChangeNotifierProvider(
-        create: (context) => FavoritesState(),
+      // ChangeNotifierProvider(
+      //   create: (context) => FavoritesState(),
+      //   child: MyApp(),
+      // )
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => FavoritesState()),
+          ChangeNotifierProvider(create: (context) => SettingsState()),
+        ],
         child: MyApp(),
       )
   );
