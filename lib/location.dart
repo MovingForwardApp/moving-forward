@@ -82,37 +82,37 @@ class _LocationPageState extends State<LocationPage> {
                                   Padding(
                                     padding: EdgeInsets.only(right: 10),
                                     child: SizedBox(
-                                      height: 10,
-                                      width: 10,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 1,
-                                        valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
-                                      )
-                                    ),
+                                        height: 10,
+                                        width: 10,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 1,
+                                          valueColor:
+                                              new AlwaysStoppedAnimation<Color>(
+                                                  Colors.white),
+                                        )),
                                   ),
                                   Text(
-                                    AppLocalizations.of(context).translate('loading_location'),
+                                    AppLocalizations.of(context)
+                                        .translate('loading_location'),
                                     style: TextStyle(
                                       color: MfColors.white,
                                       fontSize: 12.0,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                ]
-                            )
-                        );
+                                ]));
                       }
                     }),
                 Container(
                   margin: EdgeInsets.only(top: 40.0),
-                  child: Text(
+                  /* child: Text(
                     AppLocalizations.of(context)
                         .translate('location_guess_error'),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: MfColors.white,
                     ),
-                  ),
+                  ), */
                 ),
               ],
             ),

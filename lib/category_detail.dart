@@ -81,8 +81,7 @@ class CategoryDetail extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    ResourceDetailPage(resource: resource)),
+                builder: (context) => ResourceDetailPage(resource: resource)),
           );
         },
         child: Container(
@@ -124,7 +123,9 @@ class CategoryDetail extends StatelessWidget {
                                 await FlutterMatomo.trackEventWithName(
                                     'savedResources', 'remove', 'Clicked');
                                 FlutterMatomo.dispatchEvents();
-                                Provider.of<FavoritesState>(context, listen: false).remove(resource.id);
+                                Provider.of<FavoritesState>(context,
+                                        listen: false)
+                                    .remove(resource.id);
                               },
                             ),
                           );
@@ -132,12 +133,15 @@ class CategoryDetail extends StatelessWidget {
                           return Container(
                             alignment: Alignment.topRight,
                             child: IconButton(
-                              icon: Icon(Icons.bookmark_border_outlined, size: 30.0),
+                              icon: Icon(Icons.bookmark_border_outlined,
+                                  size: 30.0),
                               onPressed: () async {
                                 await FlutterMatomo.trackEventWithName(
                                     'savedResources', 'save', 'Clicked');
                                 FlutterMatomo.dispatchEvents();
-                                Provider.of<FavoritesState>(context, listen: false).add(resource.id);
+                                Provider.of<FavoritesState>(context,
+                                        listen: false)
+                                    .add(resource.id);
                               },
                             ),
                           );
@@ -237,12 +241,12 @@ class CategoryDetail extends StatelessWidget {
                     ),
                   ],
                 ),
-                Text(
+                /* Text(
                   AppLocalizations.of(context).translate("change_category"),
                   style: TextStyle(
                     color: MfColors.primary[400],
                   ),
-                )
+                ) */
               ],
             ),
           ),
