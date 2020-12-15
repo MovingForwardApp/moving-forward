@@ -20,7 +20,7 @@ Map<TabItem, Map<String, WidgetBuilder>> tabItemsRoutes = {
     '/': (context) => CategoryList(),
     '/category': (context) => CategoryDetail(category: category),
     '/resource': (context) =>
-        ResourceDetailPage(category: category, resource: resource),
+        ResourceDetailPage(resource: resource),
   },
   TabItem.info: {'/': (context) => Info()}
 };

@@ -17,17 +17,11 @@ import 'package:flutter_matomo/flutter_matomo.dart';
 
 class ResourceDetailPage extends StatelessWidget {
   ResourceDetailPage(
-      {Key key, this.category, @required this.resource})
+      {Key key, @required this.resource})
       : super(key: key);
 
   final Resource resource;
-  final Category category;
   final _db = DBService.instance;
-
-  Future<void> initPage() async {
-    await FlutterMatomo.trackScreenWithName(
-        "ResourceDetail - ${category.name}/${resource.name} ", "Screen opened");
-  }
 
   _launchMap({double lat = 47.6, double long = -122.3}) async {
     var mapSchema = 'geo:$lat,$long';
