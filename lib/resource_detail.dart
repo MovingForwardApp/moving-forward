@@ -23,12 +23,11 @@ class ResourceDetailPage extends StatelessWidget {
   final Resource resource;
   final _db = DBService.instance;
 
-  _launchMap({double lat = 47.6, double long = -122.3}) async {
-    var mapSchema = 'geo:$lat,$long';
-    if (await canLaunch(mapSchema)) {
-      await launch(mapSchema);
+  _launchMap({String googlemapUrl}) async {
+    if (await canLaunch(googlemapUrl)) {
+      await launch(googlemapUrl);
     } else {
-      throw 'Could not launch $mapSchema';
+      throw 'Could not launch $googlemapUrl';
     }
   }
 
@@ -91,7 +90,8 @@ class ResourceDetailPage extends StatelessWidget {
                 TileLayerWidget(
                   options: TileLayerOptions(
                     /* OpenStreetMap Tile */
-                    urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    urlTemplate:
+                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                     subdomains: ['a', 'b', 'c'],
                   ),
                 ),
@@ -128,7 +128,11 @@ class ResourceDetailPage extends StatelessWidget {
                 await FlutterMatomo.trackEventWithName(
                     'ResourceDetail', 'launchMap', 'Clicked');
                 FlutterMatomo.dispatchEvents();
+<<<<<<< HEAD
                 _launchMap(lat: resource.lat, long: resource.long);
+=======
+                _launchMap(googlemapUrl: widget.resource.googlemapUrl);
+>>>>>>> ca0f02b (Resource in google maps)
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
