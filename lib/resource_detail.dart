@@ -62,7 +62,7 @@ class ResourceDetailPage extends StatelessWidget {
               child: Column(
                 children: [
                   if (resource.lat != null && resource.long != null)
-                    _mapSection(),
+                    _mapSection(context),
                   _titleSection(),
                   _actionSection(context),
                   _dataSection()
@@ -82,7 +82,7 @@ class ResourceDetailPage extends StatelessWidget {
     );
   }
 
-  SizedBox _mapSection() {
+  SizedBox _mapSection(BuildContext context) {
     return SizedBox(
       height: 230,
       child: Stack(
