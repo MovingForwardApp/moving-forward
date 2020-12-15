@@ -118,6 +118,7 @@ class CategoryDetail extends StatelessWidget {
                           return Container(
                             alignment: Alignment.topRight,
                             child: IconButton(
+                              color: MfColors.primary,
                               icon: Icon(Icons.bookmark, size: 30.0),
                               onPressed: () async {
                                 await FlutterMatomo.trackEventWithName(
@@ -133,6 +134,7 @@ class CategoryDetail extends StatelessWidget {
                           return Container(
                             alignment: Alignment.topRight,
                             child: IconButton(
+                              color: MfColors.dark,
                               icon: Icon(Icons.bookmark_border_outlined,
                                   size: 30.0),
                               onPressed: () async {

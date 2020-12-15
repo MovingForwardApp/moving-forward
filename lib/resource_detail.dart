@@ -261,16 +261,20 @@ class ResourceDetailPage extends StatelessWidget {
       builder: (context, favorites, child) {
         if (favorites.isFavorite(resource.id)) {
           return _actionIcon(
-              Icons.bookmark,
-              AppLocalizations.of(context).translate("save"),
+              Icons.bookmark_border_outlined,
+              AppLocalizations.of(context).translate("Saved"),
               'remove',
-              context);
+              context
+          );
         } else {
-          return _actionIcon(Icons.bookmark_border_outlined,
-              AppLocalizations.of(context).translate("save"), 'save', context);
+          return _actionIcon(
+              Icons.bookmark_border_outlined,
+              AppLocalizations.of(context).translate("save"),
+              'save',
+              context
+          );
         }
-      },
-    );
+      });
   }
 
   Column _actionIcon(
@@ -280,7 +284,7 @@ class ResourceDetailPage extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(bottom: 8.0),
           decoration: BoxDecoration(
-            color: MfColors.dark,
+            color: action == 'remove' ? MfColors.primary : MfColors.dark,
             borderRadius: BorderRadius.all(Radius.circular(12.0)),
           ),
           child: IconButton(

@@ -127,6 +127,7 @@ class SavedResources extends StatelessWidget {
                       Container(
                           alignment: Alignment.topRight,
                           child: IconButton(
+                            color: MfColors.primary,
                             icon: Icon(Icons.bookmark, size: 30.0),
                             onPressed: () async {
                               await FlutterMatomo.trackEventWithName(
