@@ -19,7 +19,9 @@
   "location_guess": "It looks like you're in",
   "location_guess_error": "If this is not correct or you prefer to see information about resources from another place you can choose another location",
   "continue": "Continue",
+  "resource_distance": "A menos de",
   "resources_saved": "Saved resources",
+  "route": "Ruta",
   "search_placeholder": "¿Qué estás buscando?",
   "search_hint": "Busca recursos cerca"
 }

@@ -104,7 +104,7 @@ class CategoryDetail extends StatelessWidget {
                                 child: Chip(
                                   backgroundColor: MfColors.primary[100],
                                   label: Text(
-                                      'A menos de ${getFormatedDistance(snapshot.data)}'),
+                                      "${AppLocalizations.of(context).translate('resource_distance')} ${getFormatedDistance(snapshot.data)}"),
                                 ),
                               );
                             } else {

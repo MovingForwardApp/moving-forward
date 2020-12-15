@@ -190,7 +190,7 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    "Ruta",
+                    AppLocalizations.of(context).translate('route'),
                     style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.bold,
@@ -203,7 +203,8 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
                           (BuildContext context, AsyncSnapshot<int> snapshot) {
                         if (snapshot.data != null) {
                           return Text(
-                            " (menos de ${getFormatedDistance(snapshot.data)})",
+                            " (${AppLocalizations.of(context).translate('resource_distance')} ${getFormatedDistance(snapshot.data)})"
+                                .toLowerCase(),
                             style: TextStyle(fontSize: 14.0),
                           );
                         } else {
