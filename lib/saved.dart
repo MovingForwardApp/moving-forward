@@ -86,15 +86,15 @@ class SavedResources extends StatelessWidget {
       shadowColor: Colors.grey[100],
       child: new InkWell(
         onTap: () async {
-          // await FlutterMatomo.trackEventWithName(
-          //     'CategoryDetail', '${category.name}/${resource.name}', 'Clicked');
-          // FlutterMatomo.dispatchEvents();
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //       builder: (context) =>
-          //           ResourceDetailPage(resource: resource, category: category)),
-          // );
+          await FlutterMatomo.trackEventWithName(
+              'CategoryDetail', '${resource.name}', 'Clicked');
+          FlutterMatomo.dispatchEvents();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    ResourceDetailPage(resource: resource)),
+          );
         },
         child: Container(
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),

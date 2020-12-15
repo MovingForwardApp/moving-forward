@@ -17,7 +17,7 @@ import 'package:flutter_matomo/flutter_matomo.dart';
 
 class ResourceDetailPage extends StatelessWidget {
   ResourceDetailPage(
-      {Key key, @required this.category, @required this.resource})
+      {Key key, this.category, @required this.resource})
       : super(key: key);
 
   final Resource resource;
