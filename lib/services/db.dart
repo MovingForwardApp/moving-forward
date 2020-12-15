@@ -76,6 +76,20 @@ class DBService {
     return maps.map((m) => Category.fromMap(m).applyLang(lang)).toList();
   }
 
+  Future<List<Resource>> listResourcesById(List<int> resourceIds, {String lang: 'es'}) async {
+    Database db = await instance.database;
+
+    final String query = '''   
+      SELECT *  
+        FROM resources
+        WHERE id in ('${resourceIds.join("', '")}')
+    ''';
+    final List<Map<String, dynamic>> maps = await db.rawQuery(query);
+
+    return maps.map((m) => Resource.fromMap(m).applyLang(lang))
+        .toList();
+  }
+
   Future<List<Resource>> listResourcesByCategory(
       int categoryId, double locationLat, double locationLong,
       {String lang: 'es'}) async {

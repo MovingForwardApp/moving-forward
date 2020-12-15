@@ -67,7 +67,7 @@ class LocationService {
       await _getCurrentPosition();
     }
 
-    final double distance = await Geolocator.distanceBetween(
+    final double distance = Geolocator.distanceBetween(
         instance._position.latitude,
         instance._position.longitude,
         endLatitude,

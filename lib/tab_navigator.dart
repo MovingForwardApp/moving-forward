@@ -14,13 +14,13 @@ Resource resource;
 Category category;
 Map<TabItem, Map<String, WidgetBuilder>> tabItemsRoutes = {
   TabItem.saved: {
-    '/': (context) => Saved(),
+    '/': (context) => SavedResources(),
   },
   TabItem.home: {
     '/': (context) => CategoryList(),
     '/category': (context) => CategoryDetail(category: category),
     '/resource': (context) =>
-        ResourceDetailPage(category: category, resource: resource),
+        ResourceDetailPage(resource: resource),
   },
   TabItem.info: {'/': (context) => Info()}
 };
