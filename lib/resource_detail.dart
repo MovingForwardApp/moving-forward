@@ -135,18 +135,8 @@ class _ResourceDetailState extends State<ResourceDetailPage> {
                 TileLayerWidget(
                   options: TileLayerOptions(
                     /* OpenStreetMap Tile */
-                    /*
                     urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                     subdomains: ['a', 'b', 'c'],
-                    */
-                    /* MapBox Tile */
-                    urlTemplate:
-                        "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
-                    additionalOptions: {
-                      "accessToken":
-                          "pk.eyJ1IjoiYmFtZWRhIiwiYSI6ImNrNDl2OGh4cjA4dzMzc3A4c2Q2N25wenUifQ.-9r_WubwqOJqqVl1sZdjtg",
-                      "id": "mapbox.streets",
-                    },
                   ),
                 ),
                 MarkerLayerWidget(
