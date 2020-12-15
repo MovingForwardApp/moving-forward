@@ -15,13 +15,16 @@ class Info extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       children: <Widget>[
         Text(
-          'Información',
+          AppLocalizations.of(context).translate('information'),
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         Divider(),
         ListTile(
           leading: Icon(Icons.room, size: 30, color: MfColors.gray),
-          title: Text('Idioma', style: TextStyle(fontSize: 14)),
+          title: Text(
+            AppLocalizations.of(context).translate('language'),
+            style: TextStyle(fontSize: 14)
+          ),
           subtitle: Text('Español',
               style: TextStyle(fontSize: 18, color: MfColors.dark)),
           // trailing: Icon(Icons.keyboard_arrow_right), // TODO
@@ -30,7 +33,10 @@ class Info extends StatelessWidget {
         Divider(),
         ListTile(
           leading: Icon(Icons.language, size: 30, color: MfColors.gray),
-          title: Text('Ubicación', style: TextStyle(fontSize: 14)),
+          title: Text(
+            AppLocalizations.of(context).translate('location'),
+            style: TextStyle(fontSize: 14)
+          ),
           subtitle: FutureBuilder<String>(
               future: LocationService.instance.fetchCurrentLocality(),
               builder:
@@ -74,17 +80,19 @@ class Info extends StatelessWidget {
         Divider(),
         Container(
           padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
-          child: Text('Sobre Moving Forward',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+          child: Text(
+            AppLocalizations.of(context).translate('about_mf'),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)
+          ),
         ),
         Container(
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
           child: Text(
-              'Moving Forward es una iniciativa impulsada por CEAR (Comisión Española de Ayuda al Refugiado, www.cear.es) con la motivación de hacer más accesibles los recursos sociales a los que tienen derecho las personas migrantes y refugiadas.',
-              style: TextStyle(fontSize: 16)),
+            AppLocalizations.of(context).translate('about_mf_text1'),
+            style: TextStyle(fontSize: 16)),
         ),
         Text(
-            'Todo el contenido (recursos de distintos tipos como emergencia, jurídicos, sanitarios, alojamiento y otros) está extraído de las guías oficiales de CEAR.',
+            AppLocalizations.of(context).translate('about_mf_text2'),
             style: TextStyle(fontSize: 16)),
         GestureDetector(
             onTap: () async {
