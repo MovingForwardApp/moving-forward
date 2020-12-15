@@ -124,10 +124,49 @@ class SavedResources extends StatelessWidget {
                               return Text('');
                             }
                           }),
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: Icon(Icons.bookmark_border, size: 30.0),
-                    ),
+                      Container(
+                          alignment: Alignment.topRight,
+                          child: IconButton(
+                            icon: Icon(Icons.bookmark, size: 30.0),
+                            onPressed: () async {
+                              await FlutterMatomo.trackEventWithName(
+                                  'savedResources', 'remove', 'Clicked');
+                              FlutterMatomo.dispatchEvents();
+                              Provider.of<FavoritesState>(context, listen: false).remove(resource.id);
+                            },
+                          ),
+                    )
+                    // Consumer<FavoritesState>(
+                    //   builder: (context, favorites, child) {
+                    //     if (favorites.isFavorite(resource.id)) {
+                    //       return Container(
+                    //         alignment: Alignment.topRight,
+                    //         child: IconButton(
+                    //           icon: Icon(Icons.bookmark, size: 30.0),
+                    //           onPressed: () async {
+                    //             await FlutterMatomo.trackEventWithName(
+                    //                 'savedResources', 'remove', 'Clicked');
+                    //             FlutterMatomo.dispatchEvents();
+                    //             Provider.of<FavoritesState>(context, listen: false).remove(resource.id);
+                    //           },
+                    //         ),
+                    //       );
+                    //     } else {
+                    //       return Container(
+                    //         alignment: Alignment.topRight,
+                    //         child: IconButton(
+                    //           icon: Icon(Icons.bookmark_border_outlined, size: 30.0),
+                    //           onPressed: () async {
+                    //             await FlutterMatomo.trackEventWithName(
+                    //                 'savedResources', 'save', 'Clicked');
+                    //             FlutterMatomo.dispatchEvents();
+                    //             Provider.of<FavoritesState>(context, listen: false).add(resource.id);
+                    //           },
+                    //         ),
+                    //       );
+                    //     }
+                    //   },
+                    // )
                   ],
                 ),
                 Container(
