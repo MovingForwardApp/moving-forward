@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:moving_forward/services/localization.dart';
 import 'package:moving_forward/models/category.dart';
@@ -32,37 +33,33 @@ class CategoryDetail extends StatelessWidget {
 
   Container _categoryTitle() {
     return Container(
-      padding: const EdgeInsets.only(top: 50, bottom: 30),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      padding: const EdgeInsets.only(top: 50, bottom: 30, left: 20, right: 20),
+      child: Column(
         children: [
-          Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.only(bottom: 20, top: 20),
-                child: SvgPicture.asset(
-                  'assets/images/categories/${category.icon}.svg',
-                  height: 72,
-                ),
+          Container(
+            padding: const EdgeInsets.only(bottom: 20, top: 20),
+            child: SvgPicture.asset(
+              'assets/images/categories/${category.icon}.svg',
+              height: 72,
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: Text(
+              category.name,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
               ),
-              Container(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: Text(
-                  category.name,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
-                ),
-              ),
-              Text(
-                category.description,
-                style: TextStyle(fontSize: 16),
-              ),
-            ],
+            ),
+          ),
+          Text(
+            category.description,
+            style: TextStyle(fontSize: 16),
+            textAlign: TextAlign.center,
           )
         ],
-      ),
+      )
     );
   }
 

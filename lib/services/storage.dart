@@ -31,6 +31,8 @@ class SharedPreferencesRepository implements StorageRepositoryInterface {
   @override
   Future<Map<String, dynamic>> getJson(String key) async {
     String data = await getString(key);
+
+    if (data == null) return null;
     return jsonDecode(data);
   }
 
