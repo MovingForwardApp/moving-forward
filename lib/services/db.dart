@@ -73,7 +73,8 @@ class DBService {
 
     final List<Map<String, dynamic>> maps = await db.query('categories');
 
-    return maps.map((m) => Category.fromMap(m).applyLang(lang)).toList();
+    return maps.map((m) => Category.fromMap(m).applyLang(lang))
+        .toList();
   }
 
   Future<List<Resource>> listResourcesById(List<int> resourceIds, {String lang: 'es'}) async {
@@ -119,8 +120,19 @@ class DBService {
     }
 
     final List<Map<String, dynamic>> maps = await db.rawQuery(query, params);
+    print("caca ${maps.length}");
 
-    return maps.map((m) => Resource.fromMap(m).applyLang(lang)).toList();
+    //// NOTE: To debug new db updates use this isnstead of the last line.
+    ////
+    // final List<Resource> list = [];
+    // for (var i = 0; i < maps.length; i++) {
+    //   print("res ${maps[i]['id']}");
+    //   list.add(Resource.fromMap(maps[i]).applyLang(lang));
+    // }
+    // return list;
+    ////
+    return maps.map((m) => Resource.fromMap(m).applyLang(lang))
+        .toList();
   }
 
   Future<List<Category>> listCategoriesByResource(int resourceId,
@@ -136,7 +148,8 @@ class DBService {
 
     final List<Map<String, dynamic>> maps = await db.rawQuery(query, params);
 
-    return maps.map((m) => Category.fromMap(m).applyLang(lang)).toList();
+    return maps.map((m) => Category.fromMap(m).applyLang(lang))
+        .toList();
   }
 
   void close() async {
