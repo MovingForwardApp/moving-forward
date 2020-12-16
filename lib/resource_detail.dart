@@ -56,7 +56,7 @@ class ResourceDetailPage extends StatelessWidget {
                     _mapSection(context),
                   _titleSection(),
                   _actionSection(context),
-                  _dataSection()
+                  _dataSection(context)
                 ],
               ),
             ),
@@ -232,23 +232,23 @@ class ResourceDetailPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          if (resource.phone != '')
+          if (resource.mainPhone != '')
             _actionIcon(
                 Icons.call,
                 AppLocalizations.of(context).translate("phone_call"),
-                'tel:${resource.phone}',
+                'tel:${resource.mainPhone}',
                 context),
-          if (resource.email != '')
+          if (resource.mainEmail != '')
             _actionIcon(
                 Icons.mail_outline,
                 AppLocalizations.of(context).translate("send_email"),
-                'mailto:${resource.email}',
+                'mailto:${resource.mainEmail}',
                 context),
-          if (resource.web != '')
+          if (resource.mainWeb != '')
             _actionIcon(
                 Icons.public,
                 AppLocalizations.of(context).translate("browse_web"),
-                resource.web,
+                resource.mainWeb,
                 context),
           if (resource.id != null) _favoritesIcon(resource),
         ],
@@ -257,24 +257,15 @@ class ResourceDetailPage extends StatelessWidget {
   }
 
   Consumer _favoritesIcon(Resource resource) {
-    return Consumer<FavoritesState>(
-      builder: (context, favorites, child) {
-        if (favorites.isFavorite(resource.id)) {
-          return _actionIcon(
-              Icons.bookmark_border_outlined,
-              AppLocalizations.of(context).translate("Saved"),
-              'remove',
-              context
-          );
-        } else {
-          return _actionIcon(
-              Icons.bookmark_border_outlined,
-              AppLocalizations.of(context).translate("save"),
-              'save',
-              context
-          );
-        }
-      });
+    return Consumer<FavoritesState>(builder: (context, favorites, child) {
+      if (favorites.isFavorite(resource.id)) {
+        return _actionIcon(Icons.bookmark_border_outlined,
+            AppLocalizations.of(context).translate("Saved"), 'remove', context);
+      } else {
+        return _actionIcon(Icons.bookmark_border_outlined,
+            AppLocalizations.of(context).translate("save"), 'save', context);
+      }
+    });
   }
 
   Column _actionIcon(
@@ -311,64 +302,81 @@ class ResourceDetailPage extends StatelessWidget {
     );
   }
 
-  Container _dataSection() {
+  Container _dataSection(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 10.0),
       child: Column(
         children: [
-          if (resource.address != '')
-            _dataRow(
-              Icons.location_on,
-              resource.address,
-              MfColors.dark,
-            ),
-          if (resource.phone != '')
-            _dataRow(
-              Icons.call,
-              resource.phone,
-              MfColors.dark,
-            ),
-          _dataRow(
-            Icons.access_time,
-            'L - V de 9:00h a 18:00h',
-            MfColors.dark,
-          ),
-          if (resource.email != '')
-            _dataRow(
-              Icons.mail_outline,
-              resource.email,
-              MfColors.primary[400],
-            ),
-          if (resource.phone != '')
-            _dataRow(
-              Icons.whatshot,
-              resource.phone,
-              MfColors.dark,
-            ),
-          if (resource.web != '')
-            _dataRow(
-              Icons.public,
-              resource.web,
-              MfColors.primary[400],
-            ),
+          if (resource.address != '' && resource.googlemapUrl != '')
+            _dataMap(Icons.location_on, resource.address),
+          if (resource.mainPhone != '')
+            for (var phone in resource.phone)
+              _dataRow(Icons.call, phone, 'tel:', context),
+          if (resource.mainEmail != '')
+            for (var email in resource.email)
+              _dataRow(Icons.mail_outline, email, 'mailto:', context),
+          if (resource.mainWeb != '')
+            for (var web in resource.web)
+              _dataRow(Icons.public, web, '', context),
         ],
       ),
     );
   }
 
-  ListTile _dataRow(IconData icon, String title, Color color) {
+  ListTile _dataMap(IconData icon, String text) {
     return ListTile(
       leading: Icon(
         icon,
         size: 24.0,
         color: MfColors.gray,
       ),
-      title: Text(
-        title,
-        style: TextStyle(
-          fontSize: 16,
-          color: color,
+      title: GestureDetector(
+        onTap: () async {
+          await FlutterMatomo.trackEventWithName(
+              'ResourceDetail', 'launchMap', 'Clicked');
+          FlutterMatomo.dispatchEvents();
+          _launchMap(googlemapUrl: resource.googlemapUrl);
+        },
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 16,
+            color: MfColors.primary[400],
+          ),
         ),
+      ),
+      dense: true,
+    );
+  }
+
+  ListTile _dataRow(
+      IconData icon, String text, String action, BuildContext context) {
+    return ListTile(
+      leading: Icon(
+        icon,
+        size: 24.0,
+        color: MfColors.gray,
+      ),
+      title: Row(
+        children: [
+          Expanded(
+              child: GestureDetector(
+            onTap: () async {
+              await FlutterMatomo.trackEventWithName(
+                  'ResourcesDetail', action + text, 'Clicked');
+              FlutterMatomo.dispatchEvents();
+              _executeAction(action + text, context, resource);
+            },
+            child: Text(
+              text,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 16,
+                color: MfColors.primary[400],
+              ),
+            ),
+          ))
+        ],
       ),
       dense: true,
     );
