@@ -8,6 +8,8 @@ import 'services/location.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
 
+enum Answers{ar, fr, en, es}
+
 class Info extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class Info extends StatelessWidget {
         Consumer<SettingsState>(
             builder: (context, settings, child) {
               return ListTile(
+                onTap: () => _askUser(context),
                 leading: Icon(Icons.room, size: 30, color: MfColors.gray),
                 title: Text(
                   AppLocalizations.of(context).translate('language'),
@@ -32,7 +35,7 @@ class Info extends StatelessWidget {
                 subtitle: Text(
                     _getLanguageName(settings.language),
                     style: TextStyle(fontSize: 18, color: MfColors.dark)),
-                trailing: Icon(Icons.keyboard_arrow_right), // TODO
+                trailing: Icon(Icons.keyboard_arrow_right),
                 dense: true,
               );
             }
@@ -147,4 +150,69 @@ class Info extends StatelessWidget {
       break;
     }
   }
+
+
+
+  Future _askUser(BuildContext context) async {
+    switch(
+    await showDialog(
+        context: context,
+        child: new SimpleDialog(
+          title: new Text(AppLocalizations.of(context).translate('languages')),
+          children: <Widget>[
+            new SimpleDialogOption(
+              child: new Text("العربية. (AR)"),
+              onPressed: (){
+                Navigator.of(context, rootNavigator: true).pop(Answers.ar);
+              },
+            ),
+            new SimpleDialogOption(
+              child: new Text("Français (FR)"),
+              onPressed: (){
+                Navigator.of(context, rootNavigator: true).pop(Answers.fr);
+              },
+            ),
+            new SimpleDialogOption(
+              child: new Text("English (US)"),
+              onPressed: (){
+                Navigator.of(context, rootNavigator: true).pop(Answers.en);
+              },
+            ),
+            new SimpleDialogOption(
+              child: new Text("Español (ES)"),
+              onPressed: (){
+                Navigator.of(context, rootNavigator: true).pop(Answers.es);
+              },
+            )
+          ],
+        )
+    )
+    ) {
+      case Answers.ar:
+        await FlutterMatomo.trackEvent(context, "AR lang", "Updated");
+        FlutterMatomo.dispatchEvents();
+        Provider.of<SettingsState>(context, listen: false).setLanguage('ar', 'AR');
+        break;
+      case Answers.fr:
+        await FlutterMatomo.trackEvent(context, "FR lang", "Updated");
+        FlutterMatomo.dispatchEvents();
+        Provider.of<SettingsState>(context, listen: false).setLanguage('fr', "FR");
+        break;
+      case Answers.en:
+        await FlutterMatomo.trackEvent(context, "EN lang", "Updated");
+        FlutterMatomo.dispatchEvents();
+        Provider.of<SettingsState>(context, listen: false).setLanguage('en', "US");
+        break;
+      case Answers.es:
+        await FlutterMatomo.trackEvent(context, "ES lang", "Updated");
+        FlutterMatomo.dispatchEvents();
+        Provider.of<SettingsState>(context, listen: false).setLanguage('es', "ES");
+
+        break;
+    }
+    Navigator.popAndPushNamed(context, '/');
+  }
 }
+
+
+

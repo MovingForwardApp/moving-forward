@@ -17,10 +17,6 @@ const SITE_ID = 20;
 
 void main() async {
   runApp(
-      // ChangeNotifierProvider(
-      //   create: (context) => FavoritesState(),
-      //   child: MyApp(),
-      // )
       MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => FavoritesState()),

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:moving_forward/services/localization.dart';
 import 'package:moving_forward/location.dart';
@@ -16,7 +17,7 @@ class AppLang extends StatelessWidget {
     await FlutterMatomo.trackScreenWithName("Language", "Screen opened");
   }
 
-  FlatButton _languageButton(textLabel, trackText, trackEvent, lang, context) {
+  FlatButton _languageButton(textLabel, trackText, trackEvent, lang, variant, context) {
     return FlatButton(
       color: MfColors.white,
       textColor: MfColors.dark,
@@ -30,7 +31,7 @@ class AppLang extends StatelessWidget {
       onPressed: () async {
         await FlutterMatomo.trackEvent(context, trackText, trackEvent);
         FlutterMatomo.dispatchEvents();
-        Provider.of<SettingsState>(context, listen: false).setLanguage(lang);
+        Provider.of<SettingsState>(context, listen: false).setLanguage(lang, variant);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -45,6 +46,32 @@ class AppLang extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _checkSystemLocale(BuildContext context) {
+    Locale _systemLocale = Localizations.localeOf(context);
+    var lang = _systemLocale.languageCode;
+    var variant = _systemLocale.countryCode;
+
+    List<String> supportedLocales = ['ar', 'fr' ,'en', 'es'];
+    List<String> supportedVariants = ['AR', 'FR' ,'US', 'ES'];
+
+    // TODO: Check if user has already chosen a language on localstorage
+    // else
+    // TODO: Check if user has a default language on its device that matches our default languages
+    // else
+    // Choose language from change_language screen.
+
+    if (supportedLocales.contains(lang) && supportedVariants.contains(variant))
+
+      Provider.of<SettingsState>(context, listen: false).setLanguage(lang, variant);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LocationPage(),
+        ),
+      );
   }
 
   @override
@@ -90,13 +117,13 @@ class AppLang extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 _languageButton(
-                    "العربية. (AR)", "AR button", "Clicked", "ar", context),
+                    "العربية. (AR)", "AR button", "Clicked", "ar", "AR", context),
                 _languageButton(
-                    "Français (FR)", "FR button", "Clicked", "fr", context),
+                    "Français (FR)", "FR button", "Clicked", "fr", "FR", context),
                 _languageButton(
-                    "English (US)", "US button", "Clicked", "en", context),
+                    "English (US)", "US button", "Clicked", "en", "US", context),
                 _languageButton(
-                    "Español (ES)", "ES button", "Clicked", "es", context)
+                    "Español (ES)", "ES button", "Clicked", "es", "ES", context)
               ],
             )
           ],
