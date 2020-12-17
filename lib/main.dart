@@ -38,8 +38,6 @@ class _MyAppState extends State<MyApp> {
     initPlatformState();
   }
 
-  bool hasDefaultLocale = false;
-
   Future<void> initPlatformState() async {
     await FlutterMatomo.initializeTracker(URL, SITE_ID);
     setState(() {});
@@ -73,26 +71,11 @@ class _MyAppState extends State<MyApp> {
           Locale('fr', 'FR'), // Francés
         ],
         localeListResolutionCallback: (deviceLocales, supportedLocales) {
-          String language =
-              Provider.of<SettingsState>(context, listen: false).language;
-          String variant =
-              Provider.of<SettingsState>(context, listen: false).variant;
           Locale defaultLocale;
-
-          print("Language: $language, Variant: $variant");
-
-          // If user has locale set in localStorage
-          if (language != null && variant != null) {
-            defaultLocale = Locale(language, variant);
-            hasDefaultLocale = true;
-          } else {
-            // Check if devices locale is supported by app locale
-            for (Locale locale in deviceLocales) {
-              if (supportedLocales.contains(locale)) {
-                defaultLocale = locale;
-                hasDefaultLocale = true;
-                break;
-              }
+          for (Locale locale in deviceLocales) {
+            if (supportedLocales.contains(locale)) {
+              defaultLocale = locale;
+              break;
             }
           }
           return defaultLocale;
@@ -107,12 +90,12 @@ class _MyAppState extends State<MyApp> {
             style: TextButton.styleFrom(primary: MfColors.primary)
           ),
         ),
-        initialRoute: hasDefaultLocale ? '/' : '/lang',
+        initialRoute: '/lang',
         routes: <String, WidgetBuilder>{
           "/": (BuildContext context) => AppLayout(),
           "/location": (BuildContext context) => LocationPage(),
           "/lang": (BuildContext context) => AppLang(),
-        },
-        debugShowCheckedModeBanner: false);
+      },
+      debugShowCheckedModeBanner: false);
   }
 }

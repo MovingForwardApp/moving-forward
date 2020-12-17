@@ -17,18 +17,14 @@ class SettingsState extends ChangeNotifier {
 
   /// Initialize default language from the store
   Future<void> _initializeData() async {
-    print('aquiiiiiii');
     var data = await _storage.getString("language");
-    print('data: $data');
 
     if (data != null) {
-      print('Entro en el if');
       List<String> langList = data.split('_');
 
       _language = langList[0];
       _languageVariant = langList[1];
-      print('_language $_language');
-      print('_languageVariant $_languageVariant');
+      // AppLocalizations.load(Locale(_language, _languageVariant));
 
       notifyListeners();
     }
