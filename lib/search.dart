@@ -123,6 +123,7 @@ class _SearchFormWidgetState extends State<SearchFormWidget> {
                   color: Color(0xFF18AC91), width: 3.0,
                 ),
               ),
+              suffixIcon: Icon(Icons.search, size: 25, color: MfColors.gray)
             ),
             onChanged: updateSearchedText,
           ),
