@@ -77,6 +77,46 @@ class DBService {
         .toList();
   }
 
+  Future<List<Resource>> listResourcesByText(
+      String text, double locationLat, double locationLong,
+      {String lang: 'es'}) async {
+    Database db = await instance.database;
+    String query = '';
+    var params = [];
+
+    if ((locationLat != null) & (locationLong != null)) {
+      query = '''
+         SELECT *,
+                (
+                  (?2 - resources.lat) * (?2 - resources.lat)) + 
+                  ((?3 - resources.long) * (?3 - resources.long)
+                ) AS distance
+           FROM resources
+          WHERE name like '%$text%'
+            OR description_ar like '%$text%'
+            OR description_es like '%$text%'
+            OR description_en like '%$text%'
+            OR description_fr like '%$text%'
+       ORDER BY distance ASC
+      ''';
+      params = [text, locationLat, locationLong];
+    } else {
+      query = '''
+         SELECT *
+           FROM resources JOIN resource_category ON resources.id = resource_category.resource_id
+          WHERE name like '%?1%'
+            OR description_ar like '%$text%'
+            OR description_es like '%$text%'
+            OR description_en like '%$text%'
+            OR description_fr like '%$text%'
+      ''';
+      params = [text];
+    }
+
+    final List<Map<String, dynamic>> maps = await db.rawQuery(query, params);
+
+    return maps.map((m) => Resource.fromMap(m).applyLang(lang)).toList();
+  }
   Future<List<Resource>> listResourcesById(List<int> resourceIds, {String lang: 'es'}) async {
     Database db = await instance.database;
 
