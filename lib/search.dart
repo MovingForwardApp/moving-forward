@@ -82,7 +82,6 @@ class _SearchFormWidgetState extends State<SearchFormWidget> {
       padding: EdgeInsets.fromLTRB(16,0,16,0),
       child: Column(
         mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
             alignment: Alignment(1.2, 0.0),
