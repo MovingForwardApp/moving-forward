@@ -8,6 +8,7 @@ import 'package:moving_forward/layout.dart';
 import 'package:moving_forward/services/localization.dart';
 import 'package:moving_forward/location.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
+import 'package:moving_forward/state/settings.dart';
 import 'package:provider/provider.dart';
 import 'state/favorites.dart';
 
@@ -16,8 +17,11 @@ const SITE_ID = 20;
 
 void main() async {
   runApp(
-      ChangeNotifierProvider(
-        create: (context) => FavoritesState(),
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => FavoritesState()),
+          ChangeNotifierProvider(create: (context) => SettingsState()),
+        ],
         child: MyApp(),
       )
   );
@@ -34,6 +38,8 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     initPlatformState();
   }
+
+  bool hasDefaultLocale = false;
 
   Future<void> initPlatformState() async {
     await FlutterMatomo.initializeTracker(URL, SITE_ID);
@@ -67,6 +73,18 @@ class _MyAppState extends State<MyApp> {
           Locale('es', 'ES'), // Español
           Locale('fr', 'FR'), // Francés
         ],
+        localeListResolutionCallback: (deviceLocales, supportedLocales) {
+          print(deviceLocales);
+          Locale defaultLocale;
+          for (Locale locale in deviceLocales) {
+            if (supportedLocales.contains(locale)) {
+              defaultLocale = locale;
+              hasDefaultLocale = true;
+              break;
+            }
+          }
+          return defaultLocale;
+        },
         title: 'Persons Moving Forward',
         // home: AppLayout(),
         theme: ThemeData(
@@ -74,7 +92,7 @@ class _MyAppState extends State<MyApp> {
             Theme.of(context).textTheme,
           ),
         ),
-        initialRoute: '/lang',
+        initialRoute: hasDefaultLocale ? '/' : '/lang',
         routes: <String, WidgetBuilder>{
           "/": (BuildContext context) => AppLayout(),
           "/location": (BuildContext context) => LocationPage(),
@@ -82,4 +100,5 @@ class _MyAppState extends State<MyApp> {
         },
         debugShowCheckedModeBanner: false);
   }
+
 }

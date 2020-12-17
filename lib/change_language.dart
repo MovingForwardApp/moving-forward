@@ -1,9 +1,12 @@
+
 import 'package:flutter/material.dart';
 import 'package:moving_forward/services/localization.dart';
 import 'package:moving_forward/location.dart';
+import 'package:moving_forward/state/settings.dart';
 import 'package:moving_forward/theme.dart';
 
 import 'package:flutter_matomo/flutter_matomo.dart';
+import 'package:provider/provider.dart';
 
 class AppLang extends StatelessWidget {
   AppLang({Key key}) : super(key: key) {
@@ -14,7 +17,7 @@ class AppLang extends StatelessWidget {
     await FlutterMatomo.trackScreenWithName("Language", "Screen opened");
   }
 
-  FlatButton _languageButton(textLabel, trackText, trackEvent, lang, context) {
+  FlatButton _languageButton(textLabel, trackText, trackEvent, lang, variant, context) {
     return FlatButton(
       color: MfColors.white,
       textColor: MfColors.dark,
@@ -28,7 +31,7 @@ class AppLang extends StatelessWidget {
       onPressed: () async {
         await FlutterMatomo.trackEvent(context, trackText, trackEvent);
         FlutterMatomo.dispatchEvents();
-        AppLocalizations.load(Locale(lang, lang.toUpperCase()));
+        Provider.of<SettingsState>(context, listen: false).setLanguage(lang, variant);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -44,6 +47,8 @@ class AppLang extends StatelessWidget {
       ),
     );
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,13 +93,13 @@ class AppLang extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 _languageButton(
-                    "العربية. (AR)", "AR button", "Clicked", "ar", context),
+                    "العربية. (AR)", "AR button", "Clicked", "ar", "AR", context),
                 _languageButton(
-                    "Français (FR)", "FR button", "Clicked", "fr", context),
+                    "Français (FR)", "FR button", "Clicked", "fr", "FR", context),
                 _languageButton(
-                    "English (US)", "US button", "Clicked", "en", context),
+                    "English (US)", "US button", "Clicked", "en", "US", context),
                 _languageButton(
-                    "Español (ES)", "ES button", "Clicked", "es", context)
+                    "Español (ES)", "ES button", "Clicked", "es", "ES", context)
               ],
             )
           ],
