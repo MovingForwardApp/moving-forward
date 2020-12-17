@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:moving_forward/state/settings.dart';
 import 'package:provider/provider.dart';
+import 'about_dialog.dart';
 import 'theme.dart';
 import 'services/localization.dart';
 import 'services/location.dart';
@@ -87,6 +88,16 @@ class Info extends StatelessWidget {
           ),
           //trailing: Icon(Icons.keyboard_arrow_right), // TODO
           dense: true,
+        ),
+        Divider(),
+        ListTile(
+          leading: Icon(Icons.info_outline_rounded, size: 30, color: MfColors.gray),
+          title: Text(
+              AppLocalizations.of(context).translate('about_app'),
+              style: TextStyle(fontSize: 14)
+          ),
+          dense: true,
+          onTap: () => showMovingForwardAboutDialog(context),
         ),
         Divider(),
         Container(

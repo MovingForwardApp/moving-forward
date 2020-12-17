@@ -9,6 +9,7 @@ import 'package:moving_forward/services/localization.dart';
 import 'package:moving_forward/location.dart';
 import 'package:flutter_matomo/flutter_matomo.dart';
 import 'package:moving_forward/state/settings.dart';
+import 'package:moving_forward/theme.dart';
 import 'package:provider/provider.dart';
 import 'state/favorites.dart';
 
@@ -88,8 +89,12 @@ class _MyAppState extends State<MyApp> {
         title: 'Persons Moving Forward',
         // home: AppLayout(),
         theme: ThemeData(
+          primaryColor: MfColors.primary,
           textTheme: GoogleFonts.madaTextTheme(
             Theme.of(context).textTheme,
+          ),
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(primary: MfColors.primary)
           ),
         ),
         initialRoute: hasDefaultLocale ? '/' : '/lang',
