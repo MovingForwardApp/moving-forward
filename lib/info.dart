@@ -34,7 +34,7 @@ class Info extends StatelessWidget {
                   style: TextStyle(fontSize: 14)
                 ),
                 subtitle: Text(
-                    _getLanguageName(settings.language),
+                    _getLanguageName(settings.language) != null ? _getLanguageName(settings.language) : "",
                     style: TextStyle(fontSize: 18, color: MfColors.dark)),
                 trailing: Icon(Icons.keyboard_arrow_right),
                 dense: true,

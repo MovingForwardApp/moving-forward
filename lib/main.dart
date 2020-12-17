@@ -17,15 +17,13 @@ const URL = 'https://matomo.kaleidos.net/piwik.php';
 const SITE_ID = 20;
 
 void main() async {
-  runApp(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => FavoritesState()),
-          ChangeNotifierProvider(create: (context) => SettingsState()),
-        ],
-        child: MyApp(),
-      )
-  );
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => FavoritesState()),
+      ChangeNotifierProvider(create: (context) => SettingsState()),
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -75,13 +73,24 @@ class _MyAppState extends State<MyApp> {
           Locale('fr', 'FR'), // Francés
         ],
         localeListResolutionCallback: (deviceLocales, supportedLocales) {
-          print(deviceLocales);
+          String language =
+              Provider.of<SettingsState>(context, listen: false).language;
+          String variant =
+              Provider.of<SettingsState>(context, listen: false).variant;
           Locale defaultLocale;
-          for (Locale locale in deviceLocales) {
-            if (supportedLocales.contains(locale)) {
-              defaultLocale = locale;
-              hasDefaultLocale = true;
-              break;
+
+          // If user has locale set in localStorage
+          if (language != null && variant != null) {
+            defaultLocale = Locale(language, variant);
+            hasDefaultLocale = true;
+          } else {
+            // Check if devices locale is supported by app locale
+            for (Locale locale in deviceLocales) {
+              if (supportedLocales.contains(locale)) {
+                defaultLocale = locale;
+                hasDefaultLocale = true;
+                break;
+              }
             }
           }
           return defaultLocale;
@@ -104,5 +113,4 @@ class _MyAppState extends State<MyApp> {
         },
         debugShowCheckedModeBanner: false);
   }
-
 }
