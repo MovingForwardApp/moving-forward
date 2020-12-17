@@ -48,31 +48,7 @@ class AppLang extends StatelessWidget {
     );
   }
 
-  void _checkSystemLocale(BuildContext context) {
-    Locale _systemLocale = Localizations.localeOf(context);
-    var lang = _systemLocale.languageCode;
-    var variant = _systemLocale.countryCode;
 
-    List<String> supportedLocales = ['ar', 'fr' ,'en', 'es'];
-    List<String> supportedVariants = ['AR', 'FR' ,'US', 'ES'];
-
-    // TODO: Check if user has already chosen a language on localstorage
-    // else
-    // TODO: Check if user has a default language on its device that matches our default languages
-    // else
-    // Choose language from change_language screen.
-
-    if (supportedLocales.contains(lang) && supportedVariants.contains(variant))
-
-      Provider.of<SettingsState>(context, listen: false).setLanguage(lang, variant);
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => LocationPage(),
-        ),
-      );
-  }
 
   @override
   Widget build(BuildContext context) {

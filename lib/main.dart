@@ -39,6 +39,8 @@ class _MyAppState extends State<MyApp> {
     initPlatformState();
   }
 
+  bool hasDefaultLocale = false;
+
   Future<void> initPlatformState() async {
     await FlutterMatomo.initializeTracker(URL, SITE_ID);
     setState(() {});
@@ -71,6 +73,18 @@ class _MyAppState extends State<MyApp> {
           Locale('es', 'ES'), // Español
           Locale('fr', 'FR'), // Francés
         ],
+        localeListResolutionCallback: (deviceLocales, supportedLocales) {
+          print(deviceLocales);
+          Locale defaultLocale;
+          for (Locale locale in deviceLocales) {
+            if (supportedLocales.contains(locale)) {
+              defaultLocale = locale;
+              hasDefaultLocale = true;
+              break;
+            }
+          }
+          return defaultLocale;
+        },
         title: 'Persons Moving Forward',
         // home: AppLayout(),
         theme: ThemeData(
@@ -78,7 +92,7 @@ class _MyAppState extends State<MyApp> {
             Theme.of(context).textTheme,
           ),
         ),
-        initialRoute: '/lang',
+        initialRoute: hasDefaultLocale ? '/' : '/lang',
         routes: <String, WidgetBuilder>{
           "/": (BuildContext context) => AppLayout(),
           "/location": (BuildContext context) => LocationPage(),
@@ -86,4 +100,5 @@ class _MyAppState extends State<MyApp> {
         },
         debugShowCheckedModeBanner: false);
   }
+
 }

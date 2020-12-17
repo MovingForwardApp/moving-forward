@@ -11,8 +11,6 @@ class SettingsState extends ChangeNotifier {
 
   /// Set default language in app
   void setLanguage(String language, String variant) {
-    print(language);
-    print(variant);
     _language = language;
     _languageVariant = variant;
     AppLocalizations.load(Locale(_language, _languageVariant));
