@@ -69,7 +69,12 @@ class _SearchFormWidgetState extends State<SearchFormWidget> {
   final _db = DBService.instance;
 
   String _searchedText;
-  List<Resource> _resourceList;
+
+  void _updateSearchedText(String searchText) {
+    setState(() {
+      _searchedText = searchText;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,13 +130,13 @@ class _SearchFormWidgetState extends State<SearchFormWidget> {
               ),
               suffixIcon: Icon(Icons.search, size: 25, color: MfColors.gray)
             ),
-            onChanged: updateSearchedText,
+            onChanged: _updateSearchedText,
           ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(top: 15),
               child: SingleChildScrollView(
-                child: _resourcesList(context)
+                child: _buildSearchResults(context)
               ),
             ),
           ),
@@ -140,7 +145,87 @@ class _SearchFormWidgetState extends State<SearchFormWidget> {
     );
   }
 
-  Card _resourceCard(BuildContext context, Resource resource) {
+  Widget _buildSearchResults(BuildContext context) {
+    if (_searchedText == null || _searchedText.length < 3) {
+      return null;
+    }
+
+    return Container(
+        color: MfColors.white,
+        child: FutureBuilder<List<Resource>>(
+            future: _db.listResourcesByText(
+                _searchedText,
+                LocationService.instance.locationLat,
+                LocationService.instance.locationLong,
+                lang: AppLocalizations.locale.languageCode),
+            builder: (BuildContext context, AsyncSnapshot<List<Resource>> snapshot) {
+              // Loading
+              if (!snapshot.hasData) {
+                return _buildLoadingIndicator();
+              }
+
+              // No result
+              if (snapshot.data.length  == 0) {
+                return _buildNoResults();
+              }
+
+              // With results
+              return _buildResults(snapshot.data);
+            }
+        )
+    );
+  }
+
+  Widget _buildLoadingIndicator() {
+    return Padding(
+        padding: EdgeInsets.only(top: 20),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FittedBox(
+                fit: BoxFit.contain,
+                child: CircularProgressIndicator(
+                  value: null,
+                  strokeWidth: 4.0,
+                  valueColor: AlwaysStoppedAnimation<Color>(MfColors.light),
+                ),
+              )
+            ]
+        )
+    );
+  }
+  
+  Widget _buildNoResults() {
+    return Padding(
+        padding:  EdgeInsets.only(top: 20),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.search, size: 52, color: MfColors.light),
+              Text(
+                'Lo sentimos, no hemos encontrado ningún resultado',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+                textAlign: TextAlign.center,
+              )
+            ]
+        )
+    );
+  }
+  
+  Widget _buildResults(List<Resource> results) {
+    return Column(
+      children: results.map((resource) =>
+          Container(
+              padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+              child: _buildResourceCard(context, resource)
+          )
+      ).toList(),
+    );
+  }
+  
+  Widget _buildResourceCard(BuildContext context, Resource resource) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
@@ -270,49 +355,5 @@ class _SearchFormWidgetState extends State<SearchFormWidget> {
         ),
       ),
     );
-  }
-
-  Container _resourcesList(BuildContext context) {
-    if (_resourceList == null ) {
-      return null;
-    }
-
-    if (_resourceList.length == 0 ) {
-      return Container(
-          child: Text('Lo sentimos, no hemos encontrado ningún resultado')
-      );
-    }
-
-    return Container(
-      color: MfColors.white,
-      child: Column(
-        children: _resourceList
-            .map((resource) => Container(
-            padding:
-            const EdgeInsets.only(left: 8, right: 8, bottom: 8),
-            child: _resourceCard(context, resource)))
-            .toList(),
-      ),
-    );
-  }
-
-  void updateSearchedText(String searchText) {
-    setState((){
-      _searchedText = searchText;
-    });
-
-    if (_searchedText.length <= 2) {
-      setState(() {
-        _resourceList = null;
-      });
-    } else {
-      setState(() async {
-        _resourceList = await _db.listResourcesByText(
-            _searchedText,
-            LocationService.instance.locationLat,
-            LocationService.instance.locationLong,
-            lang: AppLocalizations.locale.languageCode);
-      });
-    }
   }
 }
