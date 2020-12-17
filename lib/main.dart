@@ -79,6 +79,8 @@ class _MyAppState extends State<MyApp> {
               Provider.of<SettingsState>(context, listen: false).variant;
           Locale defaultLocale;
 
+          print("Language: $language, Variant: $variant");
+
           // If user has locale set in localStorage
           if (language != null && variant != null) {
             defaultLocale = Locale(language, variant);
