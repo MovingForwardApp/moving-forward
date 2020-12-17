@@ -194,7 +194,7 @@ class _SearchFormWidgetState extends State<SearchFormWidget> {
         )
     );
   }
-  
+
   Widget _buildNoResults() {
     return Padding(
         padding:  EdgeInsets.only(top: 20),
@@ -203,7 +203,7 @@ class _SearchFormWidgetState extends State<SearchFormWidget> {
             children: [
               Icon(Icons.search, size: 52, color: MfColors.light),
               Text(
-                'Lo sentimos, no hemos encontrado ningún resultado',
+                AppLocalizations.of(context).translate('no_search_result'),
                 style: TextStyle(
                   fontSize: 18,
                 ),
@@ -213,7 +213,7 @@ class _SearchFormWidgetState extends State<SearchFormWidget> {
         )
     );
   }
-  
+
   Widget _buildResults(List<Resource> results) {
     return Column(
       children: results.map((resource) =>
@@ -224,7 +224,7 @@ class _SearchFormWidgetState extends State<SearchFormWidget> {
       ).toList(),
     );
   }
-  
+
   Widget _buildResourceCard(BuildContext context, Resource resource) {
     return Card(
       shape: RoundedRectangleBorder(
