@@ -17,15 +17,13 @@ const URL = 'https://matomo.kaleidos.net/piwik.php';
 const SITE_ID = 20;
 
 void main() async {
-  runApp(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => FavoritesState()),
-          ChangeNotifierProvider(create: (context) => SettingsState()),
-        ],
-        child: MyApp(),
-      )
-  );
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => FavoritesState()),
+      ChangeNotifierProvider(create: (context) => SettingsState()),
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -39,8 +37,6 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     initPlatformState();
   }
-
-  bool hasDefaultLocale = false;
 
   Future<void> initPlatformState() async {
     await FlutterMatomo.initializeTracker(URL, SITE_ID);
@@ -69,23 +65,11 @@ class _MyAppState extends State<MyApp> {
           GlobalWidgetsLocalizations.delegate,
         ],
         supportedLocales: [
-          Locale('ar', 'AR'), // Árabe
           Locale('en', 'US'), // Inglés
           Locale('es', 'ES'), // Español
+          Locale('ar', 'AR'), // Árabe
           Locale('fr', 'FR'), // Francés
         ],
-        localeListResolutionCallback: (deviceLocales, supportedLocales) {
-          print(deviceLocales);
-          Locale defaultLocale;
-          for (Locale locale in deviceLocales) {
-            if (supportedLocales.contains(locale)) {
-              defaultLocale = locale;
-              hasDefaultLocale = true;
-              break;
-            }
-          }
-          return defaultLocale;
-        },
         title: 'Persons Moving Forward',
         theme: ThemeData(
           primaryColor: MfColors.primary,
@@ -96,7 +80,7 @@ class _MyAppState extends State<MyApp> {
             style: TextButton.styleFrom(primary: MfColors.primary)
           ),
         ),
-        initialRoute: hasDefaultLocale ? '/' : '/lang',
+        initialRoute: '/lang',
         routes: <String, WidgetBuilder>{
           "/": (BuildContext context) => AppLayout(),
           "/location": (BuildContext context) => LocationPage(),
@@ -104,5 +88,4 @@ class _MyAppState extends State<MyApp> {
         },
         debugShowCheckedModeBanner: false);
   }
-
 }
