@@ -21,13 +21,11 @@ class LocationService {
   }
 
   Future<Position> _getCurrentPosition() async {
-    /* NOTE: If we want no ask about location if is disable in the device.
     final serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       print("EE Location services are disabled.");
       return Future.error("location_guess_error_service_disbled");
     }
-    */
 
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.deniedForever) {
@@ -49,7 +47,6 @@ class LocationService {
   Future<String> fetchCurrentLocality() async {
     if (instance._position == null) {
       instance._position =  await _getCurrentPosition();
-      print("Geolocate at ${instance._position}");
     }
 
     List<Placemark> p = await placemarkFromCoordinates(

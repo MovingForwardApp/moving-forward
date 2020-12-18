@@ -20,6 +20,14 @@ class LocationPage extends StatefulWidget {
 }
 
 class _LocationPageState extends State<LocationPage> {
+  Future<String> _currentLocality = LocationService.instance.fetchCurrentLocality();
+
+  void _refreshLocality () {
+    setState(() {
+      _currentLocality = LocationService.instance.fetchCurrentLocality();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +49,8 @@ class _LocationPageState extends State<LocationPage> {
               ),
             ],
           ),
-          backgroundColor: MfColors.dark),
+          backgroundColor: MfColors.dark
+      ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 100.0),
         color: MfColors.dark,
@@ -49,42 +58,17 @@ class _LocationPageState extends State<LocationPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  AppLocalizations.of(context).translate('location_guess'),
-                  style: TextStyle(
-                    color: MfColors.white,
-                    fontSize: 18.0,
-                  ),
-                ),
-                FutureBuilder<String>(
-                    future: LocationService.instance.fetchCurrentLocality(),
-                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      if (snapshot.error != null) {
-                        return _buildErrorOnGeolocation();
-                      } else if (!snapshot.hasData) {
-                        return _buildLoadingIndicator();
-                      }
-                      return _buildCurrentLocation();
-                    }
-                ),
-                /* TODO: Uncomment when select other location is implemented
-                Container(
-                  margin: EdgeInsets.only(top: 40.0),
-
-                    child: Text(
-                    AppLocalizations.of(context)
-                        .translate('location_guess_change_info'),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: MfColors.white,
-                    ),
-                  ),
-                ),
-                */
-              ],
+            FutureBuilder<String>(
+              future: _currentLocality,
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return _buildLoadingIndicator();
+                }
+                if (snapshot.hasError) {
+                  return _buildErrorOnGeolocation(snapshot.error);
+                }
+                return _buildCurrentLocation();
+              }
             ),
             FlatButton(
               color: MfColors.white,
@@ -118,52 +102,56 @@ class _LocationPageState extends State<LocationPage> {
     );
   }
 
+  Widget _buildLocationLayout({@required List<Widget> children}) {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            AppLocalizations.of(context).translate('location_guess'),
+            style: TextStyle(
+              color: MfColors.white,
+              fontSize: 18.0,
+            ),
+          ),
+        ] + children
+    );
+  }
+
   Widget _buildCurrentLocation() {
-    return Text(
-      LocationService.instance.locality,
-      style: TextStyle(
-        color: MfColors.white,
-        fontSize: 32.0,
-        fontWeight: FontWeight.bold,
-      ),
+    return _buildLocationLayout(
+      children: [
+        Text(
+          LocationService.instance.locality,
+          style: TextStyle(
+            color: MfColors.white,
+            fontSize: 32.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        /* TODO: Uncomment when select other location is implemented
+        Container(
+          margin: EdgeInsets.only(top: 40.0),
+
+            child: Text(
+            AppLocalizations.of(context)
+                .translate('location_guess_change_info'),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: MfColors.white,
+            ),
+          ),
+        ),
+        */
+      ]
     );
   }
 
-  Widget _buildLoadingIndicator() {
-    return Padding(
-        padding: EdgeInsets.only(top: 10),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(right: 10),
-                child: SizedBox(
-                    height: 10,
-                    width: 10,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 1,
-                      valueColor: AlwaysStoppedAnimation<Color>(MfColors.white),
-                    )
-                ),
-              ),
-              Text(
-                AppLocalizations.of(context).translate('loading_location'),
-                style: TextStyle(
-                  color: MfColors.white,
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ]
-        )
-    );
-  }
-
-  Widget _buildErrorOnGeolocation() {
-    return Padding(
-        padding: EdgeInsets.only(top: 10),
-        child: Row(
+  Widget _buildErrorOnGeolocation(String errorKey) {
+    return _buildLocationLayout(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(top: 20, bottom: 15),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -177,7 +165,7 @@ class _LocationPageState extends State<LocationPage> {
               ),
               Expanded(
                 child: Text(
-                  AppLocalizations.of(context).translate('location_guess_disabled'),
+                  AppLocalizations.of(context).translate(errorKey),
                   style: TextStyle(
                     color: MfColors.red,
                     fontSize: 12.0,
@@ -187,7 +175,68 @@ class _LocationPageState extends State<LocationPage> {
                 )
               ),
             ]
+          )
+        ),
+        OutlineButton.icon(
+          color: MfColors.white,
+          textColor: MfColors.white,
+          padding: EdgeInsets.symmetric(
+            vertical: 8.0,
+            horizontal: 15.0,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          borderSide: BorderSide(
+            color: MfColors.white,
+          ),
+          icon: Icon(Icons.autorenew, size: 20, color: MfColors.white),
+          label: Text(
+            AppLocalizations.of(context).translate('location_guess_refresh_action'),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          onPressed: () async {
+            _refreshLocality();
+          }
         )
+      ],
+    );
+  }
+
+  Widget _buildLoadingIndicator() {
+    return _buildLocationLayout(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(top: 20, bottom: 15),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: 10),
+                  child: SizedBox(
+                      height: 10,
+                      width: 10,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 1,
+                        valueColor: AlwaysStoppedAnimation<Color>(MfColors.white),
+                      )
+                  ),
+                ),
+                Text(
+                  AppLocalizations.of(context).translate('loading_location'),
+                  style: TextStyle(
+                    color: MfColors.white,
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ]
+          )
+        )
+      ],
     );
   }
 }
