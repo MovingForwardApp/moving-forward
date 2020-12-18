@@ -22,9 +22,10 @@ class SettingsState extends ChangeNotifier {
     if (data != null) {
       List<String> langList = data.split('_');
 
+      print(langList);
+
       _language = langList[0];
       _languageVariant = langList[1];
-      // AppLocalizations.load(Locale(_language, _languageVariant));
 
       notifyListeners();
     }

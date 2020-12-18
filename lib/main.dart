@@ -38,6 +38,8 @@ class _MyAppState extends State<MyApp> {
     initPlatformState();
   }
 
+  bool hasDeviceLang = false;
+
   Future<void> initPlatformState() async {
     await FlutterMatomo.initializeTracker(URL, SITE_ID);
     setState(() {});
@@ -71,9 +73,12 @@ class _MyAppState extends State<MyApp> {
           Locale('fr', 'FR'), // Francés
         ],
         localeListResolutionCallback: (deviceLocales, supportedLocales) {
+          print(deviceLocales);
+          print(supportedLocales);
           Locale defaultLocale;
           for (Locale locale in deviceLocales) {
             if (supportedLocales.contains(locale)) {
+              hasDeviceLang = true;
               defaultLocale = locale;
               break;
             }
@@ -90,7 +95,7 @@ class _MyAppState extends State<MyApp> {
             style: TextButton.styleFrom(primary: MfColors.primary)
           ),
         ),
-        initialRoute: '/lang',
+        initialRoute: hasDeviceLang ? '/' : '/lang',
         routes: <String, WidgetBuilder>{
           "/": (BuildContext context) => AppLayout(),
           "/location": (BuildContext context) => LocationPage(),
