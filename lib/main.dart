@@ -87,7 +87,6 @@ class _MyAppState extends State<MyApp> {
           return defaultLocale;
         },
         title: 'Persons Moving Forward',
-        // home: AppLayout(),
         theme: ThemeData(
           primaryColor: MfColors.primary,
           textTheme: GoogleFonts.madaTextTheme(
