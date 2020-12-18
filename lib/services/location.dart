@@ -21,16 +21,15 @@ class LocationService {
   }
 
   Future<Position> _getCurrentPosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    /* NOTE: If we want no ask about location if is disable in the device.
+    final serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       print("EE Location services are disabled.");
       return Future.error("Location services are disabled.");
     }
+     */
 
-    permission = await Geolocator.checkPermission();
+    LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.deniedForever) {
       print("EE Location permissions are permantly denied, we cannot request permissions.");
       return Future.error("Location permissions are permantly denied, we cannot request permissions.");
@@ -43,6 +42,7 @@ class LocationService {
         return Future.error("Location permissions are denied (actual value: $permission).");
       }
     }
+
     return Geolocator.getCurrentPosition();
   }
 
@@ -53,7 +53,7 @@ class LocationService {
     }
 
     List<Placemark> p = await placemarkFromCoordinates(
-        instance._position.latitude, instance._position.longitude);
+        instance.locationLat, instance.locationLong);
 
     Placemark place = p[0];
 
@@ -68,8 +68,8 @@ class LocationService {
     }
 
     final double distance = Geolocator.distanceBetween(
-        instance._position.latitude,
-        instance._position.longitude,
+        instance.locationLat,
+        instance.locationLong,
         endLatitude,
         endLongitude);
 
