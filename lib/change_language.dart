@@ -1,5 +1,8 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:moving_forward/services/localization.dart';
 import 'package:moving_forward/location.dart';
 import 'package:moving_forward/services/storage.dart';
@@ -8,6 +11,7 @@ import 'package:moving_forward/theme.dart';
 
 import 'package:flutter_matomo/flutter_matomo.dart';
 import 'package:provider/provider.dart';
+import 'package:devicelocale/devicelocale.dart';
 
 class AppLang extends StatefulWidget {
   @override
@@ -16,12 +20,13 @@ class AppLang extends StatefulWidget {
 
 class _AppLangState extends State<AppLang> {
 
+  bool displayForm = false;
+
   @override
   void initState() {
     super.initState();
     initPage();
     _getUserLanguage();
-
   }
 
   Future<void> initPage() async {
@@ -31,17 +36,39 @@ class _AppLangState extends State<AppLang> {
   _getUserLanguage() async {
     SharedPreferencesRepository _storage = SharedPreferencesRepository();
     var data = await _storage.getString("language");
+    String locale = await Devicelocale.currentLocale;
+    final appSupportedLocales = <Locale>[
+      Locale('ar', 'AR'), // Árabe
+      Locale('en', 'US'), // Inglés
+      Locale('es', 'ES'), // Español
+      Locale('fr', 'FR'), // Francés
+    ];
+    List<String> localeList = locale.split('_');
+    Locale deviceLocale = Locale(localeList[0], localeList[1]);
 
     if(data != null) {
       List<String> langList = data.split('_');
-      print(langList);
       AppLocalizations.load(Locale(langList[0], langList[1]));
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => LocationPage(),
         ),
+
       );
+    } else if (appSupportedLocales.contains(deviceLocale)) {
+      AppLocalizations.load(Locale(deviceLocale.languageCode, deviceLocale.countryCode));
+      Provider.of<SettingsState>(context, listen: false).setLanguage(deviceLocale.languageCode, deviceLocale.countryCode);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LocationPage(),
+        ),
+      );
+    } else {
+      setState(() {
+        displayForm = true;
+      });
     }
   }
 
@@ -78,6 +105,9 @@ class _AppLangState extends State<AppLang> {
 
   @override
   Widget build(BuildContext context) {
+    if (!displayForm) {
+      return Container();
+    }
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
