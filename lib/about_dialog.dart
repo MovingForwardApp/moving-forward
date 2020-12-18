@@ -43,7 +43,7 @@ void showMovingForwardAboutDialog(BuildContext context) {
               ),
               LinkTextSpan(
                 style: linkStyle,
-                url: 'https://kaleidos',
+                url: 'https://kaleidos.net',
                 text: 'Kaleidos',
               ),
               TextSpan(

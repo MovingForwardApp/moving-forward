@@ -25,21 +25,21 @@ class LocationService {
     final serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       print("EE Location services are disabled.");
-      return Future.error("Location services are disabled.");
+      return Future.error("location_guess_error_service_disbled");
     }
-     */
+    */
 
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.deniedForever) {
       print("EE Location permissions are permantly denied, we cannot request permissions.");
-      return Future.error("Location permissions are permantly denied, we cannot request permissions.");
+      return Future.error("location_guess_error_permanently_denied");
     }
 
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission != LocationPermission.whileInUse && permission != LocationPermission.always) {
         print("EE Location permissions are denied (actual value: $permission).");
-        return Future.error("Location permissions are denied (actual value: $permission).");
+        return Future.error("location_guess_error_denied");
       }
     }
 
