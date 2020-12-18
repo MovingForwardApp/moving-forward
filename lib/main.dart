@@ -95,12 +95,12 @@ class _MyAppState extends State<MyApp> {
             style: TextButton.styleFrom(primary: MfColors.primary)
           ),
         ),
-        initialRoute: hasDeviceLang ? '/' : '/lang',
+        initialRoute: hasDeviceLang ? '/location' : '/lang',
         routes: <String, WidgetBuilder>{
           "/": (BuildContext context) => AppLayout(),
           "/location": (BuildContext context) => LocationPage(),
           "/lang": (BuildContext context) => AppLang(),
-      },
-      debugShowCheckedModeBanner: false);
+        },
+        debugShowCheckedModeBanner: false);
   }
 }
