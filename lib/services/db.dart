@@ -88,7 +88,7 @@ class DBService {
       query = '''
          SELECT *,
                 (
-                  (?2 - resources.lat) * (?2 - resources.lat)) + 
+                  (?2 - resources.lat) * (?2 - resources.lat)) +
                   ((?3 - resources.long) * (?3 - resources.long)
                 ) AS distance
            FROM resources
@@ -120,8 +120,8 @@ class DBService {
   Future<List<Resource>> listResourcesById(List<int> resourceIds, {String lang: 'es'}) async {
     Database db = await instance.database;
 
-    final String query = '''   
-      SELECT *  
+    final String query = '''
+      SELECT *
         FROM resources
         WHERE id in ('${resourceIds.join("', '")}')
     ''';
@@ -140,19 +140,19 @@ class DBService {
 
     if ((locationLat != null) & (locationLong != null)) {
       query = '''
-         SELECT *, 
+         SELECT *,
                 (
-                  (?2 - resources.lat) * (?2 - resources.lat)) + 
+                  (?2 - resources.lat) * (?2 - resources.lat)) +
                   ((?3 - resources.long) * (?3 - resources.long)
                 ) AS distance
            FROM resources JOIN resource_category ON resources.id = resource_category.resource_id
-          WHERE category_id = ?1 
+          WHERE category_id = ?1
        ORDER BY distance ASC
       ''';
       params = [categoryId, locationLat, locationLong];
     } else {
       query = '''
-         SELECT * 
+         SELECT *
            FROM resources JOIN resource_category ON resources.id = resource_category.resource_id
           WHERE category_id = ?1
       ''';
@@ -160,7 +160,6 @@ class DBService {
     }
 
     final List<Map<String, dynamic>> maps = await db.rawQuery(query, params);
-    print("caca ${maps.length}");
 
     //// NOTE: To debug new db updates use this isnstead of the last line.
     ////
@@ -180,7 +179,7 @@ class DBService {
     Database db = await instance.database;
     final String query = """
        SELECT *
-         FROM categories 
+         FROM categories
          JOIN resource_category ON categories.id = resource_category.category_id
         WHERE resource_id = ?1
     """;
