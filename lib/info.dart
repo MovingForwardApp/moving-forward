@@ -167,36 +167,38 @@ class Info extends StatelessWidget {
   Future _askUser(BuildContext context) async {
     switch(
     await showDialog(
-        context: context,
-        child: new SimpleDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
           title: new Text(AppLocalizations.of(context).translate('languages')),
           children: <Widget>[
             new SimpleDialogOption(
               child: new Text("العربية. (AR)"),
-              onPressed: (){
+              onPressed: () {
                 Navigator.of(context, rootNavigator: true).pop(Answers.ar);
               },
             ),
             new SimpleDialogOption(
               child: new Text("Français (FR)"),
-              onPressed: (){
+              onPressed: () {
                 Navigator.of(context, rootNavigator: true).pop(Answers.fr);
               },
             ),
             new SimpleDialogOption(
               child: new Text("English (US)"),
-              onPressed: (){
+              onPressed: () {
                 Navigator.of(context, rootNavigator: true).pop(Answers.en);
               },
             ),
             new SimpleDialogOption(
               child: new Text("Español (ES)"),
-              onPressed: (){
+              onPressed: () {
                 Navigator.of(context, rootNavigator: true).pop(Answers.es);
               },
             )
           ],
-        )
+        );
+      }
     )
     ) {
       case Answers.ar:

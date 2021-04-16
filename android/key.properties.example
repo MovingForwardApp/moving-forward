@@ -1,0 +1,4 @@
+storePassword=<la_del_cafe>
+keyPassword=<la_del_cafe>
+keyAlias=key_mf
+storeFile=~/key_mf.jks
