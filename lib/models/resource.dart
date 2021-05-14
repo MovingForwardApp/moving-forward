@@ -104,10 +104,10 @@ class Resource {
         descriptionEn: map['description_en'] as String,
         descriptionEs: map['description_es'] as String,
         descriptionFr: map['description_fr'] as String,
-        tagsAr: map['tags_ar'] as String,
-        tagsEn: map['tags_en'] as String,
-        tagsEs: map['tags_es'] as String,
-        tagsFr: map['tags_fr'] as String);
+        tagsAr: map['tag_ar'] as String,
+        tagsEn: map['tag_en'] as String,
+        tagsEs: map['tag_es'] as String,
+        tagsFr: map['tag_fr'] as String);
   }
 
   /* This code should be useful only if you can add or update resources.

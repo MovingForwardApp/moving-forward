@@ -97,6 +97,10 @@ class DBService {
            OR description_es like '%$text%'
            OR description_en like '%$text%'
            OR description_fr like '%$text%'
+           OR tag_ar like '%$text%'
+           OR tag_es like '%$text%'
+           OR tag_en like '%$text%'
+           OR tag_fr like '%$text%'
        ORDER BY distance ASC
       ''';
       params = [text, locationLat, locationLong];
@@ -109,6 +113,10 @@ class DBService {
            OR description_es like '%$text%'
            OR description_en like '%$text%'
            OR description_fr like '%$text%'
+           OR tag_ar like '%$text%'
+           OR tag_es like '%$text%'
+           OR tag_en like '%$text%'
+           OR tag_fr like '%$text%'
        ORDER BY name
       ''';
       params = [];
@@ -162,7 +170,7 @@ class DBService {
 
     final List<Map<String, dynamic>> maps = await db.rawQuery(query, params);
 
-    //// NOTE: To debug new db updates use this isnstead of the last line.
+    //// NOTE: To debug new db updates use this instead of the last line.
     ////
     // final List<Resource> list = [];
     // for (var i = 0; i < maps.length; i++) {
