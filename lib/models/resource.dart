@@ -1,3 +1,7 @@
+
+
+import '../utils.dart';
+
 class Resource {
   final int id;
   final double lat;
@@ -96,9 +100,9 @@ class Resource {
             map.containsKey('distance') ? map['distance'] as double : null,
         googlemapUrl: map['googlemap_url'] as String,
         address: map['address'] as String,
-        phone: (map['phone']).split(',') as List,
-        email: (map['email']).split(',') as List,
-        web: (map['web']).split(',') as List,
+        phone: splitAndTrim(map['phone']) as List,
+        email: splitAndTrim(map['email']) as List,
+        web: splitAndTrim(map['web'], ",") as List,
         name: map['name'] as String,
         descriptionAr: map['description_ar'] as String,
         descriptionEn: map['description_en'] as String,
@@ -133,4 +137,25 @@ class Resource {
     };
   }
   */
+  String toString() {
+    return """Resource<${id}> {
+      'id': ${id},
+      'name': ${name},
+      'lat': ${lat},
+      'long': ${long},
+      'googlemap_url': ${googlemapUrl},
+      'address': ${address},
+      'phone': ${phone},
+      'email': ${email},
+      'web': ${web},
+      'description_ar': ${descriptionAr},
+      'description_en': ${descriptionEn}
+      'description_es': ${descriptionEs},
+      'description_fr': ${descriptionFr},
+      'tags_ar': ${tagsAr},
+      'tags_en': ${tagsEn},
+      'tags_es': ${tagsEs},
+      'tags_fr': ${tagsFr}
+    """;
+  }
 }

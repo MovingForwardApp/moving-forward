@@ -10,6 +10,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:moving_forward/models/category.dart';
 import 'package:moving_forward/models/resource.dart';
 
+
 class DBService {
   // make this a singleton class
   DBService._privateConstructor();
@@ -173,9 +174,11 @@ class DBService {
     //// NOTE: To debug new db updates use this instead of the last line.
     ////
     // final List<Resource> list = [];
-    // for (var i = 0; i < maps.length; i++) {
-    //   print("res ${maps[i]['id']}");
-    //   list.add(Resource.fromMap(maps[i]).applyLang(lang));
+    // for (var data in maps) {
+    //   print("procesing ${data['id']}...");
+    //   var r = Resource.fromMap(data).applyLang(lang);
+    //   print("\t...${data['id']} = ${r}");
+    //   list.add(r);
     // }
     // return list;
     ////

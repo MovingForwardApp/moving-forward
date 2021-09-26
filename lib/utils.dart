@@ -13,3 +13,7 @@ getFormatedDistance(int distance) {
     return "$distanceInKm km";
   }
 }
+
+splitAndTrim(String data, [pattern = "/|,"]) {
+  return data.split(RegExp(pattern)).map((p) => p.trim()).toList();
+}

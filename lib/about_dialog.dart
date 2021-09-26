@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:moving_forward/theme.dart';
 
+import 'package:package_info_plus/package_info_plus.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
 
-void showMovingForwardAboutDialog(BuildContext context) {
+void showMovingForwardAboutDialog(BuildContext context) async {
   final ThemeData themeData = Theme.of(context);
   final TextStyle aboutTextStyle = themeData.textTheme.bodyText1;
   final TextStyle linkStyle = themeData.textTheme.bodyText1.copyWith(
       color: MfColors.primary);
+
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  String version = packageInfo.version;
+  String buildCode = packageInfo.buildNumber;
 
   showAboutDialog(
     context: context,
@@ -19,8 +25,8 @@ void showMovingForwardAboutDialog(BuildContext context) {
       width: 48,
     ),
     applicationName: 'Moving Forward',
-    applicationVersion: '1.0.0',
-    applicationLegalese: '© 2020 CEAR & Kaleidos',
+    applicationVersion: '${version}+${buildCode}',
+    applicationLegalese: '© 2021 CEAR & Kaleidos',
     children: <Widget>[
       Padding(
         padding: const EdgeInsets.only(top: 24.0),
