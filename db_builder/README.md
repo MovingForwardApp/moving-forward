@@ -4,7 +4,7 @@ Como regenerar la bbdd
 Existe un script que realiza toda la magia:
 
 ```
-python data_script.py
+python build_db.py
 ```
 
 Esto regenerará la BBDD en `../assets/database.db` a partir de los ficheros __.csv__ y __.schema__.
